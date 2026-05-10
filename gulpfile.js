@@ -63,7 +63,7 @@ gulp.task('images', function() {
 
 // Copiar manifest e service worker
 gulp.task('pwa', function() {
-  return gulp.src(['src/manifest.json', 'src/sw.js'])
+  return gulp.src(['src/manifest.json', 'src/service-worker.js'])
     .pipe(gulp.dest('dist'));
 });
 
