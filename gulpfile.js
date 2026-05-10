@@ -11,7 +11,7 @@ gulp.task('clean', function() {
   return del(['dist/**', '!dist']);
 });
 
-// Minificar HTML
+// Minificar HTML (da pasta src para dist)
 gulp.task('html', function() {
   return gulp.src('src/**/*.html')
     .pipe(htmlmin({
@@ -26,15 +26,15 @@ gulp.task('html', function() {
 
 // Minificar CSS
 gulp.task('css', function() {
-  return gulp.src('src/css/**/*.css')
+  return gulp.src('src/**/*.css')
     .pipe(cleanCSS({ compatibility: 'ie8' }))
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('dist'));
 });
 
 // Ofuscar + Minificar JS
 gulp.task('js', function() {
-  return gulp.src('src/js/**/*.js')
+  return gulp.src('src/**/*.js')
     .pipe(javascriptObfuscator({
       compact: true,
       controlFlowFlattening: true,
@@ -52,28 +52,20 @@ gulp.task('js', function() {
     }))
     .pipe(uglify())
     .pipe(rename({ suffix: '.obf' }))
-    .pipe(gulp.dest('dist/js'));
-});
-
-// Copiar arquivos estáticos (imagens, ícones, etc.)
-gulp.task('assets', function() {
-  return gulp.src(['src/**/*.{png,svg,ico,webp,jpg,jpeg}'])
     .pipe(gulp.dest('dist'));
 });
 
-// Copiar manifest e sw
+// Copiar imagens e ícones
+gulp.task('images', function() {
+  return gulp.src('src/**/*.{png,svg,ico,jpg,jpeg,webp}')
+    .pipe(gulp.dest('dist'));
+});
+
+// Copiar manifest e service worker
 gulp.task('pwa', function() {
   return gulp.src(['src/manifest.json', 'src/sw.js'])
     .pipe(gulp.dest('dist'));
 });
 
 // Build completo
-gulp.task('build', gulp.series('clean', 'html', 'css', 'js', 'assets', 'pwa'));
-
-// Watch para desenvolvimento
-gulp.task('watch', function() {
-  gulp.watch('src/**/*.html', gulp.series('html'));
-  gulp.watch('src/css/**/*.css', gulp.series('css'));
-  gulp.watch('src/js/**/*.js', gulp.series('js'));
-  gulp.watch('src/**/*.{png,svg,ico}', gulp.series('assets'));
-});
+gulp.task('build', gulp.series('clean', 'html', 'css', 'js', 'images', 'pwa'));
