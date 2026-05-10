@@ -20,19 +20,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: 📦 Instalar dependências
+      - name: 📦 Instalar dependências do projeto
         run: npm install
 
       - name: 🔧 Build e Minificar
         run: npm run build
       
-      - name: 📋 Verificar arquivos gerados
+      - name: 📋 Verificar ficheiros gerados
         run: ls -la dist/
 
-      - name: 🚀 Deploy para Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+      - name: ⬆️ Instalar Vercel CLI mais recente
+        run: npm install -g vercel@latest
+
+      - name: 🚀 Fazer Deploy para Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
