@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>NotaAlta - Recurso ao Estudante Moderno</title>
+    <meta name="description" content="NotaAlta - Estuda hoje. Nota alta amanhã. Plataforma completa para estudantes com IA, simulados, trabalhos científicos e muito mais.">
+    <meta name="keywords" content="estudo, simulados, IA, trabalhos científicos, educação, Moçambique, estudante">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a2e">
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="NotaAlta - Recurso ao Estudante Moderno">
+    <meta property="og:description" content="Estuda hoje. Nota alta amanhã. Plataforma completa para estudantes.">
+    <meta property="og:url" content="https://notaalta.app/index.html">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon / ícones -->
+    <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        :root {
+            --bg-deep: #060614;
+            --bg-dark: #0a0a1e;
+            --bg-space: #0a0a2e;
+            --bg-mid: #0d0d3d;
+            --bg-light: #101045;
+            --accent: #FF6B35;
+            --accent-light: #FF8C5A;
+            --text: #ffffff;
+            --text-secondary: #b0b0d0;
+            --success: #4ade80;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 15% 25%, rgba(255, 107, 53, 0.06) 0%, transparent 35%),
+                radial-gradient(circle at 85% 75%, rgba(124, 58, 237, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.04) 0%, transparent 50%);
+        }
+
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent), transparent);
+            opacity: 0.12;
+            animation: float 18s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            33% { transform: translateY(30vh) translateX(50vw) rotate(120deg); }
+            66% { transform: translateY(-20vh) translateX(-30vw) rotate(240deg); }
+            100% { transform: translateY(0) translateX(0) rotate(360deg); }
+        }
+
+        /* Container principal */
+        .splash-container {
+            max-width: 550px;
+            width: 90%;
+            padding: 2.5rem;
+            background: rgba(10, 10, 46, 0.7);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 107, 53, 0.12);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 107, 53, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .splash-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo */
+        .logo-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--bg-space), var(--bg-mid));
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 35px rgba(255, 107, 53, 0.15), 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .logo-icon i {
+            font-size: 3rem;
+            color: var(--accent);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 35px rgba(255, 107, 53, 0.15), 0 8px 20px rgba(0, 0, 0, 0.4); 
+            }
+            50% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 50px rgba(255, 107, 53, 0.3), 0 12px 28px rgba(0, 0, 0, 0.5); 
+            }
+        }
+
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .app-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            max-width: 400px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        .highlight {
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+
+        /* Loading Section */
+        .loading-section {
+            margin: 2rem 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .progress-container {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 3px;
+            position: relative;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 2s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            min-height: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.06);
+            border-top-color: var(--accent);
+            border-right-color: var(--accent-light);
+            border-radius: 50%;
+            margin: 1.5rem auto;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            padding: 1.2rem 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 53, 0.08);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.25);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.08);
+            background: rgba(255, 107, 53, 0.04);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+            color: var(--accent);
+        }
+
+        .feature-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .splash-footer {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: rgba(176, 176, 208, 0.5);
+        }
+
+        /* Tipografia animada */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.1em;
+            background-color: var(--accent);
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .splash-container {
+                padding: 2rem 1.5rem;
+                width: 95%;
+            }
+            .app-title {
+                font-size: 1.8rem;
+            }
+            .app-subtitle {
+                font-size: 0.95rem;
+            }
+            .logo-icon {
+                width: 80px;
+                height: 80px;
+            }
+            .logo-icon i {
+                font-size: 2.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                max-width: 300px;
+                margin: 2rem auto 0;
+            }
+            .feature-item {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .splash-container {
+                padding: 1.5rem;
+                transform: scale(0.95);
+            }
+            .logo-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 1rem;
+            }
+            .logo-icon i {
+                font-size: 2rem;
+            }
+            .app-title {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+            .loading-section {
+                margin: 1.5rem 0;
+            }
+            .features-grid {
+                margin-top: 1.5rem;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .splash-container {
+                padding: 1rem;
+                transform: scale(0.9);
+            }
+            .features-grid {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Animação de saída */
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeitos de fundo -->
+    <div class="background-effects"></div>
+    
+    <!-- Container principal -->
+    <div class="splash-container" id="splashContainer">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1 class="app-title" id="appTitle">NotaAlta</h1>
+            <p class="app-subtitle">
+                <span class="highlight">Estuda hoje.</span> Nota alta amanhã.
+            </p>
+        </div>
+        
+        <!-- Loading Section -->
+        <div class="loading-section">
+            <div class="progress-info">
+                <span><i class="fas fa-cog fa-spin" style="margin-right: 6px; color: var(--accent);"></i> Inicializando</span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="loading-text" id="loadingText">
+                Preparando o melhor ambiente de estudo...
+            </div>
+            
+            <div class="spinner"></div>
+        </div>
+        
+        <!-- Features Grid -->
+        <div class="features-grid">
+            <div class="feature-item" id="feature1">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feature-text">Chat com IA</div>
+            </div>
+            
+            <div class="feature-item" id="feature2">
+                <div class="feature-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="feature-text">Trabalhos Científicos</div>
+            </div>
+            
+            <div class="feature-item" id="feature3">
+                <div class="feature-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="feature-text">Simulados</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="splash-footer">
+            <i class="fas fa-shield-alt" style="color: var(--accent); opacity: 0.5;"></i> Recurso ao Estudante Moderno &copy; 2026
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============ ELEMENTOS ============
+            const splashContainer = document.getElementById('splashContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            const loadingText = document.getElementById('loadingText');
+            const feature1 = document.getElementById('feature1');
+            const feature2 = document.getElementById('feature2');
+            const feature3 = document.getElementById('feature3');
+
+            // ============ ETAPAS DE CARREGAMENTO ============
+            const steps = [
+                { percent: 10, text: 'Inicializando sistema...', delay: 300 },
+                { percent: 25, text: 'Carregando módulos de IA...', delay: 400 },
+                { percent: 40, text: 'Preparando base de dados...', delay: 350 },
+                { percent: 55, text: 'Configurando simulados...', delay: 400 },
+                { percent: 70, text: 'Otimizando interface...', delay: 350 },
+                { percent: 85, text: 'Carregando recursos de estudo...', delay: 400 },
+                { percent: 95, text: 'Quase pronto...', delay: 300 },
+                { percent: 100, text: 'Tudo pronto! Bem-vindo(a)!', delay: 500 }
+            ];
+
+            let currentStep = 0;
+
+            // ============ ANIMAR FEATURES ============
+            function animateFeatures() {
+                const features = [feature1, feature2, feature3];
+                features.forEach((feature, index) => {
+                    setTimeout(() => {
+                        feature.style.animation = 'fadeInUp 0.4s ease-out forwards';
+                    }, index * 200);
+                });
+            }
+
+            // ============ ATUALIZAR PROGRESSO ============
+            function updateProgress() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    progressBar.style.width = step.percent + '%';
+                    progressPercent.textContent = step.percent + '%';
+                    loadingText.textContent = step.text;
+
+                    // Animar features em 25%
+                    if (step.percent === 25) {
+                        animateFeatures();
+                    }
+
+                    currentStep++;
+                    setTimeout(updateProgress, step.delay);
+                } else {
+                    // Carregamento concluído
+                    setTimeout(() => {
+                        // Efeito de fade out
+                        splashContainer.classList.add('fade-out');
+                        
+                        // Redirecionar após a animação
+                        setTimeout(() => {
+                            window.location.href = 'home.html';
+                        }, 500);
+                    }, 300);
+                }
+            }
+
+            // ============ PARTÍCULAS DE FUNDO ============
+            function createParticles() {
+                const container = document.querySelector('.background-effects');
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.cssText = `
+                        width: ${Math.random() * 60 + 15}px;
+                        height: ${Math.random() * 60 + 15}px;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        animation-delay: ${Math.random() * 18}s;
+                    `;
+                    container.appendChild(particle);
+                }
+            }
+
+            // ============ SERVICE WORKER REGISTRATION ============
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        console.log('✅ Service Worker registado:', reg.scope);
+                        
+                        reg.addEventListener('updatefound', () => {
+                            const newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    console.log('🔄 Nova versão disponível. Atualizando...');
+                                }
+                            });
+                        });
+                        
+                        if (reg.waiting) {
+                            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+                        }
+                    })
+                    .catch(err => console.error('❌ Erro ao registar SW:', err));
+
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (!refreshing) {
+                        window.location.reload();
+                        refreshing = true;
+                    }
+                });
+            }
+
+            // ============ INICIALIZAÇÃO ============
+            function init() {
+                createParticles();
+                
+                console.log('🚀 NotaAlta - Inicializando...');
+                console.log('📂 Redirecionamento para home.html em breve...');
+                
+                // Pequeno delay para a animação inicial de entrada
+                setTimeout(() => {
+                    updateProgress();
+                }, 600);
+            }
+
+            // ============ START ============
+            document.addEventListener('DOMContentLoaded', init);
+        })();
+    </script>
+</body>
+</html>

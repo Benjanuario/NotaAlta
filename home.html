@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <link rel="manifest" href="/manifest.json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>NotaAlta - Recurso/Ferramenta ao Estudante Moderno</title>
+
+  <meta name="description" content="NotaAlta - O melhor recurso para estudantes modernos">
+  <meta name="theme-color" content="#0a0a2e">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --primary-dark: #E55A2B;
+      --primary-light: #FF8C5A;
+      --white: #ffffff;
+      --bg: #0a0a1a;
+      --bg-dark: #060614;
+      --bg-space: #0d0d2b;
+      --green: #27ae60;
+      --green-light: #eaf7ef;
+      --green-dark: #145a32;
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --amber: #f59e0b;
+      --amber-light: #fffbeb;
+      --purple: #7c3aed;
+      --purple-light: #f5f3ff;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --text: #111827;
+      --text-sec: #6b7280;
+      --border: #e5e7eb;
+      --nav-h: 70px;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      padding-bottom: calc(var(--nav-h) + 10px);
+      position: relative;
+    }
+
+    .header {
+      background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+      padding: 8px 16px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+    }
+
+    .header-row { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .menu-toggle {
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: white;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    .contact-header-btn {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      border: none;
+      border-radius: 40px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #1a1a2e;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .contact-header-btn i { font-size: 0.95rem; }
+    .contact-header-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .instrucoes-header-btn {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      border: none;
+      border-radius: 40px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(124, 58, 237, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .instrucoes-header-btn i { font-size: 0.95rem; }
+    .instrucoes-header-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
+    }
+
+    .header-contact-container, .header-instrucoes-container { position: relative; }
+
+    .header-support-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: 240px;
+      margin-top: 8px;
+      border-radius: 16px;
+      overflow: hidden;
+      z-index: 200;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #headerSupportOptions {
+      position: absolute;
+      top: 100%;
+      right: -40px;
+      background: linear-gradient(145deg, #ffffff, #f0f6ff);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 14px;
+      padding: 10px 0;
+      min-width: 220px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+
+    #headerInstrucoesOptions {
+      position: absolute;
+      top: 100%;
+      right: -40px;
+      background: #f3e8ff;
+      border: 1px solid #7c3aed;
+      border-radius: 14px;
+      padding: 10px 0;
+      min-width: 220px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    #headerSupportOptions a, #headerInstrucoesOptions a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    #headerSupportOptions a { color: #2c3e50; }
+    #headerInstrucoesOptions a { color: #333; }
+
+    #headerSupportOptions a:last-child, #headerInstrucoesOptions a:last-child { border-bottom: none; }
+
+    #headerSupportOptions a:hover {
+      background: linear-gradient(135deg, #0a0a2e, #1a1055);
+      color: #ffffff;
+      transform: translateX(6px);
+      box-shadow: 0 8px 18px rgba(10, 10, 46, 0.3);
+    }
+
+    #headerInstrucoesOptions a:hover {
+      background: #e9d5ff;
+      transform: translateX(6px);
+    }
+
+    #headerSupportOptions a i { color: #0a0a2e; font-size: 17px; }
+    #headerInstrucoesOptions a i { color: #7c3aed; font-size: 17px; }
+    #headerSupportOptions a:hover i { color: #FF6B35; }
+
+    .header-support-options.show { display: block; animation: slideDown 0.3s ease; }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title-container { margin-top: 4px; margin-bottom: 2px; }
+    .page-title { 
+      font-size: 1.2rem; font-weight: 900; color: white; 
+      letter-spacing: -0.02em; line-height: 1.3;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      display: block; padding: 0;
+    }
+
+    .sidebar {
+      position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+      background: linear-gradient(180deg, #0a0a2e 0%, #101045 100%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      transition: left 0.3s ease; z-index: 1000; overflow-y: auto;
+    }
+    .sidebar.open { left: 0; }
+    .sidebar-header {
+      padding: 30px 20px 20px; font-weight: 900; font-size: 1.1rem;
+      color: #FF6B35; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 10px;
+      text-align: center;
+    }
+    .sidebar ul { list-style: none; padding: 0 15px; }
+    .sidebar ul li {
+      padding: 15px; margin: 5px 0; border-radius: 12px; cursor: pointer;
+      display: flex; align-items: center; gap: 12px; color: #e0e0ff;
+      font-weight: 600; transition: all 0.2s; background: rgba(255, 255, 255, 0.05);
+    }
+    .sidebar ul li:hover { background: rgba(255, 107, 53, 0.15); transform: translateX(5px); }
+    .sidebar ul li i { width: 20px; color: #FF6B35; }
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 999; }
+    .overlay.active { display: block; }
+    
+    .scroll-area { 
+      padding: 16px 16px 0; 
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #0a0a2e 0%, #1a1055 50%, #0d0d3d 100%);
+      border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px;
+      position: relative; overflow: hidden; 
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 107, 53, 0.08);
+      border: 1px solid rgba(255, 107, 53, 0.15);
+    }
+    .hero-card::before { content: ''; position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255, 107, 53, 0.08); }
+    .hero-card::after { content: ''; position: absolute; right: 40px; bottom: -50px; width: 110px; height: 110px; border-radius: 50%; background: rgba(124, 58, 237, 0.08); }
+    .hero-eyebrow { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #FF6B35; margin-bottom: 4px; }
+    .hero-title { font-size: 1.3rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 10px; }
+    .hero-btn {
+      display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #FF6B35, #E55A2B);
+      color: white; font-size: 0.8rem; font-weight: 900; padding: 8px 16px;
+      border-radius: 40px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+      font-family: 'Nunito', sans-serif; transition: transform 0.12s, background 0.3s;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .hero-btn:hover { background: linear-gradient(135deg, #FF8C5A, #FF6B35); transform: translateY(-2px); }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); }
+      50% { transform: scale(1.1); box-shadow: 0 8px 20px rgba(255, 107, 53, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); }
+    }
+    .hero-btn:active { transform: scale(0.96); animation: none; }
+    .hero-bg-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 3.5rem; color: rgba(255, 107, 53, 0.1); }
+
+    .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0d0; margin-bottom: 8px; margin-top: 4px; }
+    
+    .cards-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 10px; 
+      margin-bottom: 20px; 
+    }
+    
+    .action-card {
+      border-radius: var(--radius); padding: 16px 12px 14px; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+      cursor: pointer; transition: transform 0.12s, box-shadow 0.3s;
+    }
+    .action-card:active { transform: scale(0.96); }
+    .action-card.g { background: linear-gradient(145deg, #0d1b2a, #0a1628); }
+    .action-card.b { background: linear-gradient(145deg, #0d1b2a, #0a1628); }
+    .action-card.a { background: linear-gradient(145deg, #0d1b2a, #0a1628); }
+    .action-card.p { background: linear-gradient(145deg, #0d1b2a, #0a1628); }
+    .icon-wrap {
+      width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; margin-bottom: 10px;
+      background: rgba(255, 107, 53, 0.12); backdrop-filter: blur(2px); 
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      color: #FF6B35;
+    }
+    .card-title { font-size: 0.8rem; font-weight: 900; color: #ffffff; margin-bottom: 2px; line-height: 1.2; }
+    .card-sub { font-size: 0.6rem; color: #b0b0d0; font-weight: 700; }
+
+    .list-card {
+      background: rgba(255, 255, 255, 0.03); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); margin-bottom: 20px;
+    }
+    .list-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      cursor: pointer; border-bottom: 1px solid rgba(255, 255, 255, 0.06); transition: background 0.1s;
+    }
+    .list-item:last-child { border-bottom: none; }
+    .list-item:active { background: rgba(255, 107, 53, 0.08); }
+    .list-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .list-info { flex: 1; }
+    .list-title { font-size: 0.8rem; font-weight: 900; color: #ffffff; margin-bottom: 2px; }
+    .list-sub { font-size: 0.6rem; color: #b0b0d0; font-weight: 700; }
+    .badge {
+      font-size: 0.5rem; font-weight: 900; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 3px 7px; border-radius: 40px; background: rgba(255, 107, 53, 0.15); color: #FF6B35;
+      margin-right: 4px; white-space: nowrap;
+    }
+
+    /* Modais de Escolha */
+    .modal-escolha {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a2e, #1a1055, #0d0d3d, #0f0f33);
+      background-size: 300% 300%;
+      animation: gradientBG 8s ease infinite;
+      z-index: 2000;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 20px 40px 20px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG { 
+      0% { background-position: 0% 50%; } 
+      50% { background-position: 100% 50%; } 
+      100% { background-position: 0% 50%; } 
+    }
+
+    .modal-back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.3s;
+      font-family: 'Nunito', sans-serif;
+      z-index: 2001;
+    }
+
+    .modal-back-button:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+
+    .modal-titulo {
+      color: white;
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      animation: fadeInDown 0.5s ease;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    @keyframes fadeInDown { 
+      from { opacity: 0; transform: translateY(-30px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+
+    .botoes-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .btn-escolha {
+      width: 100%;
+      max-width: 300px;
+      min-width: 260px;
+      padding: 16px 20px;
+      margin: 10px auto;
+      border: none;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: 'Nunito', sans-serif;
+      text-align: center;
+      color: white;
+    }
+
+    .btn-escolha:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); }
+    .btn-escolha:active { transform: translateY(0) scale(0.98); }
+
+    .btn-ia { background: linear-gradient(135deg, #FF6B35, #E55A2B); }
+    .btn-trabalho { background: linear-gradient(135deg, #06D6A0, #118AB2); }
+    .btn-nivel { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+    .btn-teste { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .btn-voltar { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn-verdadeiro-falso { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .btn-escolha-multipla { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+    .opcoes-subnivel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 320px;
+      margin-top: 10px;
+    }
+
+    /* Perfil Fullscreen */
+    .profile-fullscreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, #060614 0%, #0a0a1e 50%, #0d0d2b 100%);
+      z-index: 3000; display: none; flex-direction: column;
+      overflow-y: auto;
+    }
+    .profile-fullscreen.active { display: flex; }
+    .profile-fullscreen-header {
+      background: linear-gradient(180deg, #0a0a2e 0%, #101045 100%);
+      padding: 20px; display: flex; align-items: center; gap: 15px;
+      border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+    }
+    .profile-fullscreen-back {
+      background: rgba(255, 255, 255, 0.1); border: none; color: white;
+      width: 42px; height: 42px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.2rem;
+    }
+    .profile-fullscreen-header h2 { color: white; font-size: 1.4rem; font-weight: 900; margin: 0; }
+    .profile-fullscreen-content { padding: 20px; flex: 1; max-width: 600px; margin: 0 auto; width: 100%; }
+    .profile-photo-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+    .profile-photo-img {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B35, #E55A2B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; font-weight: 900; color: white;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+    .profile-display-name { font-size: 1.3rem; font-weight: 800; color: white; margin-top: 10px; }
+    .profile-display-email { font-size: 0.9rem; color: #b0b0d0; }
+    .profile-form-card { background: rgba(255, 255, 255, 0.03); border-radius: 20px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.08); }
+    .profile-form-field { margin-bottom: 16px; }
+    .profile-form-label { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: #e5e7eb; }
+    .profile-form-input {
+      width: 100%; padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px; color: white; font-size: 0.9rem;
+      font-family: 'Nunito', sans-serif;
+    }
+    .profile-form-actions { display: flex; gap: 12px; margin-top: 25px; }
+    .profile-btn { flex: 1; padding: 14px; border: none; border-radius: 14px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .profile-btn-primary { background: linear-gradient(135deg, #FF6B35, #E55A2B); color: white; }
+    .profile-btn-secondary { background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid rgba(255, 255, 255, 0.15); }
+
+    /* Chat Button */
+    .chat-button {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(135deg, #0a0a2e, #1a1055);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid rgba(255, 107, 53, 0.5);
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.2), 0 5px 15px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+    .chat-button::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 107, 53, 0.15), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+    @keyframes shine {
+      0% { transform: rotate(45deg) translateX(-100%); }
+      20% { transform: rotate(45deg) translateX(100%); }
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+    .chat-button:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 0 35px rgba(255, 107, 53, 0.4), 0 10px 25px rgba(0, 0, 0, 0.5);
+      border-color: #FF6B35;
+    }
+    .chat-button i {
+      font-size: 24px;
+      color: #FF6B35;
+      filter: drop-shadow(0 0 8px rgba(255, 107, 53, 0.5));
+      z-index: 2;
+      transition: all 0.3s;
+    }
+    .chat-button:hover i {
+      transform: scale(1.1);
+      color: #FF8C5A;
+      filter: drop-shadow(0 0 12px rgba(255, 107, 53, 0.7));
+    }
+    
+    .chat-notification {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      border-radius: 50%;
+      z-index: 3;
+      overflow: hidden;
+    }
+    .chat-notification::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #FF6B35, #E55A2B);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+      animation: neonPulse 1s infinite;
+      z-index: -1;
+    }
+    @keyframes neonPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* Chat Container */
+    .chat-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #0a0a2e 0%, #1a1055 100%);
+      z-index: 2000;
+      flex-direction: column;
+    }
+    .chat-container.active { display: flex; animation: slideIn 0.3s ease; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chat-header {
+      background: rgba(10, 10, 46, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-header-left { display: flex; align-items: center; gap: 12px; }
+    .chat-back-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #FF6B35;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chat-back-btn:hover { background: rgba(255, 107, 53, 0.1); }
+    .chat-title { font-size: 18px; font-weight: bold; color: #ffffff; }
+    .chat-status { font-size: 11px; color: #4ade80; margin-top: 2px; }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chat-empty {
+      text-align: center;
+      color: #b0b0d0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-empty i { font-size: 48px; opacity: 0.3; color: #FF6B35; }
+    .chat-input-container { background: rgba(10, 10, 46, 0.95); padding: 12px; border-top: 1px solid rgba(255, 107, 53, 0.15); display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input-wrapper { flex: 1; position: relative; }
+    .chat-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 14px;
+      resize: none;
+      font-family: inherit;
+      outline: none;
+      max-height: 100px;
+    }
+    .chat-input::placeholder { color: #666; }
+    .chat-send {
+      background: linear-gradient(135deg, #FF6B35, #E55A2B);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    footer { text-align: center; padding: 12px; color: #b0b0d0; font-size: 0.7rem; font-weight: 600; }
+    
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, #0a0a2e 0%, #0d0d3d 60%, #101045 100%);
+      backdrop-filter: blur(20px); 
+      border-top: 1px solid rgba(255, 107, 53, 0.15);
+      display: flex; justify-content: space-around; align-items: center;
+      padding: 8px 0 16px; height: var(--nav-h); z-index: 99;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      color: #FFFFFF; text-decoration: none; font-size: 0.5rem;
+      font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;
+      cursor: pointer; flex: 1; transition: all 0.15s; 
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      padding: 0 2px;
+    }
+    .nav-item i { font-size: 1.1rem; color: #FFFFFF; transition: transform 0.15s, color 0.15s; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
+    .nav-item.active { color: #FF6B35; text-shadow: 0 2px 4px rgba(255, 107, 53, 0.3); }
+    .nav-item.active i { color: #FF6B35; transform: scale(1.15); text-shadow: 0 2px 5px rgba(255, 107, 53, 0.4); }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: transparent; margin: 0 auto; }
+    .nav-item.active .dot { background: #FF6B35; box-shadow: 0 0 6px #FF6B35; }
+
+    /* RESPONSIVIDADE - Tablet */
+    @media (min-width: 768px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .scroll-area {
+        padding: 24px 32px 0;
+      }
+      
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .chat-container {
+        max-width: 500px;
+        right: 0;
+        left: auto;
+      }
+    }
+
+    /* RESPONSIVIDADE - Desktop */
+    @media (min-width: 1024px) {
+      html, body {
+        max-width: 100%;
+      }
+      
+      .scroll-area {
+        max-width: 1000px;
+      }
+      
+      .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      
+      .header-row {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      
+      .title-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      
+      .bottom-nav {
+        max-width: 100%;
+      }
+      
+      .chat-container {
+        max-width: 450px;
+        right: 20px;
+        left: auto;
+        border-radius: 20px 20px 0 0;
+        overflow: hidden;
+        top: auto;
+        bottom: 0;
+        height: 600px;
+      }
+      
+      .chat-button {
+        bottom: 100px;
+        right: 40px;
+      }
+      
+      .hero-card {
+        padding: 24px 32px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-escolha { padding: 70px 15px 30px 15px; }
+      .btn-escolha { min-width: 240px; padding: 14px 16px; font-size: 0.9rem; }
+      .modal-titulo { font-size: 1.3rem; margin-bottom: 25px; }
+      .modal-back-button { top: 15px; left: 15px; padding: 8px 16px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+      <div class="header-contact-container">
+        <button class="contact-header-btn" onclick="toggleHeaderSupport()"><i class="fas fa-headset"></i> Contactos</button>
+        <div class="header-support-options" id="headerSupportOptions">
+          <a href="https://wa.me/258848960732" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Pessoal</a>
+          <a href="sms:+258864920606"><i class="fas fa-sms"></i> SMS 864920606</a>
+          <a href="sms:+258848960732"><i class="fas fa-sms"></i> SMS 848960732</a>
+          <a href="https://chat.whatsapp.com/HeUunu707rTLCpXUcYP4HW" target="_blank"><i class="fab fa-whatsapp"></i> Grupo WhatsApp</a>
+          <a href="https://www.facebook.com/profile.php?id=61584106926556" target="_blank"><i class="fab fa-facebook"></i> Seguir Página do Facebook</a>
+          <a href="https://youtube.com/@profbenjanuario?si=48gwqlx48P_vuGxL" target="_blank"><i class="fab fa-youtube"></i> Inscreva-se no Canal do YouTube</a>
+        </div>
+      </div>
+      <div class="header-instrucoes-container">
+        <button class="instrucoes-header-btn" onclick="toggleHeaderInstrucoes()"><i class="fas fa-question-circle"></i> INSTRUÇÕES</button>
+        <div class="header-support-options" id="headerInstrucoesOptions">
+          <a href="instrucao1.html"><i class="fas fa-info-circle"></i> Instrução 1</a>
+          <a href="instrucao2.html"><i class="fas fa-file-alt"></i> Instrução 2</a>
+          <a href="instrucao3.html"><i class="fas fa-calendar-alt"></i> Instrução 3</a>
+          <a href="instrucao4.html"><i class="fas fa-book"></i> Instrução 4</a>
+          <a href="instrucao5.html"><i class="fas fa-download"></i> Instrução 5</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="title-container"><div class="page-title">NotaAlta - Recurso ao Estudante Moderno</div></div>
+</div>
+
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-header">NotaAlta</div>
+  <ul>
+    <li onclick="mostrarOpcoesTrabalho()"><i class="fas fa-file-alt"></i> Gerar Trabalho</li>
+    <li onclick="window.location.href='chatai.html'"><i class="fas fa-robot"></i> Chat IA</li>
+    <li onclick="mostrarOpcoesSimulador()"><i class="fas fa-graduation-cap"></i> Simulador</li>
+    <li onclick="mostrarOpcoesTeste()"><i class="fas fa-brain"></i> Testar Conhecimento</li>
+    <li onclick="window.location.href='doar.html'"><i class="fas fa-gift"></i> Doar</li>
+    <li onclick="window.location.href='sobre.html'"><i class="fas fa-user-tie"></i> Sobre o Criador</li>
+    <li onclick="window.location.href='definicoes.html'"><i class="fas fa-cog"></i> Definições</li>
+    <li onclick="window.location.href='termos.html'"><i class="fas fa-shield-alt"></i> Termos e Políticas</li>
+  </ul>
+</nav>
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<div class="scroll-area">
+  <!-- Hero Card - Gerar Trabalho Científico -->
+  <div class="hero-card">
+    <div class="hero-eyebrow"><i class="fas fa-bolt"></i> ACÇÃO RÁPIDA</div>
+    <div class="hero-title">CRIAR TRABALHO CIENTÍFICO AGORA</div>
+    <button class="hero-btn" onclick="mostrarOpcoesTrabalho()"><i class="fas fa-plus"></i> Criar...</button>
+    <div class="hero-bg-icon"><i class="fas fa-file-alt"></i></div>
+  </div>
+
+  <!-- Grid de Cards -->
+  <div class="section-label">Recursos de Estudo</div>
+  <div class="cards-grid">
+    <div class="action-card g" onclick="abrirChatIA()">
+      <div class="icon-wrap"><i class="fas fa-robot"></i></div>
+      <div class="card-title">CHAT COM IA</div>
+      <div class="card-sub"><i class="fas fa-comments"></i> Apresente qualquer questão e Tire dúvidas com IA</div>
+    </div>
+    <div class="action-card b" onclick="mostrarOpcoesSimulador()">
+      <div class="icon-wrap"><i class="fas fa-graduation-cap"></i></div>
+      <div class="card-title">SIMULADOR DE AVALIAÇÃO/PROVA</div>
+      <div class="card-sub"><i class="fas fa-clipboard-list"></i> Prepare os Seus Testes e Exames de forma Prática</div>
+    </div>
+    <div class="action-card a" onclick="mostrarOpcoesTeste()">
+      <div class="icon-wrap"><i class="fas fa-brain"></i></div>
+      <div class="card-title">TESTAR O TEU CONHECIMENTO</div>
+      <div class="card-sub"><i class="fas fa-trophy"></i> Faça Competição com Outros Estudantes do Teu Nível</div>
+    </div>
+    <div class="action-card p" onclick="window.location.href='livros.html'">
+      <div class="icon-wrap"><i class="fas fa-book"></i></div>
+      <div class="card-title">BIBLIOTECA</div>
+      <div class="card-sub"><i class="fas fa-book-open"></i> Livros, Exames e Outros Recursos Académicos</div>
+    </div>
+  </div>
+
+  <!-- Lista de Recursos -->
+  <div class="section-label">Mais Recursos</div>
+  <div class="list-card">
+    <div class="list-item" onclick="window.location.href='recursos.html'">
+      <div class="list-icon" style="background:rgba(255,107,53,0.15);color:#FF6B35;"><i class="fas fa-landmark"></i></div>
+      <div class="list-info">
+        <div class="list-title">Recursos e Biblioteca</div>
+        <div class="list-sub">Materiais de apoio</div>
+      </div>
+      <span class="badge"><i class="fas fa-star"></i> Novo</span>
+    </div>
+    <div class="list-item" onclick="window.location.href='exames.html'">
+      <div class="list-icon" style="background:rgba(124,58,237,0.15);color:#7c3aed;"><i class="fas fa-file-contract"></i></div>
+      <div class="list-info">
+        <div class="list-title">Exames Nacionais</div>
+        <div class="list-sub">Provas anteriores</div>
+      </div>
+    </div>
+    <div class="list-item" onclick="window.location.href='modelos.html'">
+      <div class="list-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b;"><i class="fas fa-file-lines"></i></div>
+      <div class="list-info">
+        <div class="list-title">Modelos Prontos</div>
+        <div class="list-sub">Templates editáveis</div>
+      </div>
+    </div>
+    <div class="list-item" onclick="window.location.href='estatisticas.html'">
+      <div class="list-icon" style="background:rgba(39,174,96,0.15);color:#27ae60;"><i class="fas fa-chart-bar"></i></div>
+      <div class="list-info">
+        <div class="list-title">Estatísticas</div>
+        <div class="list-sub">Progresso e desempenho</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>&copy; NotaAlta - 2026 Recurso ao Estudante Moderno. By: Prof Benjanuário</footer>
+
+<!-- Modal: Opções de Trabalho -->
+<div id="modalTrabalho" class="modal-escolha">
+  <button class="modal-back-button" onclick="fecharModal('modalTrabalho')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  <h2 class="modal-titulo">Nível de Ensino:</h2>
+  <div class="botoes-container">
+    <button class="btn-escolha btn-trabalho" onclick="window.location.href='trabalho1.html'"><i class="fas fa-school"></i> Ensino Secundário</button>
+    <button class="btn-escolha btn-trabalho" onclick="window.location.href='trabalho2.html'"><i class="fas fa-tools"></i> Técnico Profissional</button>
+    <button class="btn-escolha btn-trabalho" onclick="window.location.href='trabalho3.html'"><i class="fas fa-university"></i> Universitário</button>
+    <button class="btn-escolha btn-voltar" onclick="fecharModal('modalTrabalho')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  </div>
+</div>
+
+<!-- Modal: Opções de Simulador -->
+<div id="modalSimulador" class="modal-escolha">
+  <button class="modal-back-button" onclick="fecharModal('modalSimulador')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  <h2 class="modal-titulo">Tipo de Simulação:</h2>
+  <div class="botoes-container" id="botoesTipoSimulador">
+    <button class="btn-escolha btn-teste" onclick="mostrarNiveisSimulador('teste')"><i class="fas fa-file-alt"></i> Simular Teste Normal</button>
+    <button class="btn-escolha btn-teste" onclick="mostrarNiveisSimulador('exame')"><i class="fas fa-award"></i> Simular Exame Nacional</button>
+    <button class="btn-escolha btn-voltar" onclick="fecharModal('modalSimulador')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  </div>
+  <div class="opcoes-subnivel" id="opcoesNivelSimulador">
+    <h3 class="modal-titulo" style="font-size: 1.2rem; margin-top: 20px;">Nível de Ensino:</h3>
+    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('secundario')"><i class="fas fa-school"></i> Ensino Secundário</button>
+    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('tecnico')"><i class="fas fa-tools"></i> Técnico Profissional</button>
+    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('universitario')"><i class="fas fa-university"></i> Universitário</button>
+    <button class="btn-escolha btn-voltar" onclick="voltarOpcoesSimulador()"><i class="fas fa-arrow-left"></i> Voltar</button>
+  </div>
+</div>
+
+<!-- Modal: Opções de Teste de Conhecimento -->
+<div id="modalTeste" class="modal-escolha">
+  <button class="modal-back-button" onclick="fecharModal('modalTeste')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  <h2 class="modal-titulo">Tipo de Pergunta:</h2>
+  <div class="botoes-container">
+    <button class="btn-escolha btn-verdadeiro-falso" onclick="window.location.href='gamificacao1.html'"><i class="fas fa-toggle-on"></i> Verdadeiro e Falso</button>
+    <button class="btn-escolha btn-escolha-multipla" onclick="window.location.href='gamificacao2.html'"><i class="fas fa-list-ul"></i> Escolha Múltipla</button>
+    <button class="btn-escolha btn-voltar" onclick="fecharModal('modalTeste')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  </div>
+</div>
+
+<!-- Perfil Fullscreen -->
+<div id="profileFullscreen" class="profile-fullscreen">
+  <div class="profile-fullscreen-header">
+    <button class="profile-fullscreen-back" onclick="fecharPerfilFullscreen()"><i class="fas fa-arrow-left"></i></button>
+    <h2>Meu Perfil</h2>
+  </div>
+  <div class="profile-fullscreen-content">
+    <div class="profile-photo-section">
+      <div class="profile-photo-img" id="profileFullInitials">NA</div>
+      <div class="profile-display-name" id="profileFullDisplayName">Estudante</div>
+      <div class="profile-display-email" id="profileFullDisplayEmail">estudante@notaalta.com</div>
+    </div>
+    <form class="profile-form-card" id="profileFullForm" onsubmit="event.preventDefault(); salvarPerfilFullscreen();">
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-user"></i> Nome Completo</label>
+        <input type="text" id="profileNome" class="profile-form-input" placeholder="Seu nome completo">
+      </div>
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" id="profileEmail" class="profile-form-input" placeholder="Seu email">
+      </div>
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-map-marker-alt"></i> Província</label>
+        <select id="profileProvincia" class="profile-form-input">
+          <option value="">Selecione a Província</option>
+          <option value="Cabo Delgado">Cabo Delgado</option>
+          <option value="Gaza">Gaza</option>
+          <option value="Inhambane">Inhambane</option>
+          <option value="Manica">Manica</option>
+          <option value="Maputo">Maputo</option>
+          <option value="Cidade de Maputo">Cidade de Maputo</option>
+          <option value="Nampula">Nampula</option>
+          <option value="Niassa">Niassa</option>
+          <option value="Sofala">Sofala</option>
+          <option value="Tete">Tete</option>
+          <option value="Zambézia">Zambézia</option>
+        </select>
+      </div>
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-city"></i> Distrito/Cidade</label>
+        <input type="text" id="profileDistrito" class="profile-form-input" placeholder="Ex: Matola, Nampula...">
+      </div>
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-school"></i> Escola</label>
+        <input type="text" id="profileEscola" class="profile-form-input" placeholder="Nome da escola">
+      </div>
+      <div class="profile-form-field">
+        <label class="profile-form-label"><i class="fas fa-phone"></i> WhatsApp</label>
+        <input type="tel" id="profileTelefone" class="profile-form-input" placeholder="Ex: 84xxxxxxx">
+      </div>
+      <div class="profile-form-actions">
+        <button type="button" class="profile-btn profile-btn-secondary" onclick="fecharPerfilFullscreen()"><i class="fas fa-times"></i> Cancelar</button>
+        <button type="submit" class="profile-btn profile-btn-primary"><i class="fas fa-save"></i> Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Chat Container -->
+<div id="chatContainer" class="chat-container">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <button class="chat-back-btn" onclick="toggleChat()"><i class="fas fa-arrow-left"></i></button>
+      <div>
+        <div class="chat-title">CHAT PÚBLICO</div>
+        <div class="chat-status" id="chatStatus"><i class="fas fa-circle" style="color: #4ade80; font-size: 8px;"></i> Conectado via LocalStorage</div>
+      </div>
+    </div>
+    <div class="chat-header-right">
+      <button onclick="carregarMensagens()"><i class="fas fa-sync-alt"></i></button>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-empty">
+      <i class="fas fa-comments"></i>
+      <div>Nenhuma mensagem ainda</div>
+      <small>Seja o primeiro a compartilhar ideias!</small>
+    </div>
+  </div>
+  <div class="chat-input-container">
+    <div class="chat-input-wrapper">
+      <textarea class="chat-input" id="messageInput" placeholder="Digite sua mensagem..." maxlength="500" rows="1"></textarea>
+    </div>
+    <button class="chat-send" id="sendButton" onclick="enviarMensagem()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- Chat Button -->
+<div class="chat-button" onclick="toggleChat()">
+  <i class="fas fa-comments"></i>
+  <div class="chat-notification" id="chatNotification" style="display: none;">0</div>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+  <a class="nav-item active" onclick="setActive(this)"><i class="fas fa-house"></i>Home<span class="dot"></span></a>
+  <a class="nav-item" onclick="setActive(this); window.location.href='livros.html'"><i class="fas fa-book"></i>Livros<span class="dot"></span></a>
+  <a class="nav-item" onclick="setActive(this); window.location.href='exames.html'"><i class="fas fa-file-alt"></i>Exames<span class="dot"></span></a>
+  <a class="nav-item" onclick="setActive(this); abrirPerfilFullscreen()"><i class="fas fa-user"></i>Perfil<span class="dot"></span></a>
+</nav>
+
+<script>
+  // ============================================
+  // STORAGE MANAGER
+  // ============================================
+  const StorageManager = {
+    save(key, data) {
+      try {
+        localStorage.setItem('notaalta_' + key, JSON.stringify(data));
+      } catch (e) {
+        sessionStorage.setItem('notaalta_' + key, JSON.stringify(data));
+      }
+    },
+    load(key) {
+      try {
+        const data = localStorage.getItem('notaalta_' + key);
+        return data ? JSON.parse(data) : null;
+      } catch (e) {
+        const data = sessionStorage.getItem('notaalta_' + key);
+        return data ? JSON.parse(data) : null;
+      }
+    }
+  };
+
+  // ============================================
+  // VARIÁVEIS GLOBAIS
+  // ============================================
+  let tipoSimuladorAtual = '';
+  let isChatOpen = false;
+
+  // ============================================
+  // FUNÇÕES DE LAYOUT
+  // ============================================
+  function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if (sidebar && overlay) {
+      sidebar.classList.toggle('open');
+      if (sidebar.classList.contains('open')) {
+        overlay.style.display = 'block';
+        overlay.classList.add('active');
+      } else {
+        overlay.style.display = 'none';
+        overlay.classList.remove('active');
+      }
+    }
+  }
+
+  function toggleHeaderSupport() {
+    const supportOptions = document.getElementById('headerSupportOptions');
+    const instrucoesOptions = document.getElementById('headerInstrucoesOptions');
+    if (supportOptions) supportOptions.classList.toggle('show');
+    if (instrucoesOptions) instrucoesOptions.classList.remove('show');
+  }
+
+  function toggleHeaderInstrucoes() {
+    const instrucoesOptions = document.getElementById('headerInstrucoesOptions');
+    const supportOptions = document.getElementById('headerSupportOptions');
+    if (instrucoesOptions) instrucoesOptions.classList.toggle('show');
+    if (supportOptions) supportOptions.classList.remove('show');
+  }
+
+  function setActive(el) {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+
+  // ============================================
+  // FUNÇÕES DE MODAIS
+  // ============================================
+  function mostrarOpcoesTrabalho() {
+    document.getElementById('modalTrabalho').style.display = 'flex';
+  }
+
+  function mostrarOpcoesSimulador() {
+    document.getElementById('modalSimulador').style.display = 'flex';
+    document.getElementById('botoesTipoSimulador').style.display = 'flex';
+    document.getElementById('opcoesNivelSimulador').style.display = 'none';
+  }
+
+  function mostrarOpcoesTeste() {
+    document.getElementById('modalTeste').style.display = 'flex';
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  function abrirChatIA() {
+    window.location.href = 'chatai.html';
+  }
+
+  // ============================================
+  // SIMULADOR - SUBOPÇÕES
+  // ============================================
+  function mostrarNiveisSimulador(tipo) {
+    tipoSimuladorAtual = tipo;
+    document.getElementById('botoesTipoSimulador').style.display = 'none';
+    document.getElementById('opcoesNivelSimulador').style.display = 'flex';
+  }
+
+  function voltarOpcoesSimulador() {
+    document.getElementById('botoesTipoSimulador').style.display = 'flex';
+    document.getElementById('opcoesNivelSimulador').style.display = 'none';
+  }
+
+  function redirecionarSimulador(nivel) {
+    StorageManager.save('simulador', {
+      tipo: tipoSimuladorAtual,
+      nivel: nivel,
+      data: new Date().toISOString()
+    });
+
+    if (tipoSimuladorAtual === 'teste') {
+      window.location.href = 'simulado-' + nivel + '.html';
+    } else if (tipoSimuladorAtual === 'exame') {
+      window.location.href = 'exame-' + nivel + '.html';
+    }
+  }
+
+  // ============================================
+  // CHAT PÚBLICO (LocalStorage)
+  // ============================================
+  function getUserId() {
+    const perfil = StorageManager.load('perfil') || {};
+    const nome = perfil.nome || 'Estudante';
+    return nome.trim().split(' ')[0] + '_' + Date.now().toString(36);
+  }
+
+  function getUserDisplay() {
+    const perfil = StorageManager.load('perfil') || {};
+    const nome = perfil.nome || 'Estudante';
+    return {
+      userId: getUserId(),
+      userName: nome,
+      userFirstName: nome.trim().split(' ')[0],
+      userAvatar: nome.charAt(0).toUpperCase()
+    };
+  }
+
+  function carregarMensagens() {
+    const messages = StorageManager.load('chatMessages') || [];
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
+
+    if (messages.length === 0) {
+      container.innerHTML = '<div class="chat-empty"><i class="fas fa-comments"></i><div>Nenhuma mensagem ainda</div><small>Seja o primeiro a compartilhar ideias!</small></div>';
+      return;
+    }
+
+    let html = '';
+    messages.forEach(msg => {
+      const time = new Date(msg.timestamp).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+      html += '<div style="margin-bottom: 12px; padding: 8px 12px; background: rgba(255,255,255,0.05); border-radius: 12px; color: white;">';
+      html += '<div style="font-weight: bold; font-size: 12px; color: #FF6B35; margin-bottom: 4px;">' + msg.userName + '</div>';
+      html += '<div style="font-size: 14px;">' + msg.text + '</div>';
+      html += '<div style="font-size: 10px; color: #888; margin-top: 4px; text-align: right;">' + time + '</div>';
+      html += '</div>';
+    });
+    container.innerHTML = html;
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function enviarMensagem() {
+    const input = document.getElementById('messageInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = getUserDisplay();
+    const messages = StorageManager.load('chatMessages') || [];
+    
+    messages.push({
+      userId: user.userId,
+      userName: user.userName,
+      text: text,
+      timestamp: new Date().toISOString()
+    });
+
+    if (messages.length > 100) {
+      messages.splice(0, messages.length - 100);
+    }
+
+    StorageManager.save('chatMessages', messages);
+    input.value = '';
+    carregarMensagens();
+  }
+
+  function toggleChat() {
+    const container = document.getElementById('chatContainer');
+    if (!container) return;
+    
+    isChatOpen = !container.classList.contains('active');
+    container.classList.toggle('active');
+    
+    if (isChatOpen) {
+      carregarMensagens();
+      setTimeout(() => {
+        document.getElementById('messageInput')?.focus();
+      }, 300);
+    }
+  }
+
+  // ============================================
+  // PERFIL
+  // ============================================
+  function abrirPerfilFullscreen() {
+    const ps = document.getElementById('profileFullscreen');
+    if (!ps) return;
+
+    const perfil = StorageManager.load('perfil') || {};
+    
+    document.getElementById('profileNome').value = perfil.nome || '';
+    document.getElementById('profileEmail').value = perfil.email || '';
+    document.getElementById('profileProvincia').value = perfil.provincia || '';
+    document.getElementById('profileDistrito').value = perfil.distrito || '';
+    document.getElementById('profileEscola').value = perfil.escola || '';
+    document.getElementById('profileTelefone').value = perfil.telefone || '';
+    
+    const nome = perfil.nome || 'Estudante';
+    document.getElementById('profileFullDisplayName').textContent = nome;
+    document.getElementById('profileFullDisplayEmail').textContent = perfil.email || 'estudante@notaalta.com';
+    document.getElementById('profileFullInitials').textContent = nome.split(' ').map(x => x.charAt(0)).join('').slice(0, 2).toUpperCase();
+    
+    ps.classList.add('active');
+  }
+
+  function fecharPerfilFullscreen() {
+    const ps = document.getElementById('profileFullscreen');
+    if (ps) ps.classList.remove('active');
+  }
+
+  function salvarPerfilFullscreen() {
+    const perfil = {
+      nome: document.getElementById('profileNome')?.value || '',
+      email: document.getElementById('profileEmail')?.value || '',
+      provincia: document.getElementById('profileProvincia')?.value || '',
+      distrito: document.getElementById('profileDistrito')?.value || '',
+      escola: document.getElementById('profileEscola')?.value || '',
+      telefone: document.getElementById('profileTelefone')?.value || ''
+    };
+
+    StorageManager.save('perfil', perfil);
+    
+    const nome = perfil.nome || 'Estudante';
+    document.getElementById('profileFullDisplayName').textContent = nome;
+    document.getElementById('profileFullDisplayEmail').textContent = perfil.email || 'estudante@notaalta.com';
+    document.getElementById('profileFullInitials').textContent = nome.split(' ').map(x => x.charAt(0)).join('').slice(0, 2).toUpperCase();
+    
+    alert('Perfil salvo com sucesso!');
+    fecharPerfilFullscreen();
+  }
+
+  // ============================================
+  // INICIALIZAÇÃO
+  // ============================================
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('NotaAlta - Home inicializada');
+
+    const perfil = StorageManager.load('perfil');
+    if (perfil && perfil.nome) {
+      document.getElementById('profileFullDisplayName').textContent = perfil.nome;
+      document.getElementById('profileFullDisplayEmail').textContent = perfil.email || 'estudante@notaalta.com';
+      const nome = perfil.nome || 'Estudante';
+      document.getElementById('profileFullInitials').textContent = nome.split(' ').map(x => x.charAt(0)).join('').slice(0, 2).toUpperCase();
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.header-contact-container')) {
+        const supportOptions = document.getElementById('headerSupportOptions');
+        if (supportOptions) supportOptions.classList.remove('show');
+      }
+      if (!e.target.closest('.header-instrucoes-container')) {
+        const instrucoesOptions = document.getElementById('headerInstrucoesOptions');
+        if (instrucoesOptions) instrucoesOptions.classList.remove('show');
+      }
+    });
+
+    document.getElementById('messageInput')?.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        enviarMensagem();
+      }
+    });
+
+    StorageManager.save('ultimoAcesso', new Date().toISOString());
+  });
+
+  // Exportar funções globais
+  window.toggleMenu = toggleMenu;
+  window.toggleHeaderSupport = toggleHeaderSupport;
+  window.toggleHeaderInstrucoes = toggleHeaderInstrucoes;
+  window.setActive = setActive;
+  window.mostrarOpcoesTrabalho = mostrarOpcoesTrabalho;
+  window.mostrarOpcoesSimulador = mostrarOpcoesSimulador;
+  window.mostrarOpcoesTeste = mostrarOpcoesTeste;
+  window.fecharModal = fecharModal;
+  window.abrirChatIA = abrirChatIA;
+  window.mostrarNiveisSimulador = mostrarNiveisSimulador;
+  window.voltarOpcoesSimulador = voltarOpcoesSimulador;
+  window.redirecionarSimulador = redirecionarSimulador;
+  window.toggleChat = toggleChat;
+  window.enviarMensagem = enviarMensagem;
+  window.carregarMensagens = carregarMensagens;
+  window.abrirPerfilFullscreen = abrirPerfilFullscreen;
+  window.fecharPerfilFullscreen = fecharPerfilFullscreen;
+  window.salvarPerfilFullscreen = salvarPerfilFullscreen;
+</script>
+
+</body>
+</html>
