@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "NotaAlta - Recurso ao Estudante Moderno",
   "scripts": {
-    "build": "gulp build",
-    "deploy": "gulp build && vercel --prod"
+    "build": "gulp build"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
