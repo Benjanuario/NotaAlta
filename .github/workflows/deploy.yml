@@ -3,8 +3,9 @@ name: 🚀 Deploy Automático para Vercel
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-and-deploy:
@@ -14,7 +15,7 @@ jobs:
       - name: 📥 Clonar repositório
         uses: actions/checkout@v4
 
-      - name: ⚙️ Instalar Node.js 22
+      - name: ⚙️ Instalar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -24,6 +25,9 @@ jobs:
 
       - name: 🔧 Build e Minificar
         run: npm run build
+      
+      - name: 📋 Verificar arquivos gerados
+        run: ls -la dist/
 
       - name: 🚀 Deploy para Vercel
         uses: amondnet/vercel-action@v25
@@ -31,4 +35,4 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+          vercel-args: '--prod --yes'
