@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NotaAlta • Chat com IA</title>
+    <meta name="theme-color" content="#0a0a2e">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --primary-light: #FF8C5A;
+            --bg-deep: #060614;
+            --bg-space: #0a0a2e;
+            --bg-mid: #0d0d3d;
+            --bg-light: #101045;
+            --text: #f1f5f9;
+            --text-secondary: #b0b0d0;
+            --glass: rgba(10, 10, 46, 0.7);
+            --glass-border: rgba(255, 107, 53, 0.15);
+            --success: #10b981;
+            --error: #ef4444;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+            padding: 14px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,107,53,0.08);
+            border-color: #FF6B35;
+        }
+
+        .header-title h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .header-badge {
+            background: rgba(255,107,53,0.08);
+            border: 1px solid rgba(255,107,53,0.2);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #FF8C5A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Main */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 16px 50px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 130px);
+        }
+
+        /* Área de chat */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: rgba(255,107,53,0.2);
+            border-radius: 10px;
+        }
+
+        /* Mensagens */
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: fadeInUp 0.4s ease;
+            max-width: 90%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .message-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #FF6B35, #E55A2B);
+            color: white;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+        }
+
+        .message-bubble {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 14px 18px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .message.user .message-bubble {
+            background: rgba(255, 107, 53, 0.12);
+            border-color: rgba(255, 107, 53, 0.25);
+            border-bottom-right-radius: 6px;
+        }
+
+        .message.bot .message-bubble {
+            border-bottom-left-radius: 6px;
+        }
+
+        .message-bubble p {
+            margin-bottom: 8px;
+        }
+
+        .message-bubble p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-bubble code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .message-bubble pre {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Mensagem de boas-vindas */
+        .welcome-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 28px 24px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card .welcome-icon {
+            font-size: 3rem;
+            color: #7c3aed;
+            margin-bottom: 15px;
+        }
+
+        .welcome-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .welcome-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+
+        .suggestion-chip {
+            padding: 8px 14px;
+            border-radius: 50px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: #a78bfa;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .suggestion-chip:hover {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Área de input */
+        .input-area {
+            position: sticky;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent, #0a0a1e 30%);
+            padding-top: 15px;
+        }
+
+        .input-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 6px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 8px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            outline: none;
+        }
+
+        .chat-input::placeholder {
+            color: #64748b;
+        }
+
+        .btn-send {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #E55A2B);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .btn-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-clear {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .btn-clear:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        /* Loading dots */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 0;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #7c3aed;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #101045;
+            border: 1px solid #10b981;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1000;
+            transition: transform 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .header-title h1 {
+                font-size: 0.95rem;
+            }
+            .message {
+                max-width: 95%;
+            }
+            .main-container {
+                height: calc(100vh - 120px);
+                padding: 15px 10px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <a href="home.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-title">
+                <h1>Chat com IA</h1>
+            </div>
+        </div>
+        <div class="header-badge">
+            <i class="fas fa-robot"></i> Tutor Virtual
+        </div>
+    </div>
+</header>
+
+<!-- Main -->
+<main class="main-container">
+    
+    <!-- Área de Chat -->
+    <div class="chat-area" id="chatArea">
+        
+        <!-- Card de Boas-vindas -->
+        <div class="welcome-card" id="welcomeCard">
+            <div class="welcome-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Olá! Eu sou o teu Tutor Virtual</h2>
+            <p>
+                Podes perguntar-me qualquer coisa sobre as tuas matérias escolares. 
+                Estou aqui para te ajudar a aprender!
+            </p>
+            <div class="suggestion-chips">
+                <button class="suggestion-chip" onclick="enviarSugestao('Explica o que é uma equação do 1º grau')">
+                    <i class="fas fa-calculator"></i> Equações do 1º grau
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Quais foram as causas da Revolução Industrial?')">
+                    <i class="fas fa-industry"></i> Revolução Industrial
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Como funciona o sistema digestivo humano?')">
+                    <i class="fas fa-heart"></i> Sistema Digestivo
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Resolve este problema: 3x + 7 = 22')">
+                    <i class="fas fa-pencil"></i> Resolver Problema
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Área de Input -->
+    <div class="input-area">
+        <div class="input-card">
+            <button class="btn-clear" onclick="limparChat()" title="Limpar conversa">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <textarea 
+                class="chat-input" 
+                id="chatInput" 
+                placeholder="Escreve a tua pergunta..."
+                rows="1"
+                onkeydown="handleKeyDown(event)"
+            ></textarea>
+            <button class="btn-send" id="btnSend" onclick="enviarMensagem()" title="Enviar">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage"></span>
+</div>
+
+<script>
+// ============================================
+// CONFIGURAÇÃO API GROQ
+// ============================================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+
+// ============================================
+// HISTÓRICO DE CONVERSA
+// ============================================
+let historicoConversa = [
+    {
+        role: "system",
+        content: `És um tutor virtual educacional chamado NotaAlta IA. 
+        
+Regras:
+1. Respondes em português de Portugal
+2. És paciente, didático e encorajador
+3. Explicas os conceitos de forma clara, com exemplos quando apropriado
+4. Se for um problema matemático, mostras o passo a passo
+5. Usas formatação simples: parágrafos curtos, listas quando necessário
+6. No final de cada resposta, perguntas se o estudante tem mais dúvidas
+7. Manténs as respostas concisas mas completas (máximo 500 palavras a menos que seja um tópico muito complexo)
+8. Se não souberes algo, admite que não sabes em vez de inventar`
+    }
+];
+
+// ============================================
+// AUTO-AJUSTE DO TEXTAREA
+// ============================================
+const textarea = document.getElementById('chatInput');
+textarea.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// ============================================
+// ENVIAR SUGESTÃO (CHIP)
+// ============================================
+function enviarSugestao(texto) {
+    document.getElementById('chatInput').value = texto;
+    enviarMensagem();
+}
+
+// ============================================
+// ENVIAR MENSAGEM COM TECLA ENTER
+// ============================================
+function handleKeyDown(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        enviarMensagem();
+    }
+}
+
+// ============================================
+// ENVIAR MENSAGEM
+// ============================================
+async function enviarMensagem() {
+    const input = document.getElementById('chatInput');
+    const pergunta = input.value.trim();
+    
+    if (!pergunta) return;
+    
+    // Esconder card de boas-vindas
+    const welcomeCard = document.getElementById('welcomeCard');
+    if (welcomeCard) {
+        welcomeCard.style.display = 'none';
+    }
+    
+    // Limpar input
+    input.value = '';
+    input.style.height = 'auto';
+    
+    // Desabilitar botão
+    const btnSend = document.getElementById('btnSend');
+    btnSend.disabled = true;
+    
+    // Adicionar mensagem do usuário
+    adicionarMensagem('user', pergunta);
+    
+    // Adicionar mensagem de "a escrever..."
+    const typingId = adicionarTypingIndicator();
+    
+    // Adicionar ao histórico
+    historicoConversa.push({ role: "user", content: pergunta });
+    
+    try {
+        const resposta = await chamarIA();
+        
+        // Remover indicador de typing
+        removerTypingIndicator(typingId);
+        
+        // Adicionar resposta
+        adicionarMensagem('bot', resposta);
+        
+        // Adicionar ao histórico
+        historicoConversa.push({ role: "assistant", content: resposta });
+        
+    } catch (erro) {
+        removerTypingIndicator(typingId);
+        adicionarMensagem('bot', '❌ Desculpa, ocorreu um erro ao processar a tua pergunta. Tenta novamente!');
+        showToast('Erro: ' + erro.message, 'error');
+        console.error(erro);
+    } finally {
+        btnSend.disabled = false;
+        input.focus();
+    }
+}
+
+// ============================================
+// CHAMADA À API GROQ
+// ============================================
+async function chamarIA() {
+    const response = await fetch(GROQ_API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: historicoConversa,
+            temperature: 0.7,
+            max_tokens: 1000
+        })
+    });
+
+    if (!response.ok) {
+        const erroTexto = await response.text();
+        throw new Error(`API respondeu com erro ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
+
+// ============================================
+// ADICIONAR MENSAGEM AO CHAT
+// ============================================
+function adicionarMensagem(tipo, texto) {
+    const chatArea = document.getElementById('chatArea');
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${tipo}`;
+    
+    const avatarIcon = tipo === 'user' ? 'fa-user' : 'fa-robot';
+    const avatarName = tipo === 'user' ? 'Tu' : 'IA';
+    
+    // Formatar texto (converter markdown simples)
+    const textoFormatado = formatarTexto(texto);
+    
+    const agora = new Date();
+    const hora = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    
+    messageDiv.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas ${avatarIcon}"></i>
+        </div>
+        <div>
+            <div class="message-bubble">${textoFormatado}</div>
+            <div class="message-time">${avatarName} • ${hora}:${minutos}</div>
+        </div>
+    `;
+    
+    chatArea.appendChild(messageDiv);
+    
+    // Scroll para o final
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+// ============================================
+// INDICADOR DE "A ESCREVER..."
+// ============================================
+function adicionarTypingIndicator() {
+    const chatArea = document.getElementById('chatArea');
+    const id = 'typing-' + Date.now();
+    
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot';
+    typingDiv.id = id;
+    typingDiv.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div>
+            <div class="message-bubble">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    chatArea.appendChild(typingDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+    
+    return id;
+}
+
+function removerTypingIndicator(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.remove();
+    }
+}
+
+// ============================================
+// FORMATAR TEXTO (MARKDOWN SIMPLES)
+// ============================================
+function formatarTexto(texto) {
+    // Código inline
+    texto = texto.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // Código em bloco
+    texto = texto.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
+    
+    // Negrito
+    texto = texto.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    // Itálico
+    texto = texto.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    
+    // Linhas em branco para parágrafos
+    texto = texto.replace(/\n\n/g, '</p><p>');
+    texto = '<p>' + texto + '</p>';
+    texto = texto.replace(/<p><\/p>/g, '');
+    
+    return texto;
+}
+
+// ============================================
+// LIMPAR CHAT
+// ============================================
+function limparChat() {
+    if (historicoConversa.length <= 1) return;
+    
+    if (confirm('Tens a certeza que queres limpar toda a conversa?')) {
+        // Manter apenas a mensagem do sistema
+        historicoConversa = [historicoConversa[0]];
+        
+        const chatArea = document.getElementById('chatArea');
+        chatArea.innerHTML = '';
+        
+        // Recriar card de boas-vindas
+        const welcomeCard = document.createElement('div');
+        welcomeCard.className = 'welcome-card';
+        welcomeCard.id = 'welcomeCard';
+        welcomeCard.innerHTML = `
+            <div class="welcome-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Olá! Eu sou o teu Tutor Virtual</h2>
+            <p>
+                Podes perguntar-me qualquer coisa sobre as tuas matérias escolares. 
+                Estou aqui para te ajudar a aprender!
+            </p>
+            <div class="suggestion-chips">
+                <button class="suggestion-chip" onclick="enviarSugestao('Explica o que é uma equação do 1º grau')">
+                    <i class="fas fa-calculator"></i> Equações do 1º grau
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Quais foram as causas da Revolução Industrial?')">
+                    <i class="fas fa-industry"></i> Revolução Industrial
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Como funciona o sistema digestivo humano?')">
+                    <i class="fas fa-heart"></i> Sistema Digestivo
+                </button>
+                <button class="suggestion-chip" onclick="enviarSugestao('Resolve este problema: 3x + 7 = 22')">
+                    <i class="fas fa-pencil"></i> Resolver Problema
+                </button>
+            </div>
+        `;
+        chatArea.appendChild(welcomeCard);
+        
+        showToast('Conversa limpa!', 'success');
+    }
+}
+
+// ============================================
+// TOAST DE NOTIFICAÇÃO
+// ============================================
+function showToast(message, type = "success") {
+    const toast = document.getElementById("toast");
+    const icon = toast.querySelector("i");
+    const msg = document.getElementById("toastMessage");
+    
+    if (type === "error") {
+        icon.className = "fas fa-exclamation-circle";
+        toast.style.borderColor = "#ef4444";
+        icon.style.color = "#ef4444";
+    } else if (type === "warning") {
+        icon.className = "fas fa-exclamation-triangle";
+        toast.style.borderColor = "#f59e0b";
+        icon.style.color = "#f59e0b";
+    } else {
+        icon.className = "fas fa-check-circle";
+        toast.style.borderColor = "#10b981";
+        icon.style.color = "#10b981";
+    }
+    
+    msg.textContent = message;
+    toast.classList.add("show");
+    
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3500);
+}
+
+// Focar no input ao carregar
+document.getElementById('chatInput').focus();
+</script>
+
+</body>
+</html>
