@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NotaAlta • Múltipla Escolha</title>
+    <meta name="theme-color" content="#0a0a2e">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --primary-light: #FF8C5A;
+            --bg-deep: #060614;
+            --bg-space: #0a0a2e;
+            --bg-mid: #0d0d3d;
+            --bg-light: #101045;
+            --text: #f1f5f9;
+            --text-secondary: #b0b0d0;
+            --glass: rgba(10, 10, 46, 0.7);
+            --glass-border: rgba(255, 107, 53, 0.15);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+            padding: 14px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,107,53,0.08);
+            border-color: #FF6B35;
+        }
+
+        .header-title h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .header-badge {
+            background: rgba(255,107,53,0.08);
+            border: 1px solid rgba(255,107,53,0.2);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #FF8C5A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Main */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 16px 50px;
+        }
+
+        /* Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 28px 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B35, #FF8C5A);
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #fff, #FF6B35);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title i {
+            color: #FF6B35;
+            font-size: 1.3rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-label i {
+            color: #FF6B35;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 13px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #E55A2B);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #FF6B35;
+            color: #FF6B35;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-3px);
+        }
+
+        /* Placar */
+        .score-bar {
+            display: none;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 16px 22px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .score-bar.active {
+            display: block;
+        }
+
+        .score-bar i {
+            color: #10b981;
+            margin-right: 6px;
+        }
+
+        .score-value {
+            color: #10b981;
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        /* Loading */
+        .loading-container {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .loading-container.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.08);
+            border-top: 4px solid #FF6B35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 18px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .loading-text i {
+            color: #FF6B35;
+            margin-right: 6px;
+        }
+
+        /* Cards de Pergunta */
+        .question-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .question-card:nth-child(1) { animation-delay: 0.1s; }
+        .question-card:nth-child(2) { animation-delay: 0.2s; }
+        .question-card:nth-child(3) { animation-delay: 0.3s; }
+        .question-card:nth-child(4) { animation-delay: 0.4s; }
+        .question-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .question-card.correct {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
+        }
+
+        .question-card.wrong {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+        }
+
+        .question-number {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 18px;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-option {
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            color: var(--text);
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-option .option-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(255,107,53,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #FF8C5A;
+            flex-shrink: 0;
+        }
+
+        .btn-option:hover:not(:disabled) {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .btn-option.correct-selected {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+        }
+
+        .btn-option.correct-selected .option-letter {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .btn-option.wrong-selected {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+        }
+
+        .btn-option.wrong-selected .option-letter {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-option.show-correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .btn-option.show-correct .option-letter {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .btn-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback-message {
+            margin-top: 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: none;
+            align-items: flex-start;
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .feedback-message.show {
+            display: flex;
+        }
+
+        .feedback-message.correct-fb {
+            color: #10b981;
+        }
+
+        .feedback-message.wrong-fb {
+            color: #ef4444;
+        }
+
+        .explanation-box {
+            margin-top: 8px;
+            padding: 14px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .explanation-box i {
+            color: #f59e0b;
+            margin-right: 6px;
+        }
+
+        /* Resultado Final */
+        .final-result {
+            display: none;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 35px 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .final-result.active {
+            display: block;
+        }
+
+        .final-result .trophy-icon {
+            font-size: 4rem;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .final-result h2 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, #FF6B35);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 15px 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .final-message {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #101045;
+            border: 1px solid #10b981;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1000;
+            transition: transform 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-title h1 {
+                font-size: 0.95rem;
+            }
+            .final-score {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <a href="home.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-title">
+                <h1>Múltipla Escolha</h1>
+            </div>
+        </div>
+        <div class="header-badge">
+            <i class="fas fa-list-check"></i> Testa o Teu Conhecimento
+        </div>
+    </div>
+</header>
+
+<!-- Main -->
+<main class="main-container">
+    
+    <!-- Card de Configuração -->
+    <div class="glass-card" id="configCard">
+        <div class="section-title">
+            <i class="fas fa-sliders-h"></i> Configurar Exercícios
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-book"></i> Tema
+                </label>
+                <input type="text" id="tema" class="form-input" 
+                       placeholder="Ex: Equações do 1º Grau, Revolução Industrial...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-hashtag"></i> Quantidade (5-15)
+                </label>
+                <input type="number" id="quantidade" class="form-input" 
+                       min="5" max="15" value="10">
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" id="btnGerar" onclick="gerarExercicios()">
+            <i class="fas fa-bolt"></i> Gerar Exercícios
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-container" id="loadingContainer">
+        <div class="spinner"></div>
+        <p class="loading-text">
+            <i class="fas fa-robot"></i> IA a gerar exercícios personalizados...
+        </p>
+    </div>
+
+    <!-- Placar -->
+    <div class="score-bar" id="scoreBar">
+        <i class="fas fa-check-circle"></i> 
+        Acertos: <span class="score-value" id="acertos">0</span> / <span id="total">0</span>
+    </div>
+
+    <!-- Container de Perguntas -->
+    <div id="questionsContainer"></div>
+
+    <!-- Resultado Final -->
+    <div class="final-result" id="finalResult">
+        <div class="trophy-icon">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <h2>Resultado Final</h2>
+        <div class="final-score" id="finalScoreDisplay">0/0</div>
+        <p class="final-message" id="finalMessage"></p>
+        <button class="btn btn-outline" onclick="novosExercicios()">
+            <i class="fas fa-redo-alt"></i> Gerar Outros Exercícios
+        </button>
+    </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage"></span>
+</div>
+
+<script>
+// ============================================
+// CONFIGURAÇÃO API GROQ
+// ============================================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+
+// ============================================
+// VARIÁVEIS GLOBAIS
+// ============================================
+let perguntas = [];
+let respostasUsuario = [];
+let acertos = 0;
+let temaAtual = "";
+let quantidadeAtual = 10;
+const LETRAS = ['A', 'B', 'C', 'D'];
+
+// ============================================
+// FUNÇÃO PRINCIPAL: GERAR EXERCÍCIOS
+// ============================================
+async function gerarExercicios() {
+    const tema = document.getElementById("tema").value.trim();
+    const quantidade = parseInt(document.getElementById("quantidade").value);
+
+    if (!tema) {
+        showToast("Por favor, digite um tema!", "warning");
+        return;
+    }
+    if (quantidade < 5 || quantidade > 15) {
+        showToast("A quantidade deve ser entre 5 e 15!", "warning");
+        return;
+    }
+
+    temaAtual = tema;
+    quantidadeAtual = quantidade;
+
+    perguntas = [];
+    respostasUsuario = [];
+    acertos = 0;
+
+    document.getElementById("configCard").style.display = "none";
+    document.getElementById("loadingContainer").classList.add("active");
+    document.getElementById("scoreBar").classList.remove("active");
+    document.getElementById("finalResult").classList.remove("active");
+    document.getElementById("questionsContainer").innerHTML = "";
+
+    try {
+        perguntas = await chamarIAMultiplaEscolha(tema, quantidade);
+        
+        document.getElementById("loadingContainer").classList.remove("active");
+        document.getElementById("scoreBar").classList.add("active");
+        document.getElementById("total").textContent = perguntas.length;
+        document.getElementById("acertos").textContent = "0";
+        
+        renderizarPerguntas();
+        showToast(`${perguntas.length} exercícios gerados com sucesso!`, "success");
+        
+    } catch (erro) {
+        document.getElementById("loadingContainer").classList.remove("active");
+        document.getElementById("configCard").style.display = "block";
+        showToast("Erro ao gerar: " + erro.message, "error");
+        console.error(erro);
+    }
+}
+
+// ============================================
+// CHAMADA À API GROQ - MÚLTIPLA ESCOLHA
+// ============================================
+async function chamarIAMultiplaEscolha(tema, quantidade) {
+    const prompt = `Gere exatamente ${quantidade} perguntas de múltipla escolha sobre "${tema}" para estudantes.
+
+REGRAS OBRIGATÓRIAS:
+1. Retorne APENAS um array JSON puro, sem texto antes ou depois
+2. Cada objeto deve ter: "pergunta" (string), "opcoes" (array com 4 strings), "correta" (string com a resposta correta) e "explicacao" (string com explicação da resposta)
+3. A resposta correta deve ser EXATAMENTE igual a uma das opções
+4. As opções devem ser plausíveis e bem elaboradas
+5. Use português de Portugal
+
+EXEMPLO DE RESPOSTA:
+[
+  {
+    "pergunta": "Qual é o valor de x na equação 2x + 4 = 10?",
+    "opcoes": ["2", "3", "4", "5"],
+    "correta": "3",
+    "explicacao": "2x + 4 = 10 → 2x = 10 - 4 → 2x = 6 → x = 6 ÷ 2 → x = 3"
+  },
+  {
+    "pergunta": "Quem escreveu 'Os Lusíadas'?",
+    "opcoes": ["Fernando Pessoa", "Luís de Camões", "Eça de Queirós", "Gil Vicente"],
+    "correta": "Luís de Camões",
+    "explicacao": "'Os Lusíadas' é uma obra épica escrita por Luís de Camões, publicada em 1572, que narra as aventuras dos navegadores portugueses."
+  }
+]`;
+
+    const response = await fetch(GROQ_API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [
+                {
+                    role: "system",
+                    content: "És um gerador de exercícios educativos de múltipla escolha. Respondes SEMPRE apenas com JSON puro, sem markdown, sem explicações. Apenas o array JSON com perguntas, opções, correta e explicacao."
+                },
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ],
+            temperature: 0.7,
+            max_tokens: 3000
+        })
+    });
+
+    if (!response.ok) {
+        const erroTexto = await response.text();
+        throw new Error(`API respondeu com erro ${response.status}: ${erroTexto}`);
+    }
+
+    const data = await response.json();
+    let conteudo = data.choices[0].message.content;
+    
+    // Limpar markdown e textos extras
+    conteudo = conteudo
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+    
+    // Extrair apenas o array JSON
+    const match = conteudo.match(/\[[\s\S]*\]/);
+    if (!match) {
+        throw new Error("Resposta da IA não contém JSON válido");
+    }
+    
+    const perguntasParse = JSON.parse(match[0]);
+    
+    if (!Array.isArray(perguntasParse)) {
+        throw new Error("Resposta da IA não é um array");
+    }
+    
+    perguntasParse.forEach((p, i) => {
+        if (!p.pergunta || !Array.isArray(p.opcoes) || p.opcoes.length !== 4 || !p.correta) {
+            throw new Error(`Pergunta ${i + 1} com estrutura inválida`);
+        }
+    });
+    
+    return perguntasParse;
+}
+
+// ============================================
+// RENDERIZAR PERGUNTAS
+// ============================================
+function renderizarPerguntas() {
+    const container = document.getElementById("questionsContainer");
+    container.innerHTML = "";
+
+    perguntas.forEach((pergunta, index) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = `question-${index}`;
+        
+        let opcoesHTML = '';
+        pergunta.opcoes.forEach((opcao, i) => {
+            opcoesHTML += `
+                <button class="btn-option" id="btn-opcao-${index}-${i}" onclick="responder(${index}, '${opcao.replace(/'/g, "\\'")}', ${i})">
+                    <span class="option-letter">${LETRAS[i]}</span>
+                    <span>${opcao}</span>
+                </button>
+            `;
+        });
+        
+        card.innerHTML = `
+            <div class="question-number">
+                <i class="fas fa-question-circle"></i> Pergunta ${index + 1} de ${perguntas.length}
+            </div>
+            <div class="question-text">${pergunta.pergunta}</div>
+            <div class="options-grid">
+                ${opcoesHTML}
+            </div>
+            <div class="feedback-message" id="feedback-${index}"></div>
+            <div class="explanation-box" id="explanation-${index}">
+                <i class="fas fa-lightbulb"></i> <span id="explanation-text-${index}"></span>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+
+    container.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ============================================
+// RESPONDER PERGUNTA
+// ============================================
+function responder(index, respostaUsuario, opcaoIndex) {
+    if (respostasUsuario[index] !== undefined) return;
+
+    const respostaCorreta = perguntas[index].correta;
+    const acertou = respostaUsuario === respostaCorreta;
+    
+    respostasUsuario[index] = acertou;
+    
+    if (acertou) {
+        acertos++;
+    }
+
+    document.getElementById("acertos").textContent = acertos;
+
+    const card = document.getElementById(`question-${index}`);
+    const feedback = document.getElementById(`feedback-${index}`);
+    const explanation = document.getElementById(`explanation-${index}`);
+    const explanationText = document.getElementById(`explanation-text-${index}`);
+
+    // Desabilitar todos os botões desta pergunta
+    for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById(`btn-opcao-${index}-${i}`);
+        btn.disabled = true;
+        
+        // Destacar a resposta correta
+        if (perguntas[index].opcoes[i] === respostaCorreta) {
+            btn.classList.add("correct-selected");
+        }
+    }
+
+    // Marcar a opção selecionada
+    const btnSelecionado = document.getElementById(`btn-opcao-${index}-${opcaoIndex}`);
+
+    if (acertou) {
+        card.classList.add("correct");
+        btnSelecionado.classList.add("correct-selected");
+        feedback.className = "feedback-message show correct-fb";
+        feedback.innerHTML = `<i class="fas fa-check-circle"></i> Correcto!`;
+        
+        // Mostrar explicação
+        if (perguntas[index].explicacao) {
+            explanationText.textContent = perguntas[index].explicacao;
+            explanation.classList.add("show");
+        }
+    } else {
+        card.classList.add("wrong");
+        btnSelecionado.classList.add("wrong-selected");
+        feedback.className = "feedback-message show wrong-fb";
+        feedback.innerHTML = `<i class="fas fa-times-circle"></i> Errado. A resposta correcta é: <strong>${respostaCorreta}</strong>`;
+        
+        // Mostrar explicação mesmo quando erra
+        if (perguntas[index].explicacao) {
+            explanationText.textContent = perguntas[index].explicacao;
+            explanation.classList.add("show");
+        }
+    }
+
+    verificarFim();
+}
+
+// ============================================
+// VERIFICAR FIM DO EXERCÍCIO
+// ============================================
+function verificarFim() {
+    const totalRespondidas = respostasUsuario.filter(r => r !== undefined).length;
+    
+    if (totalRespondidas === perguntas.length) {
+        setTimeout(() => {
+            const finalResult = document.getElementById("finalResult");
+            finalResult.classList.add("active");
+            
+            document.getElementById("finalScoreDisplay").textContent = `${acertos}/${perguntas.length}`;
+            
+            const porcentagem = (acertos / perguntas.length) * 100;
+            let mensagem = "";
+            if (porcentagem === 100) {
+                mensagem = "🏆 Perfeito! Domínio total do tema!";
+            } else if (porcentagem >= 80) {
+                mensagem = "👏 Excelente! Continua assim!";
+            } else if (porcentagem >= 60) {
+                mensagem = "📚 Bom trabalho! Ainda podes melhorar!";
+            } else if (porcentagem >= 40) {
+                mensagem = "💪 Continua a praticar!";
+            } else {
+                mensagem = "📖 Não desistas! Estuda mais este tema!";
+            }
+            document.getElementById("finalMessage").textContent = mensagem;
+            
+            finalResult.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 400);
+    }
+}
+
+// ============================================
+// NOVOS EXERCÍCIOS
+// ============================================
+function novosExercicios() {
+    document.getElementById("tema").value = temaAtual;
+    document.getElementById("quantidade").value = quantidadeAtual;
+    document.getElementById("configCard").style.display = "block";
+    document.getElementById("finalResult").classList.remove("active");
+    document.getElementById("scoreBar").classList.remove("active");
+    document.getElementById("questionsContainer").innerHTML = "";
+    
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ============================================
+// TOAST DE NOTIFICAÇÃO
+// ============================================
+function showToast(message, type = "success") {
+    const toast = document.getElementById("toast");
+    const icon = toast.querySelector("i");
+    const msg = document.getElementById("toastMessage");
+    
+    if (type === "error") {
+        icon.className = "fas fa-exclamation-circle";
+        toast.style.borderColor = "#ef4444";
+        icon.style.color = "#ef4444";
+    } else if (type === "warning") {
+        icon.className = "fas fa-exclamation-triangle";
+        toast.style.borderColor = "#f59e0b";
+        icon.style.color = "#f59e0b";
+    } else {
+        icon.className = "fas fa-check-circle";
+        toast.style.borderColor = "#10b981";
+        icon.style.color = "#10b981";
+    }
+    
+    msg.textContent = message;
+    toast.classList.add("show");
+    
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3500);
+}
+</script>
+
+</body>
+</html>
