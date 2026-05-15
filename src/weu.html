@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NotaAlta • Trabalho Universitário</title>
+    <meta name="theme-color" content="#0a0a2e">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+            color: #ffffff; min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+            padding: 14px 20px; position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        .header-content {
+            max-width: 800px; margin: 0 auto; display: flex; align-items: center;
+            justify-content: space-between; gap: 14px; flex-wrap: wrap;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .back-btn {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s; text-decoration: none;
+        }
+        .back-btn:hover { background: rgba(255,107,53,0.08); border-color: #FF6B35; }
+        .header-title h1 { font-size: 1.1rem; font-weight: 800; color: #ffffff; }
+        .header-badge {
+            background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2);
+            padding: 6px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 700;
+            color: #FF8C5A;
+        }
+        .main-container { max-width: 800px; margin: 0 auto; padding: 20px 16px 50px; }
+        .form-card {
+            background: rgba(10, 10, 46, 0.7); border-radius: 28px; padding: 28px 24px;
+            border: 1px solid rgba(255, 107, 53, 0.12); backdrop-filter: blur(15px);
+            margin-bottom: 20px;
+        }
+        .section-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .section-title i { color: #FF6B35; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+        .form-label i { color: #FF6B35; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; padding: 11px 14px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+            color: #ffffff; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+        }
+        .form-input:focus, .form-select:focus { outline: none; border-color: #FF6B35; }
+        .form-textarea { resize: vertical; min-height: 150px; font-family: 'Courier New', monospace; }
+        .btn {
+            padding: 13px 24px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; border: none; transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;
+            font-family: 'Nunito', sans-serif;
+        }
+        .btn-chatgpt { background: linear-gradient(135deg, #10a37f, #0e8a6c); color: #fff; }
+        .btn-chatgpt:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #FF6B35, #E55A2B); color: #fff; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; color: #8888aa; font-size: 0.75rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+        .result-container {
+            background: rgba(10, 10, 46, 0.7); border-radius: 28px; padding: 28px 24px;
+            border: 1px solid rgba(255, 107, 53, 0.12); margin-top: 20px;
+            display: none; animation: fadeInUp 0.4s ease;
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        .result-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 18px; padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px;
+        }
+        .result-title { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .result-title i { color: #10b981; }
+        .result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-sm {
+            padding: 7px 14px; border-radius: 25px; font-size: 0.75rem; font-weight: 600;
+            cursor: pointer; border: none; transition: all 0.3s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-sm-copy { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
+        .btn-sm-download { background: #10b981; color: #fff; }
+        .btn-sm-new { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
+        .result-content {
+            background: rgba(255,255,255,0.02); border-radius: 20px; padding: 22px;
+            font-size: 0.88rem; line-height: 1.8; color: #b0b0d0;
+            max-height: 500px; overflow-y: auto;
+        }
+        .result-content h1, .result-content h2 { color: #ffffff; margin: 14px 0 8px; }
+        .result-content h2 { color: #FF8C5A; }
+        .toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120px);
+            background: #101045; border: 1px solid #10b981; color: #fff;
+            padding: 12px 22px; border-radius: 40px; font-weight: 600; font-size: 0.85rem;
+            z-index: 1000; transition: transform 0.4s; display: flex; align-items: center; gap: 8px;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .form-card { padding: 20px 16px; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <a href="home.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="header-title"><h1>Gerar Trabalho • Universitário</h1></div>
+        </div>
+        <div class="header-badge"><i class="fas fa-university"></i> Universitário</div>
+    </div>
+</header>
+
+<main class="main-container">
+    <div class="form-card" id="formCard">
+        <div class="section-title"><i class="fas fa-file-alt"></i> Dados do Trabalho</div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lightbulb"></i> Tema do Trabalho</label>
+                <input type="text" id="tema" class="form-input" placeholder="Ex: O Direito à Educação em Moçambique">
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-graduation-cap"></i> Curso / Faculdade</label>
+                <input type="text" id="curso" class="form-input" placeholder="Ex: Direito, Medicina, Engenharia...">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"><i class="fas fa-tag"></i> Tipo de Trabalho</label>
+            <select id="tipoTrabalho" class="form-select">
+                <option value="">-- Selecione --</option>
+                <option value="Artigo Científico">Artigo Científico</option>
+                <option value="Monografia">Monografia / TCC</option>
+                <option value="Projeto de Pesquisa">Projeto de Pesquisa</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"><i class="fas fa-copy"></i> Número de Páginas (10 a 45)</label>
+            <input type="number" id="paginas" class="form-input" min="10" max="45" value="20">
+        </div>
+
+        <button class="btn btn-chatgpt" id="btnGerarPrompt" style="margin-bottom: 12px;">
+            <i class="fab fa-chatgpt"></i> Abrir no ChatGPT com Prompt
+        </button>
+
+        <div class="divider">Cole o JSON gerado abaixo</div>
+
+        <div class="form-group">
+            <label class="form-label"><i class="fas fa-code"></i> JSON do ChatGPT</label>
+            <textarea id="jsonInput" class="form-textarea" placeholder='Cole aqui o JSON que o ChatGPT gerou...'></textarea>
+        </div>
+
+        <button class="btn btn-primary" id="btnProcessar">
+            <i class="fas fa-magic"></i> Processar JSON e Gerar Trabalho
+        </button>
+    </div>
+
+    <div class="result-container" id="resultContainer">
+        <div class="result-header">
+            <div class="result-title"><i class="fas fa-check-circle"></i> Trabalho Gerado</div>
+            <div class="result-actions">
+                <button class="btn-sm btn-sm-copy" id="btnCopiar"><i class="fas fa-copy"></i> Copiar</button>
+                <button class="btn-sm btn-sm-download" id="btnBaixar"><i class="fas fa-download"></i> Baixar TXT</button>
+                <button class="btn-sm btn-sm-new" id="btnNovo"><i class="fas fa-plus"></i> Novo</button>
+            </div>
+        </div>
+        <div class="result-content" id="resultContent"></div>
+    </div>
+</main>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage"></span></div>
+
+<script>
+    const API_URL = "https://notaalta-api.onrender.com";
+    
+    async function gerarPrompt() {
+        const tema = document.getElementById('tema').value.trim();
+        const curso = document.getElementById('curso').value.trim();
+        const tipoTrabalho = document.getElementById('tipoTrabalho').value;
+        const paginas = parseInt(document.getElementById('paginas').value);
+        
+        if (!tema) { showToast('Insira o tema do trabalho.', 'warning'); return; }
+        if (!curso) { showToast('Insira o curso.', 'warning'); return; }
+        if (!tipoTrabalho) { showToast('Selecione o tipo de trabalho.', 'warning'); return; }
+        if (paginas < 10 || paginas > 45) { showToast('Páginas: mínimo 10, máximo 45.', 'warning'); return; }
+        
+        const btn = document.getElementById('btnGerarPrompt');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando prompt...';
+        btn.disabled = true;
+        
+        try {
+            const response = await fetch(`${API_URL}/api/trabalho/universitario/gerar-prompt`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tema, curso, tipoTrabalho, paginas })
+            });
+            const data = await response.json();
+            if (data.success && data.url) {
+                window.open(data.url, '_blank');
+                showToast('Prompt gerado! Cole o JSON no campo abaixo.', 'success');
+            } else {
+                showToast('Erro: ' + (data.error || 'Tente novamente'), 'error');
+            }
+        } catch (error) {
+            showToast('Erro de conexão: ' + error.message, 'error');
+        } finally {
+            btn.innerHTML = '<i class="fab fa-chatgpt"></i> Abrir no ChatGPT com Prompt';
+            btn.disabled = false;
+        }
+    }
+    
+    async function processarJSON() {
+        const jsonText = document.getElementById('jsonInput').value.trim();
+        const tema = document.getElementById('tema').value.trim();
+        const curso = document.getElementById('curso').value.trim();
+        
+        if (!jsonText) { showToast('Cole o JSON do ChatGPT primeiro.', 'warning'); return; }
+        
+        const btn = document.getElementById('btnProcessar');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+        btn.disabled = true;
+        
+        try {
+            const response = await fetch(`${API_URL}/api/trabalho/universitario/processar`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jsonText, tema, curso })
+            });
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById('resultContent').innerHTML = data.html;
+                document.getElementById('formCard').style.display = 'none';
+                document.getElementById('resultContainer').style.display = 'block';
+                showToast('Trabalho processado com sucesso!', 'success');
+                window.scrollTo({ top: document.getElementById('resultContainer').offsetTop - 80, behavior: 'smooth' });
+            } else {
+                showToast('Erro: ' + data.error, 'error');
+            }
+        } catch (error) {
+            showToast('Erro ao processar: ' + error.message, 'error');
+        } finally {
+            btn.innerHTML = '<i class="fas fa-magic"></i> Processar JSON e Gerar Trabalho';
+            btn.disabled = false;
+        }
+    }
+    
+    function copiarTrabalho() {
+        const conteudo = document.getElementById('resultContent').innerText;
+        navigator.clipboard.writeText(conteudo);
+        showToast('Trabalho copiado para a área de transferência!', 'success');
+    }
+    
+    function baixarTrabalho() {
+        const conteudo = document.getElementById('resultContent').innerText;
+        const tema = document.getElementById('tema').value || 'trabalho';
+        const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Trabalho_Universitario_${tema.replace(/\s+/g, '_')}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Download iniciado!', 'success');
+    }
+    
+    function novoTrabalho() {
+        document.getElementById('resultContainer').style.display = 'none';
+        document.getElementById('formCard').style.display = 'block';
+        document.getElementById('jsonInput').value = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const icon = toast.querySelector('i');
+        const msg = document.getElementById('toastMessage');
+        if (type === 'error') { icon.className = 'fas fa-exclamation-circle'; toast.style.borderColor = '#ef4444'; icon.style.color = '#ef4444'; }
+        else if (type === 'warning') { icon.className = 'fas fa-exclamation-triangle'; toast.style.borderColor = '#f59e0b'; icon.style.color = '#f59e0b'; }
+        else { icon.className = 'fas fa-check-circle'; toast.style.borderColor = '#10b981'; icon.style.color = '#10b981'; }
+        msg.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+    
+    document.getElementById('btnGerarPrompt').onclick = gerarPrompt;
+    document.getElementById('btnProcessar').onclick = processarJSON;
+    document.getElementById('btnCopiar').onclick = copiarTrabalho;
+    document.getElementById('btnBaixar').onclick = baixarTrabalho;
+    document.getElementById('btnNovo').onclick = novoTrabalho;
+</script>
+</body>
+</html>
