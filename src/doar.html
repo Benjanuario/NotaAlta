@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doações - Apoie o Projecto</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #FF6B35;
+    --primary-dark: #E55A2B;
+    --secondary: #7c3aed;
+    --accent: #f59e0b;
+    --accent-dark: #d97706;
+    --bg-deep: #060614;
+    --bg-space: #0a0a2e;
+    --bg-mid: #0d0d3d;
+    --bg-light: #101045;
+    --light: #f9fafb;
+    --gray: #6b7280;
+    --success: #10b981;
+    --card-bg: rgba(10, 10, 46, 0.6);
+    --glass: rgba(255, 255, 255, 0.05);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+    color: var(--light);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+    z-index: -1;
+  }
+
+  .container { max-width: 600px; margin: 0 auto; }
+
+  header {
+    background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    border-radius: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+  }
+
+  header i { font-size: 24px; color: #FF6B35; }
+
+  .main-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 107, 53, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 12px;
+  }
+
+  .card-title i { color: #FF6B35; }
+
+  .intro-text { color: #b0b0d0; margin-bottom: 25px; line-height: 1.6; font-size: 14px; }
+
+  .valor-section {
+    background: rgba(255, 107, 53, 0.05);
+    border-radius: 16px;
+    padding: 30px 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 1px solid rgba(255, 107, 53, 0.15);
+    transition: var(--transition);
+  }
+
+  .valor-section:focus-within { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+
+  .valor-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--light);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .valor-label i { color: #f59e0b; font-size: 18px; }
+
+  .valor-input-wrapper { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px; }
+
+  .valor-prefixo { font-size: 28px; font-weight: 700; color: #f59e0b; }
+
+  .valor-input {
+    width: 180px;
+    padding: 14px 18px;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    transition: var(--transition);
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .valor-input:focus {
+    outline: none;
+    border-color: #FF6B35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .valor-input::placeholder { color: #555; font-size: 22px; }
+  .valor-sufixo { font-size: 18px; font-weight: 600; color: #b0b0d0; }
+
+  .valor-hint { font-size: 12px; color: #888; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  .valor-hint i { color: #f59e0b; }
+
+  .btn-doar-principal {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #FF6B35, #E55A2B);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 18px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .btn-doar-principal:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4); }
+  .btn-doar-principal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .carteiras-section { display: none; margin-bottom: 25px; animation: fadeInUp 0.4s ease; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .carteiras-titulo { text-align: center; font-size: 16px; font-weight: 600; margin-bottom: 15px; color: var(--light); display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+  .carteiras-grid { display: grid; gap: 12px; }
+
+  .carteira-card {
+    border-radius: 16px; padding: 20px; text-align: center; cursor: pointer;
+    transition: var(--transition); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .carteira-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); }
+
+  .carteira-card i { font-size: 32px; margin-bottom: 8px; }
+  .carteira-card .carteira-nome { font-size: 18px; font-weight: 800; margin-bottom: 4px; color: white; }
+  .carteira-card .carteira-desc { font-size: 12px; opacity: 0.9; color: #b0b0d0; }
+
+  .carteira-mpesa { background: linear-gradient(135deg, #0a0a2e, #0d0d3d); border-color: rgba(0, 238, 255, 0.2); }
+  .carteira-mpesa:hover { border-color: #00eeff; box-shadow: 0 10px 25px rgba(0, 238, 255, 0.15); }
+  .carteira-mpesa i { color: #00eeff; }
+
+  .carteira-emola { background: linear-gradient(135deg, #0a0a2e, #0d0d3d); border-color: rgba(255, 107, 53, 0.2); }
+  .carteira-emola:hover { border-color: #FF6B35; box-shadow: 0 10px 25px rgba(255, 107, 53, 0.15); }
+  .carteira-emola i { color: #FF6B35; }
+
+  .metodos-manuais { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  .metodos-manuais-titulo { text-align: center; font-size: 13px; color: #b0b0d0; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .metodos-manuais-titulo i { color: #f59e0b; }
+  .metodos-grid { display: grid; gap: 10px; }
+
+  .metodo-item {
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; transition: var(--transition);
+  }
+
+  .metodo-item i { font-size: 22px; width: 30px; text-align: center; }
+  .metodo-item .metodo-info { flex: 1; }
+  .metodo-item .metodo-nome { font-size: 14px; font-weight: 700; color: white; }
+  .metodo-item .metodo-numero { font-size: 16px; font-weight: 800; color: #FF6B35; font-family: monospace; }
+
+  .btn-copiar-sm {
+    padding: 8px 14px; font-size: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700;
+    display: flex; align-items: center; gap: 5px; background: #f59e0b; color: #1a1a2e; transition: var(--transition);
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .btn-copiar-sm:hover { background: var(--accent-dark); transform: scale(1.02); }
+
+  .confirmacao-card {
+    background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px; padding: 15px; text-align: center; margin: 20px 0;
+  }
+
+  .confirmacao-card p { display: flex; align-items: center; justify-content: center; gap: 8px; color: #ccc; }
+  .confirmacao-card i { color: var(--success); }
+  .confirmacao-card strong { color: #4ade80; }
+
+  .whatsapp-card {
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.06), rgba(18, 140, 126, 0.03));
+    border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 16px; padding: 18px; margin: 20px 0; text-align: center; transition: var(--transition);
+  }
+
+  .whatsapp-card:hover { border-color: #25D366; box-shadow: 0 8px 20px rgba(37, 211, 102, 0.1); }
+  .whatsapp-card h3 { margin-bottom: 8px; font-size: 16px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .whatsapp-card p { margin-bottom: 15px; font-size: 13px; color: #b0b0d0; }
+
+  .btn-whatsapp {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #25D366; color: white;
+    border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: var(--transition);
+    text-decoration: none; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); font-family: 'Nunito', sans-serif;
+  }
+
+  .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); }
+
+  footer { text-align: center; padding: 20px; font-size: 13px; color: #888; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 20px; }
+
+  .loader-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(6, 6, 20, 0.95); backdrop-filter: blur(10px); z-index: 9998;
+    justify-content: center; align-items: center; flex-direction: column;
+  }
+
+  .loader-overlay.active { display: flex; }
+
+  .loader-spinner {
+    width: 70px; height: 70px; border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid #FF6B35; border-right: 4px solid #FF8C5A;
+    border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;
+  }
+
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  .loader-text { color: white; font-size: 16px; font-weight: 600; }
+
+  #modalAgradecimento {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(6, 6, 20, 0.95); z-index: 9999; justify-content: center; align-items: center;
+    backdrop-filter: blur(12px);
+  }
+
+  #modalAgradecimento .modal-content {
+    background: linear-gradient(135deg, #0a0a2e, #0d0d3d); border-radius: 28px; padding: 35px 30px;
+    text-align: center; max-width: 480px; width: 90%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 107, 53, 0.2); animation: modalAppear 0.5s ease-out; position: relative; overflow: hidden;
+  }
+
+  #modalAgradecimento .modal-content::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, #FF6B35, #10b981);
+  }
+
+  @keyframes modalAppear {
+    from { opacity: 0; transform: translateY(-40px) scale(0.85); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-icon-wrapper {
+    width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 42px; color: white; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+    animation: pulseVerde 2s infinite;
+  }
+
+  @keyframes pulseVerde {
+    0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
+    50% { transform: scale(1.08); box-shadow: 0 15px 40px rgba(16, 185, 129, 0.6); }
+  }
+
+  #modalAgradecimento h3 { color: #4ade80; margin-bottom: 12px; font-size: 26px; font-weight: 900; }
+  #modalAgradecimento .mensagem-principal { font-size: 16px; color: #e5e7eb; margin-bottom: 10px; line-height: 1.6; }
+  #modalAgradecimento .mensagem-principal strong { color: #FF6B35; }
+  #modalAgradecimento .mensagem-secundaria { font-size: 14px; color: #b0b0d0; margin-bottom: 20px; line-height: 1.5; }
+
+  #modalAgradecimento .detalhes-doacao {
+    background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 15px; margin: 15px 0;
+    text-align: left; border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  #modalAgradecimento .detalhes-doacao p { margin-bottom: 8px; font-size: 14px; color: #ccc; display: flex; align-items: center; gap: 8px; }
+  #modalAgradecimento .detalhes-doacao i { color: #f59e0b; width: 20px; text-align: center; }
+  #modalAgradecimento .detalhes-doacao strong { color: #4ade80; }
+
+  #modalAgradecimento .btn-fechar-modal {
+    margin-top: 15px; padding: 14px 30px; background: linear-gradient(135deg, #FF6B35, #E55A2B);
+    color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; font-size: 16px;
+    transition: var(--transition); font-family: 'Nunito', sans-serif; display: inline-flex;
+    align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  }
+
+  #modalAgradecimento .btn-fechar-modal:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4); }
+
+  #modalAgradecimento .frase-incentivo {
+    background: rgba(255, 107, 53, 0.08); border-left: 4px solid #FF6B35;
+    padding: 12px 15px; margin-top: 15px; border-radius: 8px; text-align: left;
+    font-size: 13px; color: #ddd; line-height: 1.5;
+  }
+
+  #modalAgradecimento .frase-incentivo i { color: #FF6B35; margin-right: 6px; }
+
+  .notification {
+    position: fixed; top: 20px; right: 20px; background: #0a0a2e; border-left: 4px solid var(--success);
+    color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10000; font-weight: 600; animation: slideIn 0.3s ease-out; max-width: 350px;
+    display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px);
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 0; }
+    .valor-input { width: 140px; font-size: 28px; }
+    .carteira-card { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <i class="fas fa-hand-holding-heart"></i> Apoie o Projecto
+  </header>
+
+  <div class="main-card">
+    <h2 class="card-title"><i class="fas fa-heart"></i> Faça a Diferença</h2>
+    <p class="intro-text">
+      A sua contribuição, independentemente do valor, ajuda este projecto a crescer e a alcançar mais pessoas. 
+      Cada doação é um investimento no futuro da educação.
+    </p>
+
+    <div class="valor-section">
+      <div class="valor-label"><i class="fas fa-coins"></i> Qual o valor que deseja doar?</div>
+      <div class="valor-input-wrapper">
+        <span class="valor-prefixo">MT</span>
+        <input type="number" id="valorDoacao" class="valor-input" placeholder="50" min="1" max="5000">
+        <span class="valor-sufixo">.00</span>
+      </div>
+      <div class="valor-hint"><i class="fas fa-info-circle"></i> Insira o valor que deseja contribuir (mínimo 1 MT)</div>
+    </div>
+
+    <button class="btn-doar-principal" id="btnDoarPrincipal" onclick="mostrarCarteiras()">
+      <i class="fas fa-hand-holding-heart"></i> FAZER DOAÇÃO
+    </button>
+
+    <div class="carteiras-section" id="carteirasSection">
+      <div class="carteiras-titulo"><i class="fas fa-credit-card"></i> Seleccione o método de pagamento:</div>
+      <div class="carteiras-grid">
+        <div class="carteira-card carteira-mpesa" onclick="processarDoacao('mpesa')">
+          <i class="fas fa-mobile-alt"></i>
+          <div class="carteira-nome">M-PESA</div>
+          <div class="carteira-desc">Pagamento rápido e seguro</div>
+        </div>
+        <div class="carteira-card carteira-emola" onclick="processarDoacao('emola')">
+          <i class="fas fa-wallet"></i>
+          <div class="carteira-nome">EMOLA</div>
+          <div class="carteira-desc">Pagamento rápido e seguro</div>
+        </div>
+      </div>
+
+      <div class="metodos-manuais">
+        <div class="metodos-manuais-titulo"><i class="fas fa-exclamation-triangle"></i> Se o pagamento automático falhar, use a transferência manual:</div>
+        <div class="metodos-grid">
+          <div class="metodo-item">
+            <i class="fas fa-wallet" style="color: #FF6B35;"></i>
+            <div class="metodo-info">
+              <div class="metodo-nome">Emola</div>
+              <div class="metodo-numero">864920606</div>
+            </div>
+            <button class="btn-copiar-sm" onclick="copiarTexto('864920606')"><i class="fas fa-copy"></i> Copiar</button>
+          </div>
+          <div class="metodo-item">
+            <i class="fas fa-mobile-alt" style="color: #00eeff;"></i>
+            <div class="metodo-info">
+              <div class="metodo-nome">Mpesa</div>
+              <div class="metodo-numero">848960732</div>
+            </div>
+            <button class="btn-copiar-sm" onclick="copiarTexto('848960732')"><i class="fas fa-copy"></i> Copiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirmacao-card">
+      <p><i class="fas fa-user-check"></i><strong>Nome de Confirmação:</strong> Benjamim Januário Paulino</p>
+    </div>
+
+    <div class="whatsapp-card">
+      <h3><i class="fab fa-whatsapp"></i> Dúvidas ou Precisa de Ajuda?</h3>
+      <p>Entre em contacto connosco pelo WhatsApp</p>
+      <a href="https://wa.me/258864920606" target="_blank" class="btn-whatsapp">
+        <i class="fab fa-whatsapp"></i> Enviar Mensagem
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <i class="far fa-copyright"></i> 2026 NotaAlta - Recurso ao Estudante Moderno<br>
+    <strong>By: Prof. Benjanuário</strong>
+  </footer>
+</div>
+
+<div class="loader-overlay" id="loaderContainer">
+  <div class="loader-spinner"></div>
+  <div class="loader-text" id="loaderText">Processando doação...</div>
+</div>
+
+<div id="modalAgradecimento">
+  <div class="modal-content">
+    <div class="modal-icon-wrapper"><i class="fas fa-check-circle"></i></div>
+    <h3>Doação Recebida com Sucesso!</h3>
+    <p class="mensagem-principal">A sua contribuição de <strong id="valorDoado">0 MT</strong> foi processada correctamente.</p>
+    <p class="mensagem-secundaria">Agradecemos profundamente pelo seu gesto de generosidade e compromisso com a educação.</p>
+    <div class="detalhes-doacao">
+      <p><i class="fas fa-mobile-alt"></i> <strong>Método:</strong> <span id="metodoUsado">—</span></p>
+      <p><i class="fas fa-coins"></i> <strong>Valor:</strong> <span id="valorDetalhe">—</span></p>
+      <p><i class="fas fa-phone-alt"></i> <strong>Telefone:</strong> <span id="telefoneDoacao">—</span></p>
+      <p><i class="fas fa-receipt"></i> <strong>Referência:</strong> <span id="referenciaDoacao">—</span></p>
+    </div>
+    <div class="frase-incentivo">
+      <i class="fas fa-quote-right"></i>
+      <span id="fraseIncentivo">"A generosidade não se mede pelo valor que se dá, mas pelo coração que se entrega."</span>
+    </div>
+    <button class="btn-fechar-modal" onclick="fecharModalAgradecimento()">
+      <i class="fas fa-heart"></i> Obrigado! Fechar
+    </button>
+  </div>
+</div>
+
+<script>
+const PAYSUITE_CONFIG = {
+    token: "1792|XjX8967fi8uJh0X6PsqQcCo8lfN2n04KcFRmJTfua16a21aa",
+    apiUrl: "https://paysuite.tech/api/v1/payments",
+    webhookUrl: "https://script.google.com/macros/s/AKfycbzfc4emCKMNZDW18_ikssbIuT14qHXKiUPcfU0geF0zdwMNeXWpQt3c1RtfVVqbt9lkyg/exec"
+};
+
+let valorSelecionado = 0;
+let verificacaoIntervalo = null;
+let tentativasVerificacao = 0;
+
+const frasesIncentivo = [
+    "A generosidade não se mede pelo valor que se dá, mas pelo coração que se entrega. O seu apoio faz a diferença na vida de muitos.",
+    "Cada contribuição, por menor que seja, é uma semente plantada no jardim do conhecimento. Obrigado por regar este projecto.",
+    "O mundo muda com pequenos gestos. A sua doação é a prova de que juntos podemos transformar a educação.",
+    "Quem compartilha o que tem, multiplica o que é. A sua generosidade inspira-nos a continuar.",
+    "Obrigado por acreditar neste projecto. O seu apoio é o combustível que nos move a fazer mais e melhor.",
+    "A educação é a arma mais poderosa para mudar o mundo. Obrigado por fazer parte desta missão."
+];
+
+function getTelefoneUsuario() {
+    try {
+        const usuarioLocal = JSON.parse(localStorage.getItem('usuario') || '{}');
+        return usuarioLocal.telefone || '000000000';
+    } catch(e) { return '000000000'; }
+}
+
+function extrairTelefoneDaReferencia(referencia) {
+    if (!referencia) return null;
+    const match = referencia.match(/^(\d{9})DOAR/);
+    return match ? match[1] : null;
+}
+
+function copiarTexto(texto) {
+  navigator.clipboard.writeText(texto).then(() => {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = `<i class="fas fa-check-circle"></i> Número copiado: ${texto}`;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.style.animation = 'slideIn 0.3s ease-out reverse';
+      setTimeout(() => { if (notification.parentNode) document.body.removeChild(notification); }, 300);
+    }, 3000);
+  }).catch(err => { alert('Erro ao copiar. Por favor, copie manualmente.'); });
+}
+
+function mostrarCarteiras() {
+  valorSelecionado = parseInt(document.getElementById('valorDoacao').value) || 0;
+  if (valorSelecionado < 1) { alert('Por favor, insira um valor válido (mínimo 1 MT).'); document.getElementById('valorDoacao').focus(); return; }
+  if (valorSelecionado > 5000) { alert('Para valores acima de 5.000 MT, por favor utilize a transferência manual ou contacte-nos pelo WhatsApp.'); return; }
+  const section = document.getElementById('carteirasSection');
+  section.style.display = 'block';
+  section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+async function processarDoacao(metodo) {
+  if (valorSelecionado < 1) { alert('Por favor, defina um valor para a doação.'); return; }
+  const loader = document.getElementById('loaderContainer');
+  const loaderText = document.getElementById('loaderText');
+  loader.classList.add('active');
+  loaderText.textContent = 'Redireccionando para doação...';
+  
+  const telefone = getTelefoneUsuario();
+  const timestamp = Date.now();
+  const random = Math.floor(Math.random() * 9000) + 1000;
+  const referencia = `${telefone}DOAR${timestamp}${random}`;
+  
+  try {
+    const response = await fetch(PAYSUITE_CONFIG.apiUrl, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${PAYSUITE_CONFIG.token}`, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        amount: valorSelecionado, method: metodo, reference: referencia,
+        description: `Doação Projecto - ${valorSelecionado} MT`.substring(0, 125),
+        return_url: window.location.href, callback_url: PAYSUITE_CONFIG.webhookUrl
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === 'success' && result.data && result.data.checkout_url) {
+      const doacaoData = { valor: valorSelecionado, metodo: metodo, referencia: referencia, telefone: telefone, timestamp: Date.now() };
+      sessionStorage.setItem('doacao_pendente', JSON.stringify(doacaoData));
+      window.location.href = result.data.checkout_url;
+    } else {
+      loader.classList.remove('active');
+      alert('Erro ao processar pagamento: ' + (result.message || 'Tente novamente.'));
+    }
+  } catch (error) {
+    console.error('Erro PaySuite:', error);
+    loader.classList.remove('active');
+    alert('Erro ao conectar com o serviço de pagamento. Por favor, tente novamente.');
+  }
+}
+
+function verificarPagamentoRetorno() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get('status');
+  const reference = urlParams.get('reference');
+  
+  if (paymentStatus === 'success' && reference) {
+    const telefoneExtraido = extrairTelefoneDaReferencia(reference);
+    const loader = document.getElementById('loaderContainer');
+    const loaderText = document.getElementById('loaderText');
+    loader.classList.add('active');
+    loaderText.textContent = 'Confirmando pagamento...';
+    
+    const doacaoPendente = sessionStorage.getItem('doacao_pendente');
+    let valor = 0; let metodo = '—'; let ref = reference; let telefone = telefoneExtraido || '—';
+    
+    if (doacaoPendente) {
+      try {
+        const dados = JSON.parse(doacaoPendente);
+        valor = dados.valor || 0;
+        metodo = dados.metodo === 'mpesa' ? 'M-PESA' : (dados.metodo === 'emola' ? 'EMOLA' : '—');
+        ref = dados.referencia || reference;
+        telefone = dados.telefone || telefoneExtraido || '—';
+      } catch(e) {}
+    }
+    
+    setTimeout(() => {
+      loader.classList.remove('active');
+      mostrarAgradecimento(valor, metodo, ref, telefone);
+      sessionStorage.removeItem('doacao_pendente');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }, 2000);
+  }
+  
+  verificarDoacaoPendente();
+}
+
+function verificarDoacaoPendente() {
+  const doacaoPendente = sessionStorage.getItem('doacao_pendente');
+  if (doacaoPendente) {
+    try {
+      const dados = JSON.parse(doacaoPendente);
+      const tempoDecorrido = Date.now() - dados.timestamp;
+      if (tempoDecorrido > 10000 && tempoDecorrido < 600000) {
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzfc4emCKMNZDW18_ikssbIuT14qHXKiUPcfU0geF0zdwMNeXWpQt3c1RtfVVqbt9lkyg/exec';
+        fetch(`${GAS_URL}?ref=${dados.referencia}&action=verificar`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.status === 'paid' || data.status === 'success') {
+              const telefone = dados.telefone || extrairTelefoneDaReferencia(dados.referencia) || '—';
+              mostrarAgradecimento(dados.valor, dados.metodo === 'mpesa' ? 'M-PESA' : 'EMOLA', dados.referencia, telefone);
+              sessionStorage.removeItem('doacao_pendente');
+            }
+          }).catch(err => console.log('Erro na verificação GAS:', err));
+      }
+    } catch(e) {}
+  }
+}
+
+function iniciarVerificacaoPeriodica() {
+  if (verificacaoIntervalo) return;
+  tentativasVerificacao = 0;
+  verificacaoIntervalo = setInterval(() => {
+    tentativasVerificacao++;
+    verificarDoacaoPendente();
+    if (tentativasVerificacao >= 12) { clearInterval(verificacaoIntervalo); verificacaoIntervalo = null; }
+  }, 5000);
+}
+
+function mostrarAgradecimento(valor, metodo, referencia, telefone) {
+  document.getElementById('valorDoado').textContent = `${valor.toLocaleString('pt-MZ')} MT`;
+  document.getElementById('valorDetalhe').textContent = `${valor.toLocaleString('pt-MZ')} MT`;
+  document.getElementById('metodoUsado').textContent = metodo;
+  document.getElementById('referenciaDoacao').textContent = referencia;
+  document.getElementById('telefoneDoacao').textContent = telefone || '—';
+  const fraseAleatoria = frasesIncentivo[Math.floor(Math.random() * frasesIncentivo.length)];
+  document.getElementById('fraseIncentivo').innerHTML = `<i class="fas fa-quote-right"></i> "${fraseAleatoria}"`;
+  document.getElementById('modalAgradecimento').style.display = 'flex';
+}
+
+function fecharModalAgradecimento() { document.getElementById('modalAgradecimento').style.display = 'none'; }
+
+document.addEventListener('DOMContentLoaded', function() {
+  verificarPagamentoRetorno();
+  iniciarVerificacaoPeriodica();
+  setTimeout(() => { document.getElementById('valorDoacao').focus(); }, 500);
+});
+
+window.mostrarCarteiras = mostrarCarteiras;
+window.processarDoacao = processarDoacao;
+window.copiarTexto = copiarTexto;
+window.fecharModalAgradecimento = fecharModalAgradecimento;
+</script>
+</body>
+</html>

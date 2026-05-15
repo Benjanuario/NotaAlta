@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <title>Sobre o NotaAlta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NotaAlta - Estuda hoje. Nota alta amanhã. Plataforma completa para estudantes com IA, simulados, trabalhos científicos e recursos educacionais.">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --primary-dark: #E55A2B;
+      --primary-light: #FF8C5A;
+      --bg-deep: #060614;
+      --bg-space: #0a0a2e;
+      --bg-mid: #0d0d3d;
+      --bg-light: #101045;
+      --text: #f1f5f9;
+      --text-secondary: #b0b0d0;
+      --glass: rgba(10, 10, 46, 0.7);
+      --glass-border: rgba(255, 107, 53, 0.15);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+    .hero {
+      background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+      color: white;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, #fff, #FF6B35);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .hero-tagline { font-size: 1.2rem; color: #b0b0d0; margin-bottom: 1.5rem; font-weight: 300; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+      color: white; padding: 0.6rem 1.5rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem; margin-top: 1rem;
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+    .main-content { padding: 2.5rem 0; display: grid; grid-template-columns: 1fr; gap: 1.8rem; }
+
+    .section-card {
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      border-radius: 18px; padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid var(--glass-border);
+      position: relative; overflow: hidden;
+    }
+
+    .section-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(255, 107, 53, 0.12);
+      border-color: rgba(255, 107, 53, 0.3);
+    }
+
+    .section-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, #FF6B35, #FF8C5A);
+    }
+
+    .section-icon {
+      font-size: 2rem; margin-bottom: 1.2rem; display: inline-block;
+      background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .section-card h2 {
+      font-size: 1.6rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #fff, #FF6B35);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .section-card h2 i { font-size: 1.6rem; color: #FF6B35; }
+    .section-card p { color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.6; }
+    .section-card strong { color: #FF6B35; font-weight: 600; }
+
+    .feature-list, .tech-list, .benefit-list { list-style: none; margin-top: 1rem; }
+
+    .feature-list li, .tech-list li, .benefit-list li {
+      padding: 0.6rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+
+    .feature-list li:last-child, .tech-list li:last-child, .benefit-list li:last-child { border-bottom: none; }
+    .feature-list li i, .benefit-list li i { color: #FF6B35; margin-top: 3px; font-size: 1rem; flex-shrink: 0; }
+
+    .tech-highlight {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.06), rgba(124, 58, 237, 0.06));
+      border: 1px solid rgba(255, 107, 53, 0.15);
+      border-radius: 12px; padding: 1.2rem; margin: 1.2rem 0;
+      position: relative; overflow: hidden;
+    }
+
+    .tech-highlight::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(to bottom, #FF6B35, #FF8C5A);
+    }
+
+    .tech-highlight h3 { color: #FF6B35; margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+    .tech-highlight h3 i { font-size: 1.2rem; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
+
+    .tech-tag {
+      background: rgba(255, 107, 53, 0.12); color: #FF8C5A;
+      padding: 0.4rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 500;
+      border: 1px solid rgba(255, 107, 53, 0.2); transition: all 0.3s ease;
+    }
+
+    .tech-tag:hover { background: rgba(255, 107, 53, 0.2); transform: translateY(-2px); }
+
+    .tech-tag.pwa { background: rgba(124, 58, 237, 0.12); color: #a78bfa; border-color: rgba(124, 58, 237, 0.2); }
+    .tech-tag.gas { background: rgba(16, 185, 129, 0.12); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+    .tech-tag.db { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
+
+    .faq-item { margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 1.2rem; }
+    .faq-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .faq-question {
+      font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
+    }
+
+    .faq-question i { color: #FF6B35; font-size: 1.1rem; }
+    .faq-item p { color: var(--text-secondary); margin-left: 1.8rem; }
+
+    .creator-card {
+      display: flex; align-items: center; gap: 2rem;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.06), rgba(124, 58, 237, 0.06));
+      padding: 2rem; border-radius: 16px; margin-top: 1rem;
+      border: 1px solid rgba(255, 107, 53, 0.15);
+    }
+
+    .creator-avatar {
+      width: 100px; height: 100px;
+      background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 2.5rem; flex-shrink: 0;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    }
+
+    .creator-info { flex: 1; }
+
+    .creator-name {
+      font-size: 1.5rem; color: var(--text); margin-bottom: 0.3rem;
+      background: linear-gradient(135deg, #fff, #FF6B35);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .creator-title { color: #FF6B35; font-weight: 500; margin-bottom: 0.8rem; font-size: 1rem; }
+
+    .contact-section { text-align: center; padding: 2rem !important; }
+
+    .contact-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 0.9rem 1.8rem;
+      border-radius: 50px; font-weight: 600; text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-size: 0.95rem; border: none; cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+
+    .btn::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before { left: 100%; }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+
+    .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: white; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+    .btn-email { background: linear-gradient(135deg, #FF6B35, #FF8C5A); color: white; box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3); }
+    .btn-project { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3); }
+
+    footer {
+      background: rgba(10, 10, 30, 0.9); color: white; text-align: center;
+      padding: 2rem 1rem; margin-top: 3rem;
+      border-top: 1px solid rgba(255, 107, 53, 0.1); backdrop-filter: blur(10px);
+    }
+
+    footer h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--text); }
+    footer p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin: 1.5rem 0; flex-wrap: wrap; }
+
+    .footer-links a {
+      color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease;
+      font-size: 0.9rem; display: flex; align-items: center; gap: 6px;
+    }
+
+    .footer-links a:hover { color: #FF6B35; transform: translateY(-2px); }
+    .copyright { color: var(--text-secondary); font-size: 0.85rem; margin-top: 1.5rem; opacity: 0.7; }
+
+    .important-note {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.06));
+      border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px;
+      padding: 1.2rem; margin: 1.5rem 0; position: relative;
+    }
+
+    .important-note::before { content: '\26A0'; position: absolute; top: 1rem; left: 1rem; font-size: 1.2rem; }
+    .important-note p { margin-left: 2rem; margin-bottom: 0; color: #fbbf24; }
+
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+
+    .particle-bg {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, #FF6B35, transparent);
+      opacity: 0.06; animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero-tagline { font-size: 1.1rem; }
+      .section-card { padding: 1.5rem; }
+      .contact-buttons { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 280px; justify-content: center; }
+      .footer-links { flex-direction: column; gap: 1rem; }
+      .creator-card { flex-direction: column; text-align: center; gap: 1.5rem; }
+      .main-content { gap: 1.5rem; }
+      .container { padding: 0 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 2rem 1rem; }
+      .hero h1 { font-size: 1.8rem; }
+      .section-card { padding: 1.2rem; }
+      .section-card h2 { font-size: 1.4rem; }
+    }
+  </style>
+
+  <meta name="google-adsense-account" content="ca-pub-8468056906401026">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-02K874D1P0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-02K874D1P0');
+  </script>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <header class="hero">
+    <div class="hero-content">
+      <h1>NotaAlta - Recurso ao Estudante Moderno</h1>
+      <p class="hero-tagline">Estuda hoje. Nota alta amanhã.</p>
+      <div class="hero-badge">
+        <i class="fas fa-graduation-cap"></i> Especialmente desenvolvido para o contexto moçambicano
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main-content">
+      
+      <div class="important-note">
+        <p><strong>Nota Importante:</strong> As funcionalidades de IA e geração de trabalhos requerem ligação à internet para processamento no servidor.</p>
+      </div>
+      
+      <section class="section-card">
+        <div class="section-icon"><i class="fas fa-rocket"></i></div>
+        <h2><i class="fas fa-bullseye"></i> O que é o NotaAlta?</h2>
+        <p>
+          Uma <strong>plataforma digital completa</strong> que integra <strong>inteligência artificial, simulados, gerador de trabalhos científicos e biblioteca digital</strong>, 
+          desenvolvida especificamente para apoiar estudantes moçambicanos em todas as fases da sua jornada académica.
+        </p>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-star"></i> O que torna o NotaAlta único?</h2>
+        
+        <div class="tech-highlight">
+          <h3><i class="fas fa-robot"></i> Chat com Inteligência Artificial</h3>
+          <p>Tire dúvidas, peça explicações e resolva exercícios com um <strong>tutor virtual inteligente</strong> disponível 24/7.</p>
+        </div>
+
+        <div class="tech-highlight">
+          <h3><i class="fas fa-file-alt"></i> Gerador de Trabalhos Científicos</h3>
+          <p>Crie <strong>trabalhos académicos estruturados</strong> para Ensino Secundário, Técnico Profissional e Universitário com apenas alguns cliques.</p>
+        </div>
+
+        <div class="tech-highlight">
+          <h3><i class="fas fa-graduation-cap"></i> Simulados de Avaliação</h3>
+          <p>Prepare-se para <strong>testes e exames nacionais</strong> com simuladores interativos que avaliam o seu desempenho.</p>
+        </div>
+
+        <div class="tech-tags">
+          <span class="tech-tag pwa"><i class="fas fa-wifi-slash"></i> PWA Offline</span>
+          <span class="tech-tag"><i class="fas fa-robot"></i> Chat IA</span>
+          <span class="tech-tag"><i class="fas fa-file-alt"></i> Trabalhos Científicos</span>
+          <span class="tech-tag gas"><i class="fas fa-graduation-cap"></i> Simulados</span>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-cogs"></i> Funcionalidades Principais</h2>
+        <ul class="feature-list">
+          <li><i class="fas fa-check-circle"></i> <strong>Chat com IA</strong> para tirar dúvidas e receber explicações passo a passo</li>
+          <li><i class="fas fa-check-circle"></i> <strong>Gerador de trabalhos científicos</strong> com estrutura académica completa</li>
+          <li><i class="fas fa-check-circle"></i> <strong>Simulador de avaliações</strong> com testes normais e exames nacionais</li>
+          <li><i class="fas fa-check-circle"></i> <strong>Gamificação</strong> com testes de Verdadeiro/Falso e Escolha Múltipla</li>
+          <li><i class="fas fa-check-circle"></i> <strong>Biblioteca digital</strong> com livros e recursos académicos</li>
+          <li><i class="fas fa-check-circle"></i> <strong>Chat público</strong> para interação entre estudantes</li>
+        </ul>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-code"></i> Tecnologias Utilizadas</h2>
+        <ul class="tech-list">
+          <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript Vanilla</li>
+          <li><strong>Backend:</strong> Vercel Serverless Functions + Next.js</li>
+          <li><strong>Arquitectura:</strong> PWA (Service Worker, Manifest)</li>
+          <li><strong>IA:</strong> Integração com APIs de linguagem natural</li>
+          <li><strong>Hospedagem:</strong> Vercel (gratuita e escalável)</li>
+        </ul>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-chart-line"></i> Benefícios para o Estudante</h2>
+        <ul class="benefit-list">
+          <li><i class="fas fa-clock"></i> <strong>Estudo eficiente</strong> com recursos centralizados</li>
+          <li><i class="fas fa-brain"></i> <strong>Aprendizagem personalizada</strong> com IA adaptativa</li>
+          <li><i class="fas fa-mobile"></i> <strong>Acesso offline</strong> a materiais de estudo</li>
+          <li><i class="fas fa-users"></i> <strong>Comunidade</strong> para troca de conhecimento</li>
+          <li><i class="fas fa-trophy"></i> <strong>Gamificação</strong> que torna o estudo mais envolvente</li>
+        </ul>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-user-tie"></i> Sobre o Criador</h2>
+        <div class="creator-card">
+          <div class="creator-avatar"><i class="fas fa-user-graduate"></i></div>
+          <div class="creator-info">
+            <h3 class="creator-name">Benjamim Januário Paulino</h3>
+            <p class="creator-title">Professor e Desenvolvedor</p>
+            <p>
+              Apaixonado por educação e tecnologia, acredito que a inovação digital deve servir para 
+              <strong>facilitar o acesso ao conhecimento</strong>. O NotaAlta nasceu da observação 
+              directa das necessidades reais dos estudantes moçambicanos e do desejo de criar 
+              soluções práticas que transformem o dia a dia na educação.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2><i class="fas fa-question-circle"></i> Perguntas Frequentes</h2>
+        
+        <div class="faq-item">
+          <div class="faq-question"><i class="fas fa-question"></i> O NotaAlta é gratuito?</div>
+          <p><strong>Sim, 100% gratuito.</strong> Desenvolvido como contribuição para a educação moçambicana.</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"><i class="fas fa-question"></i> Como funciona o Chat com IA?</div>
+          <p>O chat utiliza inteligência artificial para responder perguntas, explicar conceitos e resolver exercícios. Requer ligação à internet.</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"><i class="fas fa-question"></i> Posso usar offline?</div>
+          <p>Sim! Como <strong>PWA</strong>, muitas funcionalidades funcionam offline após o primeiro acesso.</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question"><i class="fas fa-question"></i> Os meus dados estão seguros?</div>
+          <p><strong>Sim.</strong> Os dados são armazenados localmente no seu dispositivo. Não partilhamos informações com terceiros.</p>
+        </div>
+      </section>
+
+      <section class="section-card contact-section">
+        <h2><i class="fas fa-envelope"></i> Contacto e Suporte</h2>
+        <p>Dúvidas, sugestões ou interesse em colaborar? Entre em contacto:</p>
+        
+        <div class="contact-buttons">
+          <a href="https://wa.me/258864920606" class="btn btn-whatsapp" target="_blank">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="mailto:benjanuariosite@gmail.com" class="btn btn-email">
+            <i class="fas fa-envelope"></i> E-mail
+          </a>
+          <a href="home.html" class="btn btn-project">
+            <i class="fas fa-external-link-alt"></i> Acessar o NotaAlta
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <h3>NotaAlta - Recurso ao Estudante Moderno</h3>
+      <p>Estuda hoje. Nota alta amanhã.</p>
+      
+      <div class="footer-links">
+        <a href="home.html"><i class="fas fa-home"></i> Página Principal</a>
+        <a href="https://www.facebook.com/benjamimjanuario.paulino.1" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="termos.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2026 Desenvolvido por <strong>Prof Benjanuário</strong> | Todos os direitos reservados
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle-bg';
+        particle.style.width = `${Math.random() * 100 + 30}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+        particle.style.animationDuration = `${Math.random() * 20 + 15}s`;
+        container.appendChild(particle);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      document.querySelectorAll('.section-card').forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.animation = `fadeInUp 0.6s ease forwards ${index * 0.1}s`;
+      });
+    });
+  </script>
+<script src="https://pl28403092.effectivegatecpm.com/f8/47/c3/f847c36986a9f8650b8190922c11d466.js"></script>
+<script>
+  atOptions = {
+    'key' : '19b34a2091aea1ccc9455af1a4a4bbd3',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/19b34a2091aea1ccc9455af1a4a4bbd3/invoke.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termos e Políticas de Uso • NotaAlta</title>
+  <meta name="description" content="Termos e condições de uso do NotaAlta">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --primary-dark: #E55A2B;
+      --primary-light: #FF8C5A;
+      --bg-deep: #060614;
+      --bg-space: #0a0a2e;
+      --bg-mid: #0d0d3d;
+      --bg-light: #101045;
+      --text: #f1f5f9;
+      --text-secondary: #b0b0d0;
+      --glass: rgba(10, 10, 46, 0.7);
+      --glass-border: rgba(255, 107, 53, 0.15);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+    .header {
+      background: linear-gradient(180deg, #0a0a2e 0%, #0d0d3d 50%, #101045 100%);
+      color: white; text-align: center; padding: 3rem 1.5rem;
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+    }
+
+    .header::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.06) 0%, transparent 50%);
+    }
+
+    .header-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+    .header h1 {
+      font-size: 2.5rem; margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, #FF6B35);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .header-date { color: #b0b0d0; font-size: 1rem; margin-bottom: 1rem; }
+
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FF6B35, #FF8C5A);
+      color: white; padding: 0.6rem 1.5rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem; margin-top: 1rem;
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+    .main-content { padding: 2.5rem 0; display: flex; flex-direction: column; gap: 2rem; }
+
+    .term-card {
+      background: var(--glass); backdrop-filter: blur(15px);
+      border-radius: 18px; padding: 2rem; box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      position: relative; overflow: hidden; transition: all 0.3s ease;
+    }
+
+    .term-card:hover {
+      border-color: rgba(255, 107, 53, 0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 25px rgba(255, 107, 53, 0.12);
+    }
+
+    .term-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(to bottom, #FF6B35, #FF8C5A);
+    }
+
+    .term-card h2 { font-size: 1.5rem; margin-bottom: 1.2rem; color: var(--text); display: flex; align-items: center; gap: 10px; }
+    .term-card h2 i { font-size: 1.4rem; color: #FF6B35; width: 30px; text-align: center; }
+    .term-card p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+    .term-card strong { color: #FF6B35; font-weight: 600; }
+    .term-card em { color: var(--text-secondary); font-style: italic; }
+
+    .term-list { list-style: none; margin: 1rem 0 1.5rem 1.5rem; }
+
+    .term-list li {
+      padding: 0.5rem 0; color: var(--text-secondary);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+
+    .term-list li::before { content: '•'; color: #FF6B35; font-weight: bold; font-size: 1.2rem; flex-shrink: 0; }
+
+    .important-note {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.06));
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px; padding: 1.2rem; margin: 1rem 0; position: relative;
+    }
+
+    .important-note::before { content: '\26A0'; position: absolute; top: 1rem; left: 1rem; font-size: 1.2rem; }
+    .important-note p { margin-left: 2rem; margin-bottom: 0; color: #fbbf24; }
+
+    .success-note {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.06));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 12px; padding: 1.2rem; margin: 1rem 0; position: relative;
+    }
+
+    .success-note::before { content: '\2714'; position: absolute; top: 1rem; left: 1rem; font-size: 1.2rem; }
+    .success-note p { margin-left: 2rem; margin-bottom: 0; color: #34d399; }
+
+    .tech-info {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.06), rgba(124, 58, 237, 0.06));
+      border: 1px solid rgba(255, 107, 53, 0.15);
+      border-radius: 12px; padding: 1.2rem; margin: 1.5rem 0;
+    }
+
+    .tech-info h3 { color: #FF6B35; margin-bottom: 0.8rem; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+
+    footer {
+      background: rgba(10, 10, 30, 0.9); color: white; text-align: center;
+      padding: 2rem 1rem; margin-top: 3rem;
+      border-top: 1px solid rgba(255, 107, 53, 0.1); backdrop-filter: blur(10px);
+    }
+
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin: 1.5rem 0; flex-wrap: wrap; }
+
+    .footer-links a {
+      color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease;
+      font-size: 0.9rem; display: flex; align-items: center; gap: 6px;
+    }
+
+    .footer-links a:hover { color: #FF6B35; }
+
+    .copyright { color: var(--text-secondary); font-size: 0.85rem; margin-top: 1.5rem; opacity: 0.7; }
+
+    .action-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 0.9rem 1.8rem;
+      border-radius: 50px; font-weight: 600; text-decoration: none;
+      transition: all 0.3s ease; font-size: 0.95rem; border: none; cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-accept {
+      background: linear-gradient(135deg, #FF6B35, #E55A2B);
+      color: white; box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-back {
+      background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--glass-border);
+    }
+
+    .btn-back:hover { background: rgba(255, 255, 255, 0.05); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 2rem; }
+      .term-card { padding: 1.5rem; }
+      .term-card h2 { font-size: 1.3rem; }
+      .footer-links { flex-direction: column; gap: 1rem; }
+      .action-buttons { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 280px; justify-content: center; }
+      .container { padding: 0 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .header { padding: 2rem 1rem; }
+      .header h1 { font-size: 1.8rem; }
+      .term-card { padding: 1.2rem; }
+      .term-list { margin-left: 1rem; }
+    }
+  </style>
+
+  <meta name="google-adsense-account" content="ca-pub-8468056906401026">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-02K874D1P0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-02K874D1P0');
+  </script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>Termos e Políticas de Uso</h1>
+      <p class="header-date">Última actualização: Maio de 2026</p>
+      <div class="header-badge">
+        <i class="fas fa-shield-alt"></i> Protecção de Dados e Privacidade Garantidas
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="main-content">
+      
+      <div class="important-note">
+        <p><strong>Atenção:</strong> Ao utilizar esta plataforma, concorda automaticamente com estes termos. Recomendamos leitura cuidadosa.</p>
+      </div>
+      
+      <section class="term-card">
+        <h2><i class="fas fa-user-tie"></i> 1. Responsável pelo Serviço</h2>
+        <p>
+          O presente serviço, denominado <strong>NotaAlta</strong>, é de responsabilidade de <strong>Benjamim Januário Paulino</strong> (Prof Benjanuário).
+        </p>
+        <div class="tech-info">
+          <h3><i class="fas fa-info-circle"></i> Informação Técnica</h3>
+          <p>A plataforma é um <strong>PWA (Aplicativo Web Progressivo)</strong> que funciona offline após o primeiro acesso para conteúdos estáticos. As funcionalidades de IA requerem ligação à internet.</p>
+        </div>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-check-circle"></i> 2. Aceitação dos Termos</h2>
+        <p>
+          Ao utilizar esta plataforma, o utilizador confirma que leu, compreendeu e concorda com os presentes Termos e Políticas de Uso. Caso não concorde, deve abster-se de usar a plataforma.
+        </p>
+        <div class="success-note">
+          <p><strong>Transparência:</strong> Estes termos estão disponíveis permanentemente na secção "Termos" do aplicativo.</p>
+        </div>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-user"></i> 3. Criação e Uso de Conta</h2>
+        <p>Para aceder às funcionalidades, poderá ser necessário criar um perfil:</p>
+        <ul class="term-list">
+          <li>O utilizador deve fornecer informações correctas e actualizadas</li>
+          <li>É responsabilidade do utilizador manter seus dados em segurança</li>
+          <li>A conta é pessoal e intransferível</li>
+        </ul>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-database"></i> 4. Dados do Utilizador e Privacidade</h2>
+        <p>Compromisso com a protecção de dados pessoais:</p>
+        <ul class="term-list">
+          <li>Os dados são armazenados localmente no dispositivo do utilizador</li>
+          <li>Não são partilhados com terceiros por nenhum motivo</li>
+          <li>O utilizador pode solicitar a eliminação imediata dos seus dados a qualquer momento</li>
+        </ul>
+        <div class="tech-info">
+          <h3><i class="fas fa-lock"></i> Segurança</h3>
+          <p>Utilizamos armazenamento local (localStorage/sessionStorage) para protecção de dados. As comunicações com APIs externas são feitas através de canais seguros (HTTPS).</p>
+        </div>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-balance-scale"></i> 5. Direitos de Uso e Restrições</h2>
+        <p>
+          Os recursos do NotaAlta são para uso <strong>pessoal e educacional</strong>. É proibida a utilização comercial sem autorização por escrito do responsável.
+        </p>
+        <div class="important-note">
+          <p><strong>Restrição:</strong> Violações poderão resultar em <strong>processos judiciais</strong> de acordo com a legislação moçambicana.</p>
+        </div>
+        <ul class="term-list">
+          <li>Uso permitido: Estudo pessoal e em sala de aula</li>
+          <li>Uso permitido: Partilha entre colegas para fins educacionais</li>
+          <li>Uso proibido: Revenda ou distribuição comercial</li>
+          <li>Uso proibido: Integração em outros sistemas sem autorização</li>
+        </ul>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-credit-card"></i> 6. Pagamentos e Reembolsos</h2>
+        <p>
+          O NotaAlta é um serviço <strong>100% gratuito</strong>. Funcionalidades de doação são opcionais e não conferem vantagens adicionais na plataforma.
+        </p>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-tools"></i> 7. Interrupções e Manutenção</h2>
+        <p>A plataforma pode passar por períodos de manutenção técnica. Avisaremos com antecedência sempre que possível.</p>
+        <div class="success-note">
+          <p><strong>Garantia:</strong> Trabalhamos para manter a plataforma disponível 24/7, mas não garantimos disponibilidade ininterrupta.</p>
+        </div>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-sync-alt"></i> 8. Alterações dos Termos</h2>
+        <p>Os Termos podem ser modificados a qualquer momento para melhorar a protecção dos utilizadores ou adequar-se a novas funcionalidades.</p>
+        <ul class="term-list">
+          <li>As alterações serão comunicadas dentro da plataforma</li>
+          <li>A versão mais recente estará sempre disponível nesta página</li>
+          <li>O uso continuado após alterações constitui aceitação dos novos termos</li>
+        </ul>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-exclamation-triangle"></i> 9. Limitação de Responsabilidade</h2>
+        <p>O serviço é oferecido <strong>"no estado em que se encontra"</strong>. Não há garantias de resultados perfeitos ou livres de erros.</p>
+        <ul class="term-list">
+          <li>O responsável não se responsabiliza por prejuízos resultantes do uso</li>
+          <li>O utilizador é responsável por verificar a adequação dos conteúdos ao seu contexto</li>
+          <li>As respostas da IA são geradas automaticamente e devem ser verificadas</li>
+        </ul>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-hand-paper"></i> 10. Direitos do Utilizador</h2>
+        <p>Como utilizador, tem os seguintes direitos:</p>
+        <ul class="term-list">
+          <li>Acessar e corrigir informações pessoais</li>
+          <li>Solicitar exclusão imediata dos seus dados</li>
+          <li>Utilizar os recursos conforme descrito nestes Termos</li>
+          <li>Reportar problemas ou sugerir melhorias</li>
+        </ul>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-gavel"></i> 11. Lei Aplicável e Foro</h2>
+        <p>Estes Termos são regidos pelas leis da <strong>República de Moçambique</strong>.</p>
+        <div class="tech-info">
+          <h3><i class="fas fa-globe-africa"></i> Aplicabilidade</h3>
+          <p>Embora desenvolvido para Moçambique, o NotaAlta pode ser utilizado por estudantes de outros países, devendo estes adaptar os conteúdos aos seus currículos nacionais.</p>
+        </div>
+      </section>
+
+      <section class="term-card">
+        <h2><i class="fas fa-info-circle"></i> 12. Informação Adicional</h2>
+        <div class="tech-info">
+          <h3><i class="fas fa-wifi-slash"></i> Funcionamento Offline</h3>
+          <p>O NotaAlta funciona como PWA, permitindo acesso offline a conteúdos estáticos após o primeiro carregamento. Funcionalidades de IA e chat requerem internet.</p>
+        </div>
+        <div class="tech-info">
+          <h3><i class="fas fa-graduation-cap"></i> Propósito Educacional</h3>
+          <p>Esta plataforma foi desenvolvida para apoiar estudantes, não para substituir o estudo orientado. Todos os conteúdos gerados por IA devem ser revistos e verificados.</p>
+        </div>
+      </section>
+
+      <div class="action-buttons">
+        <a href="javascript:void(0)" class="btn btn-accept" id="acceptBtn">
+          <i class="fas fa-check"></i> Aceito os Termos e Condições
+        </a>
+        <a href="home.html" class="btn btn-back">
+          <i class="fas fa-arrow-left"></i> Voltar à Página Principal
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <h3>NotaAlta - Recurso ao Estudante Moderno</h3>
+      <p>Estuda hoje. Nota alta amanhã.</p>
+      <div class="footer-links">
+        <a href="home.html"><i class="fas fa-home"></i> Página Principal</a>
+        <a href="sobre.html"><i class="fas fa-info-circle"></i> Sobre o NotaAlta</a>
+        <a href="mailto:benjanuariosite@gmail.com"><i class="fas fa-envelope"></i> Contacto</a>
+      </div>
+      <div class="copyright">
+        &copy; 2026 Desenvolvido por <strong>Prof Benjanuário</strong> | Todos os direitos reservados
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.term-card');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+
+      const acceptBtn = document.getElementById('acceptBtn');
+      acceptBtn.addEventListener('click', function() {
+        localStorage.setItem('notaalta_termsAccepted', 'true');
+        this.innerHTML = '<i class="fas fa-check-circle"></i> Termos Aceites!';
+        this.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        this.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          alert('Obrigado por aceitar os nossos termos e condições. Pode agora utilizar todas as funcionalidades do NotaAlta com segurança.');
+        }, 300);
+      });
+
+      if (localStorage.getItem('notaalta_termsAccepted') === 'true') {
+        acceptBtn.innerHTML = '<i class="fas fa-check-circle"></i> Termos Já Aceites';
+        acceptBtn.style.background = 'linear-gradient(135deg, #6b7280, #4b5563)';
+        acceptBtn.style.cursor = 'default';
+        acceptBtn.onclick = null;
+      }
+    });
+  </script>
+<script src="https://pl28403092.effectivegatecpm.com/f8/47/c3/f847c36986a9f8650b8190922c11d466.js"></script>
+<script>
+  atOptions = {
+    'key' : '19b34a2091aea1ccc9455af1a4a4bbd3',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/19b34a2091aea1ccc9455af1a4a4bbd3/invoke.js"></script>
+</body>
+</html>

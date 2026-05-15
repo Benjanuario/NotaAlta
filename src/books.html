@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Livraria • NotaAlta</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(180deg, #060614 0%, #0a0a1e 30%, #0d0d2b 60%, #0f0f33 100%);
+    min-height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .floating-animal {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    font-size: 28px;
+    opacity: 0.04;
+    color: #FF6B35;
+    animation: floatAnimal 20s ease-in-out infinite;
+  }
+
+  @keyframes floatAnimal {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-40px) rotate(8deg) scale(1.05); }
+  }
+
+  .animal-1 { top: 12%; left: 3%; animation-duration: 18s; }
+  .animal-2 { bottom: 18%; right: 2%; animation-duration: 22s; animation-delay: -5s; }
+  .animal-3 { top: 35%; right: 5%; animation-duration: 25s; animation-delay: -10s; }
+  .animal-4 { bottom: 12%; left: 5%; animation-duration: 20s; animation-delay: -3s; }
+  .animal-5 { top: 65%; left: 8%; animation-duration: 28s; animation-delay: -7s; }
+  .animal-6 { top: 80%; right: 12%; animation-duration: 24s; animation-delay: -12s; }
+
+  .particle {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .particle span {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 107, 53, 0.2);
+    border-radius: 50%;
+    animation: floatParticle 12s infinite linear;
+  }
+
+  @keyframes floatParticle {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-100vh) translateX(80px); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInDown 0.8s ease;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(10, 10, 46, 0.5);
+    backdrop-filter: blur(10px);
+    padding: 16px 32px;
+    border-radius: 80px;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    margin-bottom: 24px;
+  }
+
+  .logo i {
+    font-size: 32px;
+    color: #FF6B35;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.3));
+  }
+
+  .logo h1 {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #FF6B35 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    color: #b0b0d0;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .categories-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .buttons-grid {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .category-btn:nth-child(1) {
+    background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+    border: none;
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+  }
+  .category-btn:nth-child(1):hover {
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
+    transform: translateY(-6px) scale(1.02);
+  }
+  .category-btn:nth-child(1) .btn-icon i { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  .category-btn:nth-child(1) h2 { background: none; -webkit-text-fill-color: white; color: white; }
+  .category-btn:nth-child(1) p { color: rgba(255, 255, 255, 0.85); }
+
+  .category-btn:nth-child(2) {
+    background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 50%, #FF8C5A 100%);
+    border: none;
+    box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+  }
+  .category-btn:nth-child(2):hover {
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+    transform: translateY(-6px) scale(1.02);
+  }
+  .category-btn:nth-child(2) .btn-icon i { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  .category-btn:nth-child(2) h2 { background: none; -webkit-text-fill-color: white; color: white; }
+  .category-btn:nth-child(2) p { color: rgba(255, 255, 255, 0.85); }
+
+  .category-btn:nth-child(3) {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+    border: none;
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
+  }
+  .category-btn:nth-child(3):hover {
+    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.5);
+    transform: translateY(-6px) scale(1.02);
+  }
+  .category-btn:nth-child(3) .btn-icon i { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  .category-btn:nth-child(3) h2 { background: none; -webkit-text-fill-color: white; color: white; }
+  .category-btn:nth-child(3) p { color: rgba(255, 255, 255, 0.85); }
+
+  .category-btn {
+    flex: 1;
+    min-width: 260px;
+    min-height: 140px;
+    backdrop-filter: blur(4px);
+    border-radius: 28px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .category-btn:hover::before { left: 100%; }
+  .category-btn:active { transform: translateY(-3px) scale(0.98); }
+
+  .btn-icon { font-size: 40px; margin-bottom: 12px; display: inline-block; transition: transform 0.3s ease; }
+  .category-btn:hover .btn-icon { transform: scale(1.1); }
+  .category-btn h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .category-btn p { font-size: 12px; line-height: 1.4; max-width: 200px; }
+
+  .classes-screen, .books-screen { animation: fadeInUp 0.6s ease; }
+
+  .back-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 40px;
+    padding: 12px 24px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #fff;
+    transition: all 0.3s ease;
+    margin-bottom: 40px;
+  }
+
+  .back-btn:hover {
+    background: rgba(255, 107, 53, 0.15);
+    border-color: #FF6B35;
+    transform: translateX(-4px);
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #fff, #FF6B35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .class-card {
+    background: rgba(10, 10, 46, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 20px;
+    padding: 20px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .class-card:hover {
+    transform: translateY(-5px);
+    border-color: #FF6B35;
+    background: rgba(255, 107, 53, 0.12);
+    box-shadow: 0 12px 28px rgba(255, 107, 53, 0.2);
+  }
+
+  .class-number {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FF8C5A, #FF6B35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .class-label {
+    font-size: 12px;
+    color: #b0b0d0;
+    margin-top: 6px;
+  }
+
+  .info-box {
+    background: rgba(255, 107, 53, 0.08);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .info-box i {
+    font-size: 32px;
+    color: #FF6B35;
+    margin-bottom: 12px;
+  }
+
+  .info-box h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .info-box p {
+    font-size: 13px;
+    color: #b0b0d0;
+  }
+
+  .books-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .book-item {
+    background: rgba(10, 10, 46, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 107, 53, 0.15);
+    border-radius: 20px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .book-item:hover {
+    transform: translateX(4px);
+    border-color: #FF6B35;
+    background: rgba(255, 107, 53, 0.06);
+  }
+
+  .book-cover {
+    width: 70px;
+    height: 95px;
+    background: linear-gradient(135deg, #0d0d3d, #0a0a2e);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .book-cover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.3);
+  }
+
+  .book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .book-cover .no-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .book-cover .no-image i {
+    font-size: 28px;
+  }
+
+  .book-info {
+    flex: 1;
+  }
+
+  .book-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+
+  .book-author {
+    font-size: 12px;
+    color: #b0b0d0;
+    margin-bottom: 6px;
+  }
+
+  .book-details {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .book-discipline {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(255, 107, 53, 0.15);
+    border-radius: 6px;
+    color: #FF8C5A;
+  }
+
+  .book-classe {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(16, 185, 129, 0.15);
+    border-radius: 6px;
+    color: #34d399;
+  }
+
+  .book-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .preview-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .preview-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .download-btn {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #FF6B35, #E55A2B);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  }
+
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.5);
+    background: linear-gradient(135deg, #FF8C5A, #FF6B35);
+  }
+
+  .download-btn:active, .preview-btn:active {
+    transform: translateY(0);
+  }
+
+  .preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 6, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .preview-modal.active {
+    display: flex;
+  }
+
+  .preview-container {
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    background: linear-gradient(135deg, #0a0a2e, #0d0d3d);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .preview-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .preview-header h3 i {
+    color: #FF6B35;
+    margin-right: 8px;
+  }
+
+  .close-preview {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 0 8px;
+  }
+
+  .close-preview:hover {
+    transform: scale(1.1);
+    color: #FF6B35;
+  }
+
+  .preview-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    min-height: 400px;
+    max-height: 60vh;
+  }
+
+  .pdf-iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    border: none;
+    border-radius: 8px;
+  }
+
+  .preview-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .page-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .page-btn {
+    background: rgba(255, 107, 53, 0.15);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .page-btn:hover:not(:disabled) {
+    background: rgba(255, 107, 53, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .page-indicator {
+    font-size: 13px;
+    color: #b0b0d0;
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .preview-download-btn {
+    background: linear-gradient(135deg, #FF6B35, #E55A2B);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .preview-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+  }
+
+  .loading-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    color: #b0b0d0;
+  }
+
+  .loading-preview i {
+    font-size: 48px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: #b0b0d0;
+  }
+
+  .loading i {
+    font-size: 40px;
+    animation: spin 1s linear infinite;
+    color: #FF6B35;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px;
+    color: #b0b0d0;
+  }
+
+  .empty-state i {
+    font-size: 56px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+    color: #FF6B35;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(10, 10, 46, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+    font-size: 13px;
+  }
+
+  .toast.success i { color: #10b981; }
+  .toast.error i { color: #ef4444; }
+  .toast.info i { color: #FF6B35; }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 6, 20, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    cursor: default;
+  }
+
+  .modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 107, 53, 0.5);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .close-modal:hover {
+    transform: scale(1.1);
+    color: #FF6B35;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 11px;
+    color: #b0b0d0;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 24px 16px;
+    }
+    .header {
+      margin-bottom: 40px;
+    }
+    .buttons-grid {
+      flex-direction: column;
+      gap: 16px;
+    }
+    .category-btn {
+      min-width: auto;
+      min-height: 110px;
+      padding: 20px 16px;
+    }
+    .btn-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .category-btn h2 {
+      font-size: 16px;
+    }
+    .category-btn p {
+      font-size: 11px;
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .classes-grid {
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+      gap: 12px;
+    }
+    .class-card {
+      padding: 16px 10px;
+    }
+    .class-number {
+      font-size: 22px;
+    }
+    .book-item {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .book-cover {
+      width: 55px;
+      height: 75px;
+    }
+    .book-title {
+      font-size: 14px;
+    }
+    .book-author {
+      font-size: 11px;
+    }
+    .book-actions {
+      width: 100%;
+      justify-content: flex-end;
+    }
+    .preview-btn, .download-btn {
+      padding: 8px 16px;
+      font-size: 11px;
+    }
+    .preview-container {
+      width: 95%;
+    }
+    .preview-content {
+      padding: 12px;
+    }
+    .pdf-iframe {
+      min-height: 400px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="floating-animal animal-1"><i class="fas fa-dove"></i></div>
+<div class="floating-animal animal-2"><i class="fas fa-feather-alt"></i></div>
+<div class="floating-animal animal-3"><i class="fas fa-otter"></i></div>
+<div class="floating-animal animal-4"><i class="fas fa-crow"></i></div>
+<div class="floating-animal animal-5"><i class="fas fa-fish"></i></div>
+<div class="floating-animal animal-6"><i class="fas fa-butterfly"></i></div>
+
+<div class="particle" id="particles"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <i class="fas fa-book-open"></i>
+      <h1>Livraria NotaAlta</h1>
+    </div>
+    <div class="tagline">Centro de Aquisição de Livros • Biblioteca Digital</div>
+  </div>
+
+  <div id="main-screen" class="categories-section">
+    <div class="buttons-grid">
+      <div class="category-btn" onclick="selectCategory('alunos')">
+        <div class="btn-icon"><i class="fas fa-graduation-cap"></i></div>
+        <h2>Livros de Alunos</h2>
+        <p>Livros de Alunos de 1ª à 12ª Classe</p>
+      </div>
+      <div class="category-btn" onclick="selectCategory('programas')">
+        <div class="btn-icon"><i class="fas fa-chalkboard-user"></i></div>
+        <h2>Programas de Ensino Geral</h2>
+        <p>Documentos curriculares oficiais</p>
+      </div>
+      <div class="category-btn" onclick="selectCategory('ifp')">
+        <div class="btn-icon"><i class="fas fa-landmark"></i></div>
+        <h2>Manuais Didácticos e Recursos do IFP</h2>
+        <p>Materiais para formação de professores</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="classes-screen" class="hidden">
+    <button class="back-btn" onclick="goBackToMain()">
+      <i class="fas fa-arrow-left"></i> Voltar
+    </button>
+    <div style="text-align: center;">
+      <h2 class="section-title" id="classes-title">Selecione a Classe</h2>
+      <div class="classes-grid" id="classes-grid"></div>
+    </div>
+  </div>
+
+  <div id="books-screen" class="hidden">
+    <button class="back-btn" onclick="goBackToClasses()">
+      <i class="fas fa-arrow-left"></i> Voltar
+    </button>
+    <div style="text-align: center;">
+      <h2 class="section-title" id="books-title"></h2>
+      <div id="primario-info" class="info-box" style="display: none;">
+        <i class="fas fa-info-circle"></i>
+        <h3>Programa Único do Ensino Primário</h3>
+        <p>Este programa contém todas as disciplinas do 1º ao 6º ano</p>
+      </div>
+      <div class="books-list" id="books-list">
+        <div class="loading"><i class="fas fa-spinner"></i> Carregando...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Capa -->
+<div id="image-modal" class="modal-overlay" onclick="closeImageModal()">
+  <span class="close-modal" onclick="closeImageModal()">&times;</span>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <img id="modal-image" src="" alt="Capa do livro">
+  </div>
+</div>
+
+<!-- Modal de Pré-visualização do PDF -->
+<div id="preview-modal" class="preview-modal" onclick="closePreviewModal(event)">
+  <div class="preview-container" onclick="event.stopPropagation()">
+    <div class="preview-header">
+      <h3><i class="fas fa-eye"></i> <span id="preview-title">Pré-visualização</span></h3>
+      <button class="close-preview" onclick="closePreviewModal()">&times;</button>
+    </div>
+    <div class="preview-content" id="preview-content">
+      <div class="loading-preview">
+        <i class="fas fa-spinner"></i>
+        <p>A carregar pré-visualização...</p>
+      </div>
+    </div>
+    <div class="preview-footer">
+      <div class="page-controls">
+        <button class="page-btn" id="prev-page" onclick="changePage(-1)" disabled>
+          <i class="fas fa-chevron-left"></i> Anterior
+        </button>
+        <span class="page-indicator" id="page-indicator">Página 1 de ?</span>
+        <button class="page-btn" id="next-page" onclick="changePage(1)" disabled>
+          Próxima <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="preview-actions">
+        <button class="preview-download-btn" id="preview-download-btn" onclick="downloadFromPreview()">
+          <i class="fas fa-download"></i> Baixar PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2026 NotaAlta • Livraria Digital</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCuL9jz1yb54jI8C99OZgbZaNc4GH4p6j0",
+    authDomain: "gepaq-booksbd.firebaseapp.com",
+    projectId: "gepaq-booksbd",
+    storageBucket: "gepaq-booksbd.firebasestorage.app",
+    messagingSenderId: "582325660451",
+    appId: "1:582325660451:web:4cb0e196b48d8ba2967a96"
+  };
+
+  let db;
+  let allBooks = [];
+  let currentCategory = '';
+  let currentClass = '';
+  let currentPreviewBook = null;
+  let currentPage = 1;
+  let totalPages = 5;
+
+  function extractDriveId(url) {
+    if (!url) return null;
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+  }
+
+  function getDirectDownloadUrl(driveUrl) {
+    if (!driveUrl) return null;
+    const fileId = extractDriveId(driveUrl);
+    return fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : driveUrl;
+  }
+
+  function getPreviewUrl(driveUrl, page = 1) {
+    if (!driveUrl) return null;
+    const fileId = extractDriveId(driveUrl);
+    if (!fileId) return null;
+    return `https://drive.google.com/file/d/${fileId}/preview?page=${page}`;
+  }
+
+  function getBookCoverUrl(book) {
+    if (book.link_download) {
+      const id = extractDriveId(book.link_download);
+      if (id) {
+        return `https://drive.google.com/thumbnail?id=${id}&sz=w400`;
+      }
+    }
+    return null;
+  }
+
+  function forceDownload(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename || 'livro.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  window.openImageModal = function(imageUrl) {
+    if (!imageUrl) return;
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-image');
+    modalImg.src = imageUrl;
+    modal.classList.add('active');
+  };
+
+  window.closeImageModal = function() {
+    document.getElementById('image-modal').classList.remove('active');
+  };
+
+  window.openPreviewModal = function(book) {
+    currentPreviewBook = book;
+    currentPage = 1;
+    
+    document.getElementById('preview-title').innerHTML = book.titulo || 'Pré-visualização';
+    document.getElementById('preview-modal').classList.add('active');
+    
+    loadPreviewPage();
+  };
+
+  window.closePreviewModal = function(event) {
+    if (event && event.target !== event.currentTarget && event.target.className !== 'close-preview') return;
+    document.getElementById('preview-modal').classList.remove('active');
+    document.getElementById('preview-content').innerHTML = `
+      <div class="loading-preview">
+        <i class="fas fa-spinner"></i>
+        <p>A carregar pré-visualização...</p>
+      </div>
+    `;
+    currentPreviewBook = null;
+    currentPage = 1;
+  };
+
+  function loadPreviewPage() {
+    if (!currentPreviewBook || !currentPreviewBook.link_download) {
+      document.getElementById('preview-content').innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Pré-visualização não disponível</p>
+        </div>
+      `;
+      return;
+    }
+
+    const previewUrl = getPreviewUrl(currentPreviewBook.link_download, currentPage);
+    
+    document.getElementById('preview-content').innerHTML = `
+      <iframe class="pdf-iframe" src="${previewUrl}" title="Pré-visualização do PDF"></iframe>
+    `;
+    
+    document.getElementById('page-indicator').textContent = `Página ${currentPage} de ${totalPages}`;
+    
+    document.getElementById('prev-page').disabled = (currentPage <= 1);
+    document.getElementById('next-page').disabled = (currentPage >= totalPages);
+  }
+
+  window.changePage = function(delta) {
+    const newPage = currentPage + delta;
+    if (newPage >= 1 && newPage <= totalPages) {
+      currentPage = newPage;
+      loadPreviewPage();
+    }
+  };
+
+  window.downloadFromPreview = function() {
+    if (currentPreviewBook && currentPreviewBook.link_download) {
+      const directUrl = getDirectDownloadUrl(currentPreviewBook.link_download);
+      forceDownload(directUrl, `${currentPreviewBook.titulo || 'livro'}.pdf`);
+      showToast(`Download iniciado: ${currentPreviewBook.titulo}`, 'success');
+      closePreviewModal();
+    }
+  };
+
+  async function initFirebase() {
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      await loadBooks();
+    } catch(e) {
+      console.warn('Firebase error, using demo data');
+      loadDemoData();
+    }
+  }
+
+  async function loadBooks() {
+    const snapshot = await getDocs(collection(db, 'livros'));
+    allBooks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    console.log('Books loaded:', allBooks.length);
+  }
+
+  function loadDemoData() {
+    allBooks = [
+      { id: '1', titulo: 'Matemática 1ª Classe', autor: 'INIDE', classe: '1', disciplina: 'Matemática', categoria: 'alunos', link_download: '', disponivel: true },
+      { id: '2', titulo: 'Português 1ª Classe', autor: 'INIDE', classe: '1', disciplina: 'Português', categoria: 'alunos', link_download: '', disponivel: true },
+      { id: '3', titulo: 'Programa do Ensino Primário', autor: 'INIDE', classe: 'primario', classe_range: '1-6', disciplina: 'Geral', categoria: 'programas', link_download: '', disponivel: true },
+      { id: '4', titulo: 'Programa de Matemática - 7ª', autor: 'INIDE', classe: '7', disciplina: 'Matemática', categoria: 'programas', link_download: '', disponivel: true },
+      { id: '5', titulo: 'Manual IFP - Didática', autor: 'ISCED', disciplina: 'Pedagogia', categoria: 'ifp', link_download: '', disponivel: true },
+    ];
+  }
+
+  function generateParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+      const span = document.createElement('span');
+      span.style.left = Math.random() * 100 + '%';
+      span.style.animationDelay = Math.random() * 15 + 's';
+      span.style.animationDuration = 8 + Math.random() * 20 + 's';
+      span.style.width = (Math.random() * 4 + 2) + 'px';
+      span.style.height = span.style.width;
+      container.appendChild(span);
+    }
+  }
+
+  window.selectCategory = function(category) {
+    currentCategory = category;
+    
+    if (category === 'alunos') {
+      document.getElementById('main-screen').classList.add('hidden');
+      document.getElementById('classes-screen').classList.remove('hidden');
+      document.getElementById('classes-title').textContent = 'Selecione a Classe';
+      renderClasses(1, 12);
+    } else if (category === 'programas') {
+      document.getElementById('main-screen').classList.add('hidden');
+      document.getElementById('classes-screen').classList.remove('hidden');
+      document.getElementById('classes-title').textContent = 'Selecione a Classe';
+      renderClasses(1, 12);
+    } else {
+      document.getElementById('main-screen').classList.add('hidden');
+      document.getElementById('books-screen').classList.remove('hidden');
+      document.getElementById('books-title').textContent = 'Manuais IFP';
+      document.getElementById('primario-info').style.display = 'none';
+      renderBooksByCategory(category);
+    }
+  };
+
+  function renderClasses(start, end) {
+    const grid = document.getElementById('classes-grid');
+    const classes = Array.from({ length: end - start + 1 }, (_, i) => i + start);
+    
+    grid.innerHTML = classes.map(c => `
+      <div class="class-card" onclick="selectClass(${c})">
+        <div class="class-number">${c}ª</div>
+        <div class="class-label">Classe</div>
+      </div>
+    `).join('');
+  }
+
+  window.selectClass = function(className) {
+    currentClass = className;
+    document.getElementById('classes-screen').classList.add('hidden');
+    document.getElementById('books-screen').classList.remove('hidden');
+    
+    if (currentCategory === 'alunos') {
+      document.getElementById('books-title').textContent = `${className}ª Classe - Livros Disponíveis`;
+      document.getElementById('primario-info').style.display = 'none';
+      renderBooksByClass(className);
+    } else if (currentCategory === 'programas') {
+      if (className >= 1 && className <= 6) {
+        document.getElementById('books-title').textContent = `Programas de Ensino - ${className}ª Classe`;
+        document.getElementById('primario-info').style.display = 'block';
+        renderProgramasPrimario();
+      } else {
+        document.getElementById('books-title').textContent = `Programas de Ensino - ${className}ª Classe`;
+        document.getElementById('primario-info').style.display = 'none';
+        renderProgramasSecundario(className);
+      }
+    }
+  };
+
+  function renderProgramasPrimario() {
+    const books = allBooks.filter(b => 
+      b.categoria === 'programas' && 
+      (b.classe === 'primario' || (b.classe_range && b.classe_range.includes(currentClass)))
+    );
+    renderBooksList(books);
+  }
+
+  function renderProgramasSecundario(className) {
+    const books = allBooks.filter(b => 
+      b.categoria === 'programas' && 
+      String(b.classe) === String(className)
+    );
+    renderBooksList(books);
+  }
+
+  function renderBooksByCategory(category) {
+    const books = allBooks.filter(b => b.categoria === category && b.disponivel !== false);
+    renderBooksList(books);
+  }
+
+  function renderBooksByClass(className) {
+    const books = allBooks.filter(b => 
+      b.categoria === 'alunos' && 
+      String(b.classe) === String(className) && 
+      b.disponivel !== false
+    );
+    renderBooksList(books);
+  }
+
+  function renderBooksList(books) {
+    const container = document.getElementById('books-list');
+    
+    if (!books.length) {
+      container.innerHTML = '<div class="empty-state"><i class="fas fa-book-open"></i><p>Nenhum livro encontrado nesta categoria.</p></div>';
+      return;
+    }
+
+    container.innerHTML = books.map(book => {
+      const coverUrl = getBookCoverUrl(book);
+      
+      let classeDisplay = '';
+      if (book.categoria === 'programas') {
+        if (book.classe === 'primario') {
+          classeDisplay = '1ª à 6ª Classe';
+        } else if (book.classe) {
+          classeDisplay = `${book.classe}ª Classe`;
+        }
+      } else if (book.classe) {
+        classeDisplay = `${book.classe}ª Classe`;
+      }
+      
+      return `
+      <div class="book-item">
+        <div class="book-cover" onclick="openImageModal('${coverUrl || ''}')" style="cursor: ${coverUrl ? 'pointer' : 'default'}">
+          ${coverUrl ? 
+            `<img src="${coverUrl}" alt="${book.titulo}" loading="lazy" 
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'no-image\'><i class=\'fas fa-file-pdf\'></i><span>PDF</span></div>'">` :
+            `<div class="no-image"><i class="fas fa-file-pdf"></i><span>PDF</span></div>`
+          }
+        </div>
+        
+        <div class="book-info">
+          <div class="book-title">${book.titulo || 'Sem título'}</div>
+          <div class="book-author"><i class="fas fa-user"></i> ${book.autor || 'Autor desconhecido'}</div>
+          <div class="book-details">
+            ${book.disciplina ? `<span class="book-discipline"><i class="fas fa-tag"></i> ${book.disciplina}</span>` : ''}
+            ${classeDisplay ? `<span class="book-classe"><i class="fas fa-graduation-cap"></i> ${classeDisplay}</span>` : ''}
+            ${book.ano ? `<span class="book-discipline"><i class="fas fa-calendar"></i> ${book.ano}</span>` : ''}
+          </div>
+        </div>
+        
+        <div class="book-actions">
+          <button class="preview-btn" onclick="event.stopPropagation();openPreviewModal(${JSON.stringify(book).replace(/"/g, '&quot;')})">
+            <i class="fas fa-eye"></i> Pré-visualizar
+          </button>
+          <button class="download-btn" onclick="event.stopPropagation();downloadBook('${book.id}')">
+            <i class="fas fa-download"></i> Baixar PDF
+          </button>
+        </div>
+      </div>
+    `}).join('');
+  }
+
+  window.downloadBook = function(bookId) {
+    const book = allBooks.find(b => b.id === bookId);
+    if (book && book.link_download) {
+      const directUrl = getDirectDownloadUrl(book.link_download);
+      forceDownload(directUrl, `${book.titulo || 'livro'}.pdf`);
+      showToast(`Download iniciado: ${book.titulo}`, 'success');
+    } else {
+      showToast('Link de download não disponível para este livro', 'error');
+    }
+  };
+
+  window.goBackToMain = function() {
+    document.getElementById('classes-screen').classList.add('hidden');
+    document.getElementById('books-screen').classList.add('hidden');
+    document.getElementById('main-screen').classList.remove('hidden');
+    currentCategory = '';
+    currentClass = '';
+  };
+
+  window.goBackToClasses = function() {
+    document.getElementById('books-screen').classList.add('hidden');
+    document.getElementById('classes-screen').classList.remove('hidden');
+  };
+
+  generateParticles();
+  initFirebase();
+</script>
+</body>
+</html>
