@@ -1,5 +1,5 @@
 // service-worker.js — cache apenas do APP_SHELL
-const CACHE_NAME = 'notaalta-pwa-v1.00'; // Aumente sempre que atualizar
+const CACHE_NAME = 'notaalta-pwa-v1.02'; // Aumente sempre que atualizar
 const APP_SHELL = [
   '/',
   '/index.html',
