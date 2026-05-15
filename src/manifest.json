@@ -1,8 +1,8 @@
 {
-  "id": "https://notaalta.web.app/",
-  "name": "NotaAlta - Recurso ao Estudante Moderno",
+  "id": "https://nota-alta.vercel.app/",
+  "name": "NotaAlta",
   "short_name": "NotaAlta",
-  "description": "NotaAlta - Estuda hoje. Nota alta amanhã.",
+  "description": "NotaAlta - Estuda hoje. Nota alta amanhã. Plataforma completa com IA, simulados, trabalhos científicos e recursos educacionais.",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
