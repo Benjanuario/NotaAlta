@@ -861,7 +861,7 @@
     </div>
     <div class="action-card b" onclick="mostrarOpcoesSimulador()">
       <div class="icon-wrap"><i class="fas fa-graduation-cap"></i></div>
-      <div class="card-title">SIMULADOR DE AVALIAÇÃO/PROVA</div>
+      <div class="card-title">SIMULADOR DE AVALIAÇÃO/EXAME</div>
       <div class="card-sub"><i class="fas fa-clipboard-list"></i> Prepare os Seus Testes e Exames de forma Prática</div>
     </div>
     <div class="action-card a" onclick="mostrarOpcoesTeste()">
@@ -927,19 +927,50 @@
 
 <!-- Modal: Opções de Simulador -->
 <div id="modalSimulador" class="modal-escolha">
-  <button class="modal-back-button" onclick="fecharModal('modalSimulador')"><i class="fas fa-arrow-left"></i> Voltar</button>
+  <button class="modal-back-button" onclick="document.getElementById('modalSimulador').style.display='none'"><i class="fas fa-arrow-left"></i> Voltar</button>
   <h2 class="modal-titulo">Tipo de Simulação:</h2>
+  
   <div class="botoes-container" id="botoesTipoSimulador">
-    <button class="btn-escolha btn-teste" onclick="mostrarNiveisSimulador('teste')"><i class="fas fa-file-alt"></i> Simular Teste Normal</button>
-    <button class="btn-escolha btn-teste" onclick="mostrarNiveisSimulador('exame')"><i class="fas fa-award"></i> Simular Exame Nacional</button>
-    <button class="btn-escolha btn-voltar" onclick="fecharModal('modalSimulador')"><i class="fas fa-arrow-left"></i> Voltar</button>
+    <button class="btn-escolha btn-teste" onclick="
+      document.getElementById('botoesTipoSimulador').style.display='none';
+      document.getElementById('opcoesNivelSimulador').style.display='block';
+      window.tipoSim = 'teste';
+    "><i class="fas fa-file-alt"></i> Simular Avaliação Normal</button>
+    
+    <button class="btn-escolha btn-teste" onclick="
+      document.getElementById('botoesTipoSimulador').style.display='none';
+      document.getElementById('opcoesNivelSimulador').style.display='block';
+      window.tipoSim = 'exame';
+    "><i class="fas fa-award"></i> Simular Exame Nacional</button>
+    
+    <button class="btn-escolha btn-voltar" onclick="document.getElementById('modalSimulador').style.display='none'"><i class="fas fa-arrow-left"></i> Voltar</button>
   </div>
-  <div class="opcoes-subnivel" id="opcoesNivelSimulador">
+  
+  <div class="opcoes-subnivel" id="opcoesNivelSimulador" style="display:none;">
     <h3 class="modal-titulo" style="font-size: 1.2rem; margin-top: 20px;">Nível de Ensino:</h3>
-    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('secundario')"><i class="fas fa-school"></i> Ensino Secundário</button>
-    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('tecnico')"><i class="fas fa-tools"></i> Técnico Profissional</button>
-    <button class="btn-escolha btn-nivel" onclick="redirecionarSimulador('universitario')"><i class="fas fa-university"></i> Universitário</button>
-    <button class="btn-escolha btn-voltar" onclick="voltarOpcoesSimulador()"><i class="fas fa-arrow-left"></i> Voltar</button>
+    
+    <!-- Secundário -->
+    <button class="btn-escolha btn-nivel" onclick="
+      if(window.tipoSim==='teste') window.location.href='esecsa.html';
+      else window.location.href='esecse.html';
+    "><i class="fas fa-school"></i> Ensino Secundário</button>
+    
+    <!-- Técnico Profissional -->
+    <button class="btn-escolha btn-nivel" onclick="
+      if(window.tipoSim==='teste') window.location.href='etpsa.html';
+      else window.location.href='etpse.html';
+    "><i class="fas fa-tools"></i> Técnico Profissional</button>
+    
+    <!-- Universitário -->
+    <button class="btn-escolha btn-nivel" onclick="
+      if(window.tipoSim==='teste') window.location.href='esupsa.html';
+      else window.location.href='esupse.html';
+    "><i class="fas fa-university"></i> Universitário</button>
+    
+    <button class="btn-escolha btn-voltar" onclick="
+      document.getElementById('botoesTipoSimulador').style.display='block';
+      document.getElementById('opcoesNivelSimulador').style.display='none';
+    "><i class="fas fa-arrow-left"></i> Voltar</button>
   </div>
 </div>
 
