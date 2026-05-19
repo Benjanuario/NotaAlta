@@ -1,0 +1,9 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.vercel.nota_alta.twa",
+        "sha256_cert_fingerprints": ["8B:78:6F:2B:16:A3:C9:DC:51:61:2D:42:5A:B8:53:12:20:5A:76:4F:D3:97:3F:73:6B:77:DF:9B:AD:27:16:0D"]
+      }
+    }]
+
