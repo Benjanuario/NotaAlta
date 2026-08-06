@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LEIC-MEC • Planos de Aula e Dosificações</title>
+    <meta name="theme-color" content="#0a2e6e">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a5a9c;
+            --primary-dark: #0d3b6e;
+            --primary-light: #3a7ec8;
+            --primary-gradient: linear-gradient(135deg, #1a5a9c, #0d3b6e);
+            --bg-deep: #0a1a2e;
+            --bg-space: #0f2844;
+            --bg-mid: #163a5c;
+            --bg-light: #1e4a74;
+            --text: #f1f5f9;
+            --text-secondary: #b0c8e0;
+            --glass: rgba(10, 30, 60, 0.85);
+            --glass-border: rgba(26, 90, 156, 0.3);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a1a2e 0%, #0f2844 30%, #163a5c 60%, #1a4a6e 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(180deg, #0d2b4a 0%, #163a5c 50%, #1e4a74 100%);
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid rgba(26, 90, 156, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1a5a9c, #5a9ee0, #1a5a9c);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 2.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #5a9ee0, #ffffff, #5a9ee0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+            text-shadow: 0 0 40px rgba(26, 90, 156, 0.3);
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-top: 2px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== MAIN ===== */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 40px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* ===== CARD PRINCIPAL ===== */
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px 30px 35px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(26, 90, 156, 0.05) 0%, transparent 70%);
+            animation: rotateBg 30s linear infinite;
+        }
+
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-card-icon {
+            font-size: 3.8rem;
+            background: linear-gradient(135deg, #5a9ee0, #3a7ec8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .main-card h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 6px;
+            position: relative;
+        }
+
+        .main-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 0 auto 28px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* ===== BOTÕES DOS PLANOS ===== */
+        .planos-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .plano-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(26, 90, 156, 0.25);
+            border-radius: 14px;
+            padding: 16px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardSlideUp 0.5s ease forwards;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .plano-card:nth-child(1) { animation-delay: 0.08s; }
+        .plano-card:nth-child(2) { animation-delay: 0.16s; }
+        .plano-card:nth-child(3) { animation-delay: 0.24s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .plano-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 90, 156, 0.08), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .plano-card:hover::before {
+            opacity: 1;
+        }
+
+        .plano-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(26, 90, 156, 0.5);
+            box-shadow: 0 8px 25px rgba(26, 90, 156, 0.15);
+            background: rgba(26, 90, 156, 0.06);
+        }
+
+        .plano-card:active {
+            transform: scale(0.97);
+        }
+
+        .plano-card .plano-icon {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+            display: block;
+            color: #5a9ee0;
+        }
+
+        .plano-card .plano-titulo {
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .plano-card .plano-sub {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .plano-card .plano-arrow {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.7rem;
+            color: #5a9ee0;
+            transition: transform 0.3s ease;
+        }
+
+        .plano-card:hover .plano-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Cores específicas para cada card - tons de azul */
+        .plano-card.plano-aula { border-left: 3px solid #3a7ec8; }
+        .plano-card.plano-quinzenal { border-left: 3px solid #5a9ee0; }
+        .plano-card.plano-analitico { border-left: 3px solid #2a6aaa; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(0deg, #0a1a2e 0%, #0f2844 100%);
+            border-top: 1px solid rgba(26, 90, 156, 0.15);
+            padding: 24px 20px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #1a5a9c, transparent);
+            margin: 0 auto 10px;
+            border-radius: 2px;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .footer-highlight {
+            color: #5a9ee0;
+            font-weight: 600;
+        }
+
+        .footer-small {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #0d2b4a;
+            border: 1px solid rgba(26, 90, 156, 0.3);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i { color: #5a9ee0; font-size: 1rem; }
+
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .main-card {
+                padding: 30px 20px 25px;
+            }
+
+            .main-card h2 {
+                font-size: 1.4rem;
+            }
+
+            .main-card p {
+                font-size: 0.85rem;
+                margin-bottom: 22px;
+            }
+
+            .planos-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .plano-card {
+                padding: 14px 16px;
+                min-height: 70px;
+                flex-direction: row;
+                gap: 14px;
+                text-align: left;
+            }
+
+            .plano-card .plano-icon {
+                font-size: 1.4rem;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .plano-card .plano-info {
+                flex: 1;
+            }
+
+            .plano-card .plano-titulo {
+                font-size: 0.85rem;
+            }
+
+            .plano-card .plano-sub {
+                font-size: 0.65rem;
+            }
+
+            .plano-card .plano-arrow {
+                margin-top: 0;
+                flex-shrink: 0;
+            }
+
+            .main-card-icon {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.6rem;
+            }
+
+            .header {
+                padding: 12px 16px 10px;
+            }
+
+            .main-card {
+                padding: 20px 14px 18px;
+                border-radius: 18px;
+            }
+
+            .plano-card {
+                padding: 10px 12px;
+                min-height: 60px;
+                gap: 10px;
+                border-radius: 12px;
+            }
+
+            .plano-card .plano-icon {
+                font-size: 1.2rem;
+            }
+
+            .plano-card .plano-titulo {
+                font-size: 0.8rem;
+            }
+
+            .plano-card .plano-sub {
+                font-size: 0.6rem;
+            }
+
+            .main-card h2 {
+                font-size: 1.2rem;
+            }
+
+            .main-card p {
+                font-size: 0.8rem;
+                margin-bottom: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">LEIC-MEC</h1>
+            <p class="header-subtitle">Planos de Aula e Dosificações</p>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-container">
+        <div class="main-card">
+            <div class="main-card-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h2>Planos de Aula e Dosificações</h2>
+            <p>
+                Selecione uma opção para criar ou obter planos de aula e dosificações curriculares.
+            </p>
+
+            <!-- Opções de Planos -->
+            <div class="planos-container">
+                <a href="pa.html" class="plano-card plano-aula">
+                    <span class="plano-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+                    <div class="plano-info">
+                        <div class="plano-titulo">Fazer Plano de Aula</div>
+                        <div class="plano-sub">Crie planos detalhados</div>
+                    </div>
+                    <span class="plano-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="pq.html" class="plano-card plano-quinzenal">
+                    <span class="plano-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <div class="plano-info">
+                        <div class="plano-titulo">Fazer Plano Quinzenal</div>
+                        <div class="plano-sub">Elabore planos quinzenais</div>
+                    </div>
+                    <span class="plano-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="pan.html" class="plano-card plano-analitico">
+                    <span class="plano-icon"><i class="fas fa-chart-line"></i></span>
+                    <div class="plano-info">
+                        <div class="plano-titulo">Obter Plano Analítico</div>
+                        <div class="plano-sub">Aceda aos planos analíticos</div>
+                    </div>
+                    <span class="plano-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-divider"></div>
+            <p class="footer-text">
+                Eu faço parte da campanha: <br>
+                <span class="footer-highlight">Leitura e Escrita na Idade Certa (LEIC)</span>
+            </p>
+            <p class="footer-small">E tu? LEIC-Moçambique</p>
+        </div>
+    </footer>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Bem-vindo aos Planos de Aula!</span>
+    </div>
+
+    <script>
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+                toast.style.borderColor = '#ef4444';
+                icon.style.color = '#ef4444';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+                toast.style.borderColor = '#f59e0b';
+                icon.style.color = '#f59e0b';
+            } else {
+                icon.className = 'fas fa-check-circle';
+                toast.style.borderColor = 'rgba(26, 90, 156, 0.3)';
+                icon.style.color = '#5a9ee0';
+            }
+
+            msg.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // ============================================
+        // ANIMAÇÃO DE ENTRADA DOS CARDS AO CARREGAR
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.plano-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${0.08 + index * 0.08}s`;
+            });
+
+            setTimeout(() => {
+                showToast('📚 Bem-vindo aos Planos de Aula!', 'success');
+            }, 600);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LEIC-MEC • Simuladores para Estudantes</title>
+    <meta name="theme-color" content="#0a2e6e">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1a5a9c;
+            --primary-dark: #0d3b6e;
+            --primary-light: #3a7ec8;
+            --primary-gradient: linear-gradient(135deg, #1a5a9c, #0d3b6e);
+            --bg-deep: #0a1a2e;
+            --bg-space: #0f2844;
+            --bg-mid: #163a5c;
+            --bg-light: #1e4a74;
+            --text: #f1f5f9;
+            --text-secondary: #b0c8e0;
+            --glass: rgba(10, 30, 60, 0.85);
+            --glass-border: rgba(26, 90, 156, 0.3);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a1a2e 0%, #0f2844 30%, #163a5c 60%, #1a4a6e 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(180deg, #0d2b4a 0%, #163a5c 50%, #1e4a74 100%);
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid rgba(26, 90, 156, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1a5a9c, #3a7ec8, #5a9ee0, #3a7ec8, #1a5a9c);
+            background-size: 200% 100%;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -1px;
+            text-shadow: 0 0 40px rgba(26, 90, 156, 0.3);
+        }
+
+        .header-title span {
+            color: #5a9ee0;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-top: 2px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== MAIN ===== */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 20px 40px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* ===== CARD PRINCIPAL ===== */
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px 30px 35px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(26, 90, 156, 0.05) 0%, transparent 70%);
+            animation: rotateBg 30s linear infinite;
+        }
+
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-card-icon {
+            font-size: 3.8rem;
+            color: #5a9ee0;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .main-card h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 6px;
+            position: relative;
+        }
+
+        .main-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 0 auto 24px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* ===== BOTÃO PULSANTE ===== */
+        .btn-pulse {
+            position: relative;
+            padding: 14px 44px;
+            border-radius: 60px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            cursor: pointer;
+            background: var(--primary-gradient);
+            box-shadow: 0 8px 30px rgba(26, 90, 156, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-pulse:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(26, 90, 156, 0.6);
+        }
+
+        .btn-pulse:active {
+            transform: scale(0.96);
+        }
+
+        .btn-pulse::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 64px;
+            background: var(--primary-gradient);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: pulseGradient 3s ease-in-out infinite;
+            filter: blur(8px);
+            opacity: 0.5;
+        }
+
+        .btn-pulse::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 68px;
+            border: 2px solid rgba(26, 90, 156, 0.25);
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        @keyframes pulseGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .btn-pulse .pulse-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* ===== OPÇÕES DE NÍVEL ===== */
+        .niveis-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 24px;
+            animation: fadeInUp 0.5s ease forwards;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .niveis-container.active {
+            display: flex;
+        }
+
+        .nivel-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(26, 90, 156, 0.25);
+            border-radius: 12px;
+            padding: 12px 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardSlideUp 0.5s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-height: 56px;
+        }
+
+        .nivel-card:nth-child(1) { animation-delay: 0.08s; }
+        .nivel-card:nth-child(2) { animation-delay: 0.16s; }
+        .nivel-card:nth-child(3) { animation-delay: 0.24s; }
+        .nivel-card:nth-child(4) { animation-delay: 0.32s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nivel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 90, 156, 0.08), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nivel-card:hover::before {
+            opacity: 1;
+        }
+
+        .nivel-card:hover {
+            transform: translateY(-2px) scale(1.01);
+            border-color: rgba(26, 90, 156, 0.5);
+            box-shadow: 0 8px 25px rgba(26, 90, 156, 0.15);
+            background: rgba(26, 90, 156, 0.08);
+        }
+
+        .nivel-card:active {
+            transform: scale(0.98);
+        }
+
+        .nivel-card .nivel-icon {
+            font-size: 1.3rem;
+            color: #5a9ee0;
+            flex-shrink: 0;
+            width: 32px;
+            text-align: center;
+        }
+
+        .nivel-card .nivel-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nivel-card .nivel-titulo {
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+        }
+
+        .nivel-card .nivel-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            background: rgba(26, 90, 156, 0.15);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .nivel-card .nivel-arrow {
+            font-size: 0.8rem;
+            color: #5a9ee0;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .nivel-card:hover .nivel-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Cores específicas para cada card - tons de azul */
+        .nivel-card.primario { border-left: 3px solid #3a7ec8; }
+        .nivel-card.secundario { border-left: 3px solid #5a9ee0; }
+        .nivel-card.pesd { border-left: 3px solid #2a6aaa; }
+        .nivel-card.epja { border-left: 3px solid #4a8ad0; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(0deg, #0a1a2e 0%, #0f2844 100%);
+            border-top: 1px solid rgba(26, 90, 156, 0.15);
+            padding: 24px 20px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .footer-highlight {
+            color: #5a9ee0;
+            font-weight: 600;
+        }
+
+        .footer-small {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #1a5a9c, transparent);
+            margin: 6px auto 10px;
+            border-radius: 2px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #0d2b4a;
+            border: 1px solid rgba(26, 90, 156, 0.3);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i { color: #5a9ee0; font-size: 1rem; }
+
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .main-card {
+                padding: 28px 18px 24px;
+            }
+
+            .main-card h2 {
+                font-size: 1.4rem;
+            }
+
+            .btn-pulse {
+                padding: 12px 30px;
+                font-size: 0.95rem;
+            }
+
+            .niveis-container {
+                max-width: 100%;
+                gap: 8px;
+            }
+
+            .nivel-card {
+                padding: 10px 14px;
+                min-height: 48px;
+                gap: 10px;
+            }
+
+            .nivel-card .nivel-icon {
+                font-size: 1.1rem;
+                width: 28px;
+            }
+
+            .nivel-card .nivel-titulo {
+                font-size: 0.85rem;
+            }
+
+            .nivel-card .nivel-sub {
+                font-size: 0.65rem;
+                padding: 1px 8px;
+            }
+
+            .main-card-icon {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.6rem;
+            }
+
+            .header {
+                padding: 12px 16px 10px;
+            }
+
+            .main-card {
+                padding: 20px 14px 18px;
+                border-radius: 18px;
+            }
+
+            .btn-pulse {
+                padding: 10px 24px;
+                font-size: 0.85rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-pulse .pulse-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .nivel-card {
+                padding: 8px 12px;
+                min-height: 42px;
+                gap: 8px;
+                border-radius: 10px;
+            }
+
+            .nivel-card .nivel-icon {
+                font-size: 0.95rem;
+                width: 24px;
+            }
+
+            .nivel-card .nivel-titulo {
+                font-size: 0.8rem;
+            }
+
+            .nivel-card .nivel-sub {
+                font-size: 0.6rem;
+                padding: 1px 6px;
+            }
+
+            .nivel-card .nivel-arrow {
+                font-size: 0.7rem;
+            }
+
+            .main-card h2 {
+                font-size: 1.2rem;
+            }
+
+            .main-card p {
+                font-size: 0.8rem;
+                margin-bottom: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">LEIC-<span>MEC</span></h1>
+            <p class="header-subtitle">Simuladores para Estudantes</p>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-container">
+        <div class="main-card">
+            <div class="main-card-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Iniciar o Simulador Inteligente</h2>
+            <p>
+                Escolha o Nível de Ensino
+            </p>
+
+            <!-- Botão Pulsante -->
+            <button class="btn-pulse" id="btnIniciar" onclick="mostrarNiveis()">
+                <span class="pulse-dot"></span>
+                Iniciar Agora
+                <i class="fas fa-arrow-right" style="font-size: 0.9rem;"></i>
+            </button>
+
+            <!-- Opções de Nível - organização vertical com altura reduzida -->
+            <div class="niveis-container" id="niveisContainer">
+                <a href="ensinoprimariosa.html" class="nivel-card primario">
+                    <span class="nivel-icon"><i class="fas fa-child"></i></span>
+                    <div class="nivel-info">
+                        <span class="nivel-titulo">Ensino Primário</span>
+                        <span class="nivel-sub">1ª a 6ª Classe</span>
+                    </div>
+                    <span class="nivel-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="ensinosecundariosa.html" class="nivel-card secundario">
+                    <span class="nivel-icon"><i class="fas fa-users"></i></span>
+                    <div class="nivel-info">
+                        <span class="nivel-titulo">Ensino Secundário</span>
+                        <span class="nivel-sub">7ª a 12ª Classe</span>
+                    </div>
+                    <span class="nivel-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="pesdsa.html" class="nivel-card pesd">
+                    <span class="nivel-icon"><i class="fas fa-user-graduate"></i></span>
+                    <div class="nivel-info">
+                        <span class="nivel-titulo">PESD</span>
+                        <span class="nivel-sub">Educação de Adultos</span>
+                    </div>
+                    <span class="nivel-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="epjasa.html" class="nivel-card epja">
+                    <span class="nivel-icon"><i class="fas fa-book-open"></i></span>
+                    <div class="nivel-info">
+                        <span class="nivel-titulo">EPJA</span>
+                        <span class="nivel-sub">Educação de Jovens e Adultos</span>
+                    </div>
+                    <span class="nivel-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-divider"></div>
+            <p class="footer-text">
+                Eu faço parte da campanha: <br>
+                <span class="footer-highlight">Leitura e Escrita na Idade Certa (LEIC)</span>
+            </p>
+            <p class="footer-small">E tu? LEIC-Moçambique</p>
+        </div>
+    </footer>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Bem-vindo!</span>
+    </div>
+
+    <script>
+        // ============================================
+        // MOSTRAR NÍVEIS COM DELAY
+        // ============================================
+        function mostrarNiveis() {
+            const container = document.getElementById('niveisContainer');
+            const btn = document.getElementById('btnIniciar');
+
+            btn.style.transition = 'all 0.4s ease';
+            btn.style.opacity = '0';
+            btn.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                btn.style.display = 'none';
+                container.classList.add('active');
+                showToast('Selecione o nível de ensino', 'success');
+            }, 400);
+        }
+
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+                toast.style.borderColor = '#ef4444';
+                icon.style.color = '#ef4444';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+                toast.style.borderColor = '#f59e0b';
+                icon.style.color = '#f59e0b';
+            } else {
+                icon.className = 'fas fa-check-circle';
+                toast.style.borderColor = 'rgba(26, 90, 156, 0.3)';
+                icon.style.color = '#5a9ee0';
+            }
+
+            msg.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // ============================================
+        // ANIMAÇÃO DE ENTRADA DOS CARDS AO CARREGAR
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.nivel-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${0.08 + index * 0.08}s`;
+            });
+
+            setTimeout(() => {
+                showToast('🎓 Bem-vindo ao LEIC-MEC!', 'success');
+            }, 600);
+        });
+    </script>
+
+</body>
+</html>

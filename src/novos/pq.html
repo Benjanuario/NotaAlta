@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>LEIC • Plano Quinzenal</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --primary: #0a3d7c;
+    --primary-dark: #062a55;
+    --primary-light: #1a5ca8;
+    --secondary: #4a90d9;
+    --accent: #2d7bc4;
+    --accent-light: #6aafe6;
+    --dark: #0a0a1a;
+    --light: #e8edf5;
+    --gray: #8a9bb5;
+    --success: #34b7a1;
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --glass: rgba(255, 255, 255, 0.06);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0a1628 100%);
+    color: var(--light);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+    transition: padding 0.3s ease;
+  }
+
+  body.plano-visivel { padding: 0; }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(10, 61, 124, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(74, 144, 217, 0.08) 0%, transparent 50%);
+    z-index: -1;
+  }
+
+  .app-container {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: max-width 0.3s ease, width 0.3s ease;
+  }
+
+  .app-container.plano-visivel { max-width: none; width: 100%; }
+
+  .header { text-align: center; margin-bottom: 30px; position: relative; }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--accent-light));
+    border-radius: 2px;
+  }
+
+  .logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 15px; }
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(10, 61, 124, 0.3);
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle { 
+    font-size: 13px; 
+    color: var(--gray); 
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+  
+  .subtitle span { color: var(--secondary); font-weight: 600; }
+
+  .main-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title i { color: var(--secondary); }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #c5cae9; }
+  .form-label i { color: var(--secondary); font-size: 14px; }
+  .required::after { content: ' *'; color: #ef5350; }
+
+  .form-input, .form-select {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: var(--light);
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+  }
+
+  .form-input::placeholder { color: #5c6a8a; }
+
+  .disciplina-custom {
+    position: relative;
+  }
+  .disciplina-trigger {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    color: var(--light);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+  }
+  .disciplina-trigger:hover { border-color: var(--secondary); }
+  .disciplina-trigger span:first-child { color: #c5cae9; }
+  .disciplina-trigger span:last-child { color: var(--secondary); font-weight: 600; }
+
+  .modal-disciplinas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-disciplinas.active { display: flex; }
+  .modal-disciplinas .modal-content {
+    background: #0d2137;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .modal-disciplinas .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .modal-disciplinas .modal-header h3 { color: white; margin: 0; }
+  .modal-disciplinas .close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  .disciplina-opcao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+  }
+  .disciplina-opcao:hover { background: rgba(255,255,255,0.05); }
+  .disciplina-opcao input { width: 20px; height: 20px; accent-color: var(--secondary); }
+  .disciplina-opcao label { color: white; font-size: 16px; cursor: pointer; flex: 1; }
+  .modal-footer {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn-modal {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-modal.confirmar { background: var(--secondary); color: white; }
+  .btn-modal.cancelar { background: rgba(255,255,255,0.08); color: white; }
+
+  .main-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(10, 61, 124, 0.3);
+  }
+
+  .main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(10, 61, 124, 0.4);
+  }
+
+  .main-btn i { font-size: 20px; }
+
+  #loader {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .loader-circle {
+    width: 80px; height: 80px;
+    border: 8px solid rgba(255,255,255,0.08);
+    border-top: 8px solid var(--secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  #loader-text { font-size: 18px; font-weight: bold; color: white; text-align: center; padding: 0 20px; }
+
+  .footer { 
+    text-align: center; 
+    margin-top: 30px; 
+    padding-top: 20px; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    font-size: 12px; 
+    color: var(--gray); 
+  }
+
+  .footer .highlight { color: var(--secondary); }
+
+  #planoFinal {
+    background: #ffffff;
+    color: #1a1a2e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+  }
+
+  .cabecalho-plano { text-align: center; margin-bottom: 20px; font-family: 'Times New Roman', Times, serif; }
+  .cabecalho-plano .linha-instituicao { font-weight: bold; font-size: 14px; margin: 2px 0; text-transform: uppercase; color: #000; }
+  .cabecalho-plano .separador { margin: 8px 0; letter-spacing: 2px; color: #333; font-weight: normal; }
+  .cabecalho-plano .zip-info { margin-top: 10px; font-weight: bold; font-size: 13px; color: #000; }
+  .cabecalho-plano .dosificacao { font-size: 12px; margin-top: 5px; font-style: italic; color: #000; }
+
+  .tabela-wrapper { overflow-x: auto; width: 100%; margin-top: 12px; }
+  .tabela-plano {
+    min-width: 900px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #fff;
+  }
+  .tabela-plano th {
+    background: #0a3d7c;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    text-align: center;
+    border: 1px solid #0a3d7c;
+    padding: 8px;
+  }
+  .tabela-plano td {
+    border: 1px solid #0a3d7c;
+    padding: 6px;
+    vertical-align: top;
+    text-align: left;
+    color: #1a1a2e;
+    font-size: 12px;
+  }
+  .tabela-plano td:nth-child(1),
+  .tabela-plano td:nth-child(2),
+  .tabela-plano td:nth-child(7) { vertical-align: middle; text-align: center; }
+  td[contenteditable="true"] { outline: none; }
+
+  .data-input {
+    width: 22px;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font: inherit;
+    padding: 0;
+    margin: 0 2px;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .btn-plano {
+    margin-top: 12px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, #0a3d7c, #4a90d9);
+    color: white;
+    transition: transform 0.2s;
+    margin-right: 5px;
+  }
+  .btn-plano:hover { transform: scale(1.03); }
+
+  .custom-select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .custom-select-display {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: #c5cae9;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+
+  .custom-select-display:hover {
+    border-color: var(--secondary);
+  }
+
+  .custom-select-display.active {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+  }
+
+  .custom-select-display .fa-chevron-down {
+    transition: transform 0.3s ease;
+    color: var(--secondary);
+    font-size: 14px;
+  }
+
+  .custom-select-display.active .fa-chevron-down {
+    transform: rotate(180deg);
+  }
+
+  .select-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .select-fullscreen-overlay.active {
+    display: flex;
+  }
+
+  .select-fullscreen-overlay .modal-header {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 20px;
+  }
+
+  .select-fullscreen-overlay .modal-header h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .select-fullscreen-overlay .modal-header .close-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .select-fullscreen-overlay .options-container {
+    width: 100%;
+    max-width: 500px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 10px 0;
+  }
+
+  .select-fullscreen-overlay .option-item-full {
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  .select-fullscreen-overlay .option-item-full:hover {
+    background: rgba(74, 144, 217, 0.08);
+  }
+
+  .select-fullscreen-overlay .option-item-full.selected {
+    background: rgba(74, 144, 217, 0.15);
+    border-left: 3px solid var(--secondary);
+  }
+
+  .select-fullscreen-overlay .option-item-full .semana-num {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .select-fullscreen-overlay .option-item-full .semana-data {
+    color: var(--secondary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    opacity: 0.85;
+  }
+
+  .select-fullscreen-overlay .option-item-full .separador {
+    color: #4a90d9;
+    margin: 0 8px;
+    font-size: 14px;
+    opacity: 0.5;
+  }
+
+  .select-fullscreen-overlay .options-container::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .select-fullscreen-overlay .options-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+  }
+
+  .select-fullscreen-overlay .options-container::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 10px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .tabela-plano,
+  .tabela-plano *,
+  #planoFinal .tabela-plano,
+  #planoFinal .tabela-plano * {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+  }
+
+  .tabela-plano td[contenteditable="true"],
+  #planoFinal .tabela-plano td[contenteditable="true"] {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      cursor: text;
+  }
+
+  .tabela-plano td[contenteditable="true"]:hover {
+      background-color: rgba(74, 144, 217, 0.05);
+  }
+
+  .tabela-plano td[contenteditable="true"]:focus {
+      outline: 2px solid #4a90d9;
+      outline-offset: 1px;
+      background-color: rgba(74, 144, 217, 0.08);
+  }
+
+  .tabela-plano .data-input,
+  #planoFinal .tabela-plano .data-input {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+  }
+
+  .tabela-plano::selection,
+  .tabela-plano *::selection,
+  #planoFinal .tabela-plano::selection,
+  #planoFinal .tabela-plano *::selection {
+      background: transparent !important;
+      color: inherit !important;
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 10mm; }
+    .tabela-plano { table-layout: fixed; width: 100%; }
+    .tabela-plano th, .tabela-plano td { word-wrap: break-word; white-space: normal; font-size: 11px; }
+    .tabela-plano th:nth-child(1), .tabela-plano td:nth-child(1) { width: 10%; }
+    .tabela-plano th:nth-child(2), .tabela-plano td:nth-child(2) { width: 12%; }
+    .tabela-plano th:nth-child(3), .tabela-plano td:nth-child(3) { width: 18%; }
+    .tabela-plano th:nth-child(4), .tabela-plano td:nth-child(4) { width: 20%; }
+    .tabela-plano th:nth-child(5), .tabela-plano td:nth-child(5) { width: 18%; }
+    .tabela-plano th:nth-child(6), .tabela-plano td:nth-child(6) { width: 12%; }
+    .tabela-plano th:nth-child(7), .tabela-plano td:nth-child(7) { width: 10%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container" id="appContainer">
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+    </div>
+    <h1>LEIC</h1>
+    <p class="subtitle"><span>Leitura e Escrita na Idade Certa</span> • Ministério da Educação e Cultura</p>
+  </header>
+
+  <button id="btnVoltarFormulario" onclick="voltarAoFormulario()" style="display:none; margin-bottom:10px; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: white; padding: 10px; cursor:pointer;">
+    <i class="fas fa-arrow-left"></i> VOLTAR AO FORMULÁRIO
+  </button>
+
+  <form id="formPlanoQuinzenal" class="main-card" style="display:block;">
+    <h2 class="card-title"><i class="fas fa-pen"></i> DADOS DO PLANO</h2>
+    
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-map-marker-alt"></i> Província</label>
+      <select id="provincia" class="form-select" required>
+        <option value="">Selecione a Província</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-city"></i> Distrito</label>
+      <select id="distrito" class="form-select" required>
+        <option value="">Selecione o Distrito</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-map-pin"></i> ZIP (Nome) <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="zipNome" class="form-input" placeholder="Ex: Zona Alta, Bairro Central" pattern="[A-Za-zÀ-ÿ0-9\s\-\(\).,]*">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-hashtag"></i> Nº da ZIP <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="zipNumero" class="form-input" placeholder="Ex: 007" pattern="\d{0,3}" maxlength="3">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-school"></i> Escola <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="nomeEscola" class="form-input" placeholder="Ex: Escola Secundária de..." pattern="[A-Za-zÀ-ÿ0-9\s\-\(\).,]*">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-graduation-cap"></i> Classe</label>
+      <select id="classe" class="form-select" required>
+        <option value="">Selecione</option>
+        <option value="1ª Classe">1ª Classe</option>
+        <option value="2ª Classe">2ª Classe</option>
+        <option value="3ª Classe">3ª Classe</option>
+        <option value="4ª Classe">4ª Classe</option>
+        <option value="5ª Classe">5ª Classe</option>
+        <option value="6ª Classe">6ª Classe</option>
+        <option value="7ª Classe">7ª Classe</option>
+        <option value="8ª Classe">8ª Classe</option>
+        <option value="9ª Classe">9ª Classe</option>
+        <option value="10ª Classe">10ª Classe</option>
+        <option value="11ª Classe">11ª Classe</option>
+        <option value="12ª Classe">12ª Classe</option>
+      </select>
+    </div>
+
+    <div class="form-group disciplina-custom">
+      <label class="form-label required"><i class="fas fa-book"></i> Disciplina(s)</label>
+      <div class="disciplina-trigger" id="disciplinaTrigger" onclick="abrirModalDisciplinas()">
+        <span><i class="fas fa-check-circle"></i> Selecionar disciplinas</span>
+        <span id="contadorDisciplinas">(0 selecionadas)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-calendar-alt"></i> Trimestre</label>
+      <select id="trimestre" class="form-select" required>
+        <option value="1º Trimestre">1º Trimestre</option>
+        <option value="2º Trimestre">2º Trimestre</option>
+        <option value="3º Trimestre">3º Trimestre</option>
+      </select>
+    </div>
+
+    <div class="row" style="display: flex; gap: 10px;">
+      <div class="form-group" style="flex:1;">
+        <label class="form-label required"><i class="fas fa-play"></i> Semana Inicial</label>
+        <div class="custom-select-wrapper" id="wrapperSemanaDe">
+          <div class="custom-select-display" onclick="abrirSelectTelaCheia('semanaDe')">
+            <span id="displaySemanaDe">Selecione</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <input type="hidden" id="semanaDe" value="">
+        </div>
+      </div>
+      <div class="form-group" style="flex:1;">
+        <label class="form-label required"><i class="fas fa-stop"></i> Semana Final</label>
+        <div class="custom-select-wrapper" id="wrapperSemanaAte">
+          <div class="custom-select-display" onclick="abrirSelectTelaCheia('semanaAte')">
+            <span id="displaySemanaAte">Selecione</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <input type="hidden" id="semanaAte" value="">
+        </div>
+      </div>
+    </div>
+
+    <button type="button" onclick="iniciarGeracaoPlano()" class="main-btn">
+      <i class="fas fa-rocket"></i> GERAR PLANO QUINZENAL
+    </button>
+  </form>
+
+  <div id="loader">
+    <div class="loader-circle"></div>
+    <div id="loader-text">A gerar o plano...</div>
+  </div>
+
+  <div id="planoFinal" style="display:none;"></div>
+
+  <footer class="footer">
+    <p>© 2026 <span class="highlight">LEIC</span> • Leitura e Escrita na Idade Certa</p>
+    <p>Ministério da Educação e Cultura - República de Moçambique</p>
+  </footer>
+</div>
+
+<!-- Modal para seleção de disciplinas -->
+<div id="modalDisciplinas" class="modal-disciplinas">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-check-double"></i> Selecione as disciplinas</h3>
+      <button class="close-modal" onclick="fecharModalDisciplinas()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="listaDisciplinasModal"></div>
+    <div class="modal-footer">
+      <button class="btn-modal cancelar" onclick="fecharModalDisciplinas()">Cancelar</button>
+      <button class="btn-modal confirmar" onclick="confirmarSelecaoDisciplinas()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================= CONFIGURAÇÕES =================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+
+const dadosMocambique = {
+  "Niassa": ["Cuamba", "Chimbunila", "Lago", "Lichinga", "Majune", "Mandimba", "Marrupa", "Maúa", "Mavago", "Mecanhelas", "Mecula", "Metarica", "Muembe", "Nipepe", "N'gauma", "Sanga"],
+  "Cabo Delgado": ["Ancuabe", "Balama", "Chiúre", "Ibo", "Macomia", "Mecúfi", "Meluco", "Mocímboa da Praia", "Montepuez", "Mueda", "Metuge", "Muidumbe", "Namuno", "Nangade", "Palma", "Pemba", "Quissanga"],
+  "Nampula": ["Angoche", "Eráti", "Ilha de Moçambique", "Lalaua", "Larde", "Liúpo", "Malema", "Meconta", "Mecubúri", "Mogincual", "Mogovolas", "Moma", "Monapo", "Mossuril", "Muecate", "Murrupula", "Memba", "Nacala-a-Velha", "Nacarôa", "Nampula", "Rapale", "Ribaue"],
+  "Zambézia": ["Alto Molócuè", "Chinde", "Derre", "Gilé", "Gurué", "Ile", "Inhassunge", "Luabo", "Lugela", "Maganja da Costa", "Milange", "Mocuba", "Mopeia", "Morrumbala", "Mulevala", "Mulumbo", "Namacurra", "Namarroi", "Nicoadala", "Pebane", "Quelimane"],
+  "Tete": ["Angónia", "Cahora-Bassa", "Changara", "Chifunde", "Chiuta", "Doa", "Macanga", "Mágoè", "Marara", "Marávia", "Moatize", "Mutarara", "Tete", "Tsangano", "Zumbo"],
+  "Manica": ["Bárue", "Chimoio", "Gondola", "Guro", "Machaze", "Macossa", "Manica", "Mossurize", "Sussundenga", "Tambara", "Vanduzi"],
+  "Sofala": ["Beira", "Búzi", "Caia", "Chemba", "Cheringoma", "Chibabava", "Dondo", "Gorongosa", "Machanga", "Marínguè", "Marromeu", "Muanza", "Nhamatanda"],
+  "Inhambane": ["Funhalouro", "Govuro", "Homoíne", "Inhambane", "Inharrime", "Inhassoro", "Jangamo", "Mabote", "Massinga", "Maxixe", "Morrumbene", "Panda", "Vilankulo", "Zavala"],
+  "Gaza": ["Bilene", "Chibuto", "Chicualacuala", "Chigubo", "Chókwè", "Chongoene", "Guijá", "Limpopo", "Mabalane", "Manjacaze", "Mapai", "Massangena", "Massingir", "Xai-Xai"],
+  "Maputo": ["Boane", "Magude", "Manhiça", "Marracuene", "Matola", "Matutuíne", "Moamba", "Namaacha", "KaMpfumo", "KaMubukwana", "KaMaxaquene", "KaMavota", "KaTembe", "KaNyaka"]
+};
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzbZf6kyyvxoWPKXPcCri4GTFy8MQiHEyiXpy14pUgu1K0ePXvjrEcPkb2GYxX7FZb4/exec";
+
+const disciplinasPorClasse = {
+  "1ª Classe":["Português","Matemática","Educação Física"],
+  "2ª Classe":["Português","Matemática","Educação Física"],
+  "3ª Classe":["Português","Matemática","Educação Física"],
+  "4ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","Educação Física"],
+  "5ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","EVO","Educação Física"],
+  "6ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","EVO","Educação Física"],
+  "7ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Agropecuária","Inglês","EVT","Educação Física"],
+  "8ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Agropecuária","Francês","Inglês","EVT","Educação Física"],
+  "9ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Inglês","Agropecuária","Francês","EVT","Educação Física"],
+  "10ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","Filosofia","TIC","Inglês","Agropecuária","Francês","Noções de Empreendedorismo","EVT","Educação Física"],
+  "11ª Classe":["Português","Matemática 'Letras'","Matemática 'Ciências'","Biologia","Química","Física","Psicologia","Psicopedagogia","Geografia","História","TIC","Inglês","Francês","Filosofia","Noções de Empreendedorismo","EVT","DGD","Educação Física"],
+  "12ª Classe":["Português","Matemática 'Letras'","Matemática 'Ciências'","Biologia","Química","Física","Psicologia","Psicopedagogia","Geografia","História","TIC","Inglês","Francês","Filosofia","Noções de Empreendedorismo","EVT","DGD","Educação Física"]
+};
+
+const datasInicioTrimestre = {
+  "1º Trimestre": new Date(2025, 2, 2),
+  "2º Trimestre": new Date(2025, 5, 1),
+  "3º Trimestre": new Date(2025, 8, 8)
+};
+
+let disciplinasSelecionadas = [];
+let todasDisciplinasLista = [];
+
+function popularProvincias() {
+  const selectProv = document.getElementById('provincia');
+  selectProv.innerHTML = '<option value="">Selecione a Província</option>';
+  Object.keys(dadosMocambique).sort().forEach(prov => {
+    const option = document.createElement('option');
+    option.value = prov;
+    option.textContent = prov;
+    selectProv.appendChild(option);
+  });
+}
+
+function atualizarDistritos() {
+  const provincia = document.getElementById('provincia').value;
+  const selectDist = document.getElementById('distrito');
+  selectDist.innerHTML = '<option value="">Selecione o Distrito</option>';
+  if (!provincia) return;
+  const distritos = dadosMocambique[provincia] || [];
+  distritos.sort().forEach(dist => {
+    const option = document.createElement('option');
+    option.value = dist;
+    option.textContent = dist;
+    selectDist.appendChild(option);
+  });
+}
+
+function calcularDatasSemana(trimestre, semanaNumero) {
+  const dataInicioTrimestre = datasInicioTrimestre[trimestre];
+  if (!dataInicioTrimestre) return { inicio: null, fim: null };
+  const dataInicioSemana = new Date(dataInicioTrimestre);
+  dataInicioSemana.setDate(dataInicioSemana.getDate() + (semanaNumero - 1) * 7);
+  const dataFimSemana = new Date(dataInicioSemana);
+  dataFimSemana.setDate(dataFimSemana.getDate() + 4);
+  return { inicio: dataInicioSemana, fim: dataFimSemana };
+}
+
+function formatarDataBR(data) {
+  if (!data) return { dd: '__', mm: '__' };
+  return { dd: String(data.getDate()).padStart(2,'0'), mm: String(data.getMonth()+1).padStart(2,'0') };
+}
+
+function salvarDadosLocalStorage() {
+  const dados = {
+    provincia: document.getElementById('provincia').value,
+    distrito: document.getElementById('distrito').value,
+    zipNome: document.getElementById('zipNome').value,
+    zipNumero: document.getElementById('zipNumero').value,
+    nomeEscola: document.getElementById('nomeEscola').value
+  };
+  localStorage.setItem('dadosFormularioQuinzenal', JSON.stringify(dados));
+}
+
+function carregarDadosSalvos() {
+  const dadosSalvos = localStorage.getItem('dadosFormularioQuinzenal');
+  if (dadosSalvos) {
+    try {
+      const dados = JSON.parse(dadosSalvos);
+      if (dados.provincia) {
+        document.getElementById('provincia').value = dados.provincia;
+        atualizarDistritos();
+        if (dados.distrito) document.getElementById('distrito').value = dados.distrito;
+      }
+      if (dados.zipNome) document.getElementById('zipNome').value = dados.zipNome;
+      if (dados.zipNumero) document.getElementById('zipNumero').value = dados.zipNumero;
+      if (dados.nomeEscola) document.getElementById('nomeEscola').value = dados.nomeEscola;
+    } catch(e) {}
+  }
+}
+
+function voltarAoFormulario() {
+  document.getElementById('formPlanoQuinzenal').style.display = 'block';
+  document.getElementById('planoFinal').style.display = 'none';
+  document.getElementById('btnVoltarFormulario').style.display = 'none';
+  document.getElementById('appContainer').classList.remove('plano-visivel');
+  document.body.classList.remove('plano-visivel');
+}
+
+function formatarBullets(texto) {
+  if (!texto) return "";
+  return texto.split(/\r?\n/).map(linha => linha.trim()).map(linha => linha.replace(/^[\-\•]\s?/, '• ')).join('<br>');
+}
+
+function carregarListaDisciplinasModal() {
+  const classe = document.getElementById('classe').value;
+  if (!classe) {
+    alert('Selecione a classe primeiro');
+    return [];
+  }
+  const lista = disciplinasPorClasse[classe] || [];
+  if (lista.length === 0) {
+    alert('Nenhuma disciplina cadastrada para esta classe');
+  }
+  return lista;
+}
+
+function abrirModalDisciplinas() {
+  const lista = carregarListaDisciplinasModal();
+  if (!lista.length) return;
+  todasDisciplinasLista = lista;
+  const container = document.getElementById('listaDisciplinasModal');
+  container.innerHTML = '';
+  
+  lista.forEach(disp => {
+    const checked = disciplinasSelecionadas.includes(disp);
+    const div = document.createElement('div');
+    div.className = 'disciplina-opcao';
+    div.innerHTML = `
+      <input type="checkbox" class="chk-modal-disciplina" value="${disp}" id="modal_${disp.replace(/\s/g,'_')}" ${checked ? 'checked' : ''}>
+      <label for="modal_${disp.replace(/\s/g,'_')}">${disp}</label>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('modalDisciplinas').classList.add('active');
+}
+
+function fecharModalDisciplinas() {
+  document.getElementById('modalDisciplinas').classList.remove('active');
+}
+
+function confirmarSelecaoDisciplinas() {
+  const checks = document.querySelectorAll('#listaDisciplinasModal .chk-modal-disciplina:checked');
+  disciplinasSelecionadas = Array.from(checks).map(cb => cb.value);
+  atualizarContadorDisciplinas();
+  fecharModalDisciplinas();
+}
+
+function atualizarContadorDisciplinas() {
+  const span = document.getElementById('contadorDisciplinas');
+  if (disciplinasSelecionadas.length === 0) span.textContent = '(0 selecionadas)';
+  else if (disciplinasSelecionadas.length === 1) span.textContent = `(1 selecionada: ${disciplinasSelecionadas[0]})`;
+  else span.textContent = `(${disciplinasSelecionadas.length} selecionadas)`;
+}
+
+async function gerarTemaTransversal(conteudo, unidadeTematica, objetivos, disciplina) {
+  if (!conteudo || conteudo.trim() === '') return '';
+
+  const temasConhecidos = [
+    'Educação Ambiental', 'Saúde e Bem-estar', 'Cidadania', 'Direitos Humanos',
+    'Género', 'Empreendedorismo', 'Ética e Cidadania', 'Meio Ambiente',
+    'Paz e Conflitos', 'Inclusão Social', 'Sustentabilidade', 'Consumo Responsável',
+    'Higiene e Saúde', 'Prevenção de Doenças', 'Vida Familiar', 'Trânsito Seguro'
+  ];
+  for (let tema of temasConhecidos) {
+    if (conteudo.toLowerCase().includes(tema.toLowerCase())) return tema;
+  }
+
+  let idiomaResposta = 'português de Moçambique';
+  let cabecalhoIdioma = 'em português de Moçambique, com palavras completas e acentos';
+  if (disciplina.toLowerCase().includes('inglês')) {
+    idiomaResposta = 'inglês';
+    cabecalhoIdioma = 'in English, using complete words';
+  } else if (disciplina.toLowerCase().includes('francês')) {
+    idiomaResposta = 'francês';
+    cabecalhoIdioma = 'em francês, com palavras completas e acentos';
+  }
+
+  const prompt = `Com base no seguinte conteúdo pedagógico para uma aula de ${disciplina} em Moçambique, sugira APENAS UM Tema Transversal apropriado, escrito ${cabecalhoIdioma} (máximo 4 palavras). 
+Unidade Temática: ${unidadeTematica}
+Objectivos: ${objetivos}
+Conteúdo: ${conteudo}
+
+Responda APENAS com o nome do tema.`;
+
+  try {
+    const response = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_API_KEY}` },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: "system", content: `Você é especialista em currículo moçambicano. Responda apenas o nome do tema transversal, sem explicações, no idioma solicitado: ${idiomaResposta}.` },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 40
+      })
+    });
+    if (!response.ok) throw new Error(`API Groq: ${response.status}`);
+    const data = await response.json();
+    let tema = data.choices[0].message.content.trim();
+    tema = tema.replace(/[.,;:"'!?]/g, '').substring(0, 50);
+    if (tema === '') return idiomaResposta === 'inglês' ? 'Cross-curricular theme' : (idiomaResposta === 'francês' ? 'Thème transversal' : 'Tema Transversal');
+    return tema;
+  } catch(e) {
+    console.error('Erro Groq:', e);
+    if (idiomaResposta === 'inglês') return 'Cross-curricular theme';
+    if (idiomaResposta === 'francês') return 'Thème transversal';
+    return 'Tema Transversal';
+  }
+}
+
+async function iniciarGeracaoPlano() {
+  const provincia = document.getElementById('provincia').value;
+  const distrito = document.getElementById('distrito').value;
+  const de = parseInt(document.getElementById('semanaDe').value);
+  const ate = parseInt(document.getElementById('semanaAte').value);
+  
+  if (!provincia || !distrito) { alert("Selecione província e distrito."); return; }
+  if (de > ate || (ate - de + 1) > 3) { alert("Selecione até 3 semanas."); return; }
+  if (disciplinasSelecionadas.length === 0) { alert("Selecione pelo menos uma disciplina."); return; }
+
+  document.getElementById('formPlanoQuinzenal').style.display = 'none';
+  const loader = document.getElementById('loader');
+  const loaderText = document.getElementById('loader-text');
+  loader.style.display = 'flex';
+  loaderText.textContent = "Carregando planos...";
+
+  const classe = document.getElementById('classe').value;
+  const trimestre = document.getElementById('trimestre').value;
+  const semanas = [];
+  for (let i = de; i <= ate; i++) semanas.push(i);
+
+  const planosPorDisciplina = [];
+
+  for (const disciplina of disciplinasSelecionadas) {
+    loaderText.textContent = `Buscando ${disciplina}...`;
+    const url = `${API_URL}?classe=${encodeURIComponent(classe)}&disciplina=${encodeURIComponent(disciplina)}&trimestre=${encodeURIComponent(trimestre)}`;
+    try {
+      const resp = await fetch(url);
+      const planos = await resp.json();
+      const filtrados = planos.filter(p => semanas.includes(p.numero));
+      if (filtrados.length === 0) continue;
+      filtrados.sort((a,b) => a.numero - b.numero);
+      for (let i=0; i<filtrados.length; i++) {
+        const p = filtrados[i];
+        let tema = await gerarTemaTransversal(p.conteudo, p.unidade_tematica, p.objetivo_especifico, disciplina);
+        p.tema_transversal = tema;
+      }
+      planosPorDisciplina.push({ disciplina, dados: filtrados });
+    } catch(e) { console.error(`Erro em ${disciplina}:`, e); }
+  }
+
+  loader.style.display = 'none';
+  if (planosPorDisciplina.length === 0) {
+    alert("Nenhum plano encontrado para as disciplinas selecionadas.");
+    voltarAoFormulario();
+    return;
+  }
+  exibirPlanosMultiplos(planosPorDisciplina, provincia, distrito, classe, trimestre, de, ate);
+}
+
+function exibirPlanosMultiplos(planosArray, provincia, distrito, classe, trimestre, de, ate) {
+  document.getElementById('appContainer').classList.add('plano-visivel');
+  document.body.classList.add('plano-visivel');
+  const container = document.getElementById('planoFinal');
+  container.innerHTML = '';
+  container.style.display = 'block';
+
+  const ano = new Date().getFullYear();
+  const zipNome = document.getElementById('zipNome').value.trim();
+  const zipNum = document.getElementById('zipNumero').value.trim();
+  const nomeEscola = document.getElementById('nomeEscola').value.trim();
+
+  for (let idx = 0; idx < planosArray.length; idx++) {
+    const disc = planosArray[idx];
+    const disciplinaNome = disc.disciplina;
+    const linhas = disc.dados;
+
+    const card = document.createElement('div');
+    card.style.background = 'white';
+    card.style.borderRadius = '20px';
+    card.style.marginBottom = '30px';
+    card.style.overflow = 'hidden';
+    card.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+
+    const tituloDiv = document.createElement('div');
+    tituloDiv.style.background = '#0a3d7c';
+    tituloDiv.style.padding = '12px 20px';
+    tituloDiv.style.fontSize = '18px';
+    tituloDiv.style.fontWeight = '800';
+    tituloDiv.style.color = 'white';
+    tituloDiv.style.display = 'flex';
+    tituloDiv.style.alignItems = 'center';
+    tituloDiv.style.gap = '12px';
+    tituloDiv.innerHTML = `<i class="fas fa-book"></i> ${disciplinaNome}`;
+    card.appendChild(tituloDiv);
+
+    if (idx === 0) {
+      const cabecalho = document.createElement('div');
+      cabecalho.className = 'cabecalho-plano';
+      cabecalho.style.textAlign = 'center';
+      cabecalho.style.margin = '20px';
+      cabecalho.style.fontFamily = "'Times New Roman', Times, serif";
+      cabecalho.innerHTML = `
+        <div class="linha-instituicao">REPÚBLICA DE MOÇAMBIQUE</div>
+        <div class="linha-instituicao">MINISTÉRIO DA EDUCAÇÃO E CULTURA</div>
+        <div class="linha-instituicao">PROVÍNCIA DE ${provincia.toUpperCase()}</div>
+        <div class="linha-instituicao">GOVERNO DISTRITAL DE ${distrito.toUpperCase()}</div>
+        <div class="linha-instituicao">SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div>
+        <div class="separador">------------------------X-------------------</div>
+      `;
+      card.appendChild(cabecalho);
+    }
+
+    const zipEscola = document.createElement('div');
+    zipEscola.style.textAlign = 'center';
+    zipEscola.style.marginBottom = '10px';
+    zipEscola.style.fontWeight = 'bold';
+    let zipTexto = '';
+    if(zipNome && zipNum) zipTexto = `ZIP: ${zipNome} – Nº: ${zipNum}`;
+    if(nomeEscola) zipTexto += (zipTexto ? '<br>' : '') + `Escola: ${nomeEscola}`;
+    zipEscola.innerHTML = zipTexto || '';
+    card.appendChild(zipEscola);
+
+    const dosif = document.createElement('div');
+    dosif.style.textAlign = 'center';
+    dosif.style.fontStyle = 'italic';
+    dosif.style.marginBottom = '15px';
+    dosif.innerHTML = `Dosificação Quinzenal de ${disciplinaNome} – ${classe}, ${trimestre} / ${ano}`;
+    card.appendChild(dosif);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tabela-wrapper';
+    const tabela = document.createElement('table');
+    tabela.className = 'tabela-plano';
+    
+    let cabecalhos = ['SEMANA', 'U.TEMATICA', 'OBJECTIVOS ESPECÍFICOS', 'CONTEÚDOS', 'COMPETÊNCIAS BÁSICAS', 'TEMAS TRANSVERSAIS', 'C.H.'];
+    if(disciplinaNome.toLowerCase().includes('inglês')) {
+      cabecalhos = ['WEEK', 'THEMATIC UNIT', 'SPECIFIC OBJECTIVES', 'CONTENTS', 'BASIC COMPETENCES', 'CROSS-CURRICULAR THEMES', 'L.H.'];
+    } else if(disciplinaNome.toLowerCase().includes('francês')) {
+      cabecalhos = ['SEMAINE', 'UNITÉ THÉMATIQUE', 'OBJECTIFS SPÉCIFIQUES', 'CONTENUS', 'COMPÉTENCES DE BASE', 'THÈMES TRANSVERSAUX', 'H.H.'];
+    }
+    
+    let thead = `<thead><tr>${cabecalhos.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+    let tbody = '<tbody>';
+    linhas.forEach(p => {
+      const datas = calcularDatasSemana(trimestre, p.numero);
+      const inicio = formatarDataBR(datas.inicio);
+      const fim = formatarDataBR(datas.fim);
+      tbody += `<tr>
+        <td style="text-align:center;">${p.numero}ª Semana<br><small>Data: De: <input class="data-input" value="${inicio.dd}" maxlength="2">/<input class="data-input" value="${inicio.mm}" maxlength="2">/${ano} até: <input class="data-input" value="${fim.dd}" maxlength="2">/<input class="data-input" value="${fim.mm}" maxlength="2">/${ano}</small></td>
+        <td contenteditable="true">${formatarBullets(p.unidade_tematica)}</td>
+        <td contenteditable="true">${formatarBullets(p.objetivo_especifico)}</td>
+        <td contenteditable="true">${formatarBullets(p.conteudo)}</td>
+        <td contenteditable="true">${formatarBullets(p.competencia_basica)}</td>
+        <td contenteditable="true">${p.tema_transversal || ''}</td>
+        <td style="text-align:center;" contenteditable="true">${p.carga_horaria || '-'}</td>
+      </tr>`;
+    });
+    tbody += '</tbody>';
+    tabela.innerHTML = thead + tbody;
+    wrapper.appendChild(tabela);
+    card.appendChild(wrapper);
+    container.appendChild(card);
+  }
+
+  const botoesDiv = document.createElement('div');
+  botoesDiv.style.marginTop = '20px';
+  botoesDiv.style.textAlign = 'center';
+  botoesDiv.innerHTML = `
+    <button onclick="focarEdicao()" class="btn-plano">
+      ✏️ Editar o Plano
+    </button>
+    <button onclick="irParaPagamento()" class="btn-plano">
+      📥 EXPORTAR PDF (BAIXAR O PLANO)
+    </button>
+  `;
+  container.appendChild(botoesDiv);
+
+  document.getElementById('btnVoltarFormulario').style.display = 'inline-block';
+
+  const dadosParaPDF = {
+    provincia, distrito, zipNome, zipNumero: zipNum, nomeEscola, classe, trimestre,
+    disciplinas: planosArray.map(p => ({ disciplina: p.disciplina, dados: p.dados }))
+  };
+  sessionStorage.setItem('planosMultiplos', JSON.stringify(dadosParaPDF));
+
+  setTimeout(function() {
+    protegerTabela();
+  }, 200);
+}
+
+function focarEdicao() {
+  const primeiraEditavel = document.querySelector('.tabela-plano [contenteditable="true"]');
+  if (primeiraEditavel) primeiraEditavel.focus();
+}
+
+function irParaPagamento() {
+  const planosData = sessionStorage.getItem('planosMultiplos');
+  if (!planosData) { alert("Gere o plano primeiro."); return; }
+  sessionStorage.setItem('planoData', planosData);
+  window.location.href = "dpq.html";
+}
+
+function protegerTabela() {
+  document.addEventListener('keydown', function(e) {
+    const target = e.target;
+    const isInTable = target.closest('.tabela-plano');
+    
+    if (isInTable) {
+      if (e.ctrlKey && e.key === 'c') {
+        e.preventDefault();
+        mostrarAlerta('📋 Cópia bloqueada na tabela.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'a') {
+        e.preventDefault();
+        mostrarAlerta('⚠️ Seleção em massa bloqueada.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'x') {
+        e.preventDefault();
+        mostrarAlerta('✂️ Recortar bloqueado.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'v') {
+        if (target.closest('td[contenteditable="true"]')) {
+          return true;
+        } else {
+          e.preventDefault();
+          mostrarAlerta('📋 Só é permitido colar nas células editáveis.');
+          return false;
+        }
+      }
+    }
+    
+    if (e.key === 'F12') {
+      e.preventDefault();
+      mostrarAlerta('🛠️ Ferramentas de desenvolvedor bloqueadas.');
+      return false;
+    }
+    if (e.ctrlKey && e.key === 'u') {
+      e.preventDefault();
+      mostrarAlerta('🔒 Visualização do código fonte bloqueada.');
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) {
+      e.preventDefault();
+      mostrarAlerta('🔒 Inspeção bloqueada.');
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'j' || e.key === 'J')) {
+      e.preventDefault();
+      mostrarAlerta('🔒 Console bloqueado.');
+      return false;
+    }
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      mostrarAlerta('💾 Salvar página desativado.');
+      return false;
+    }
+    if (e.key === 'ContextMenu') {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      mostrarAlerta('🖱️ Clique direito bloqueado na tabela.');
+      return false;
+    }
+  });
+  
+  document.addEventListener('selectstart', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('dragstart', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('copy', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      mostrarAlerta('📋 Cópia bloqueada na tabela.');
+      return false;
+    }
+  });
+}
+
+function mostrarAlerta(mensagem) {
+  const alertaAntigo = document.querySelector('.alerta-protecao');
+  if (alertaAntigo) alertaAntigo.remove();
+  
+  const alerta = document.createElement('div');
+  alerta.className = 'alerta-protecao';
+  alerta.style.cssText = `
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #ff6b6b;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease-out;
+    max-width: 90%;
+    text-align: center;
+    pointer-events: none;
+  `;
+  alerta.innerHTML = mensagem;
+  document.body.appendChild(alerta);
+  
+  setTimeout(() => {
+    alerta.style.animation = 'slideDown 0.3s ease-in';
+    setTimeout(() => alerta.remove(), 300);
+  }, 2500);
+}
+
+(function adicionarAnimacoes() {
+  const estiloAnimacoes = document.createElement('style');
+  estiloAnimacoes.textContent = `
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    }
+  `;
+  document.head.appendChild(estiloAnimacoes);
+})();
+
+let selectFullscreenAtivo = null;
+
+function abrirSelectTelaCheia(id) {
+  selectFullscreenAtivo = id;
+  
+  let overlay = document.getElementById('selectFullscreenOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'selectFullscreenOverlay';
+    overlay.className = 'select-fullscreen-overlay';
+    overlay.innerHTML = `
+      <div class="modal-header">
+        <h3>Selecione a semana</h3>
+        <button class="close-btn" onclick="fecharSelectTelaCheia()">&times;</button>
+      </div>
+      <div class="options-container" id="fullscreenOptions"></div>
+    `;
+    document.body.appendChild(overlay);
+  }
+  
+  const container = document.getElementById('fullscreenOptions');
+  container.innerHTML = '';
+  
+  const trimestre = document.getElementById('trimestre')?.value;
+  const valorAtual = document.getElementById(id).value;
+  
+  if (!trimestre) {
+    for (let i = 1; i <= 14; i++) {
+      const div = document.createElement('div');
+      div.className = 'option-item-full';
+      if (valorAtual == i) div.classList.add('selected');
+      div.innerHTML = `<span class="semana-num">${i}ª Semana</span>`;
+      div.onclick = () => selecionarOptionFullscreen(id, i, `${i}ª Semana`);
+      container.appendChild(div);
+    }
+  } else {
+    for (let i = 1; i <= 14; i++) {
+      const datas = calcularDatasSemana(trimestre, i);
+      const div = document.createElement('div');
+      div.className = 'option-item-full';
+      if (valorAtual == i) div.classList.add('selected');
+      
+      if (datas && datas.inicio && datas.fim) {
+        const inicio = formatarDataBR(datas.inicio);
+        const fim = formatarDataBR(datas.fim);
+        div.innerHTML = `
+          <span class="semana-num">${i}ª Semana</span>
+          <span>
+            <span class="separador">│</span>
+            <span class="semana-data">${inicio.dd}/${inicio.mm} - ${fim.dd}/${fim.mm}</span>
+          </span>
+        `;
+        div.onclick = () => selecionarOptionFullscreen(id, i, `${i}ª Semana  │  ${inicio.dd}/${inicio.mm} - ${fim.dd}/${fim.mm}`);
+      } else {
+        div.innerHTML = `<span class="semana-num">${i}ª Semana</span>`;
+        div.onclick = () => selecionarOptionFullscreen(id, i, `${i}ª Semana`);
+      }
+      container.appendChild(div);
+    }
+  }
+  
+  overlay.classList.add('active');
+}
+
+function selecionarOptionFullscreen(id, value, label) {
+  const displayId = 'display' + id.charAt(0).toUpperCase() + id.slice(1);
+  document.getElementById(displayId).textContent = label;
+  document.getElementById(id).value = value;
+  fecharSelectTelaCheia();
+}
+
+function fecharSelectTelaCheia() {
+  const overlay = document.getElementById('selectFullscreenOverlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+  }
+  selectFullscreenAtivo = null;
+}
+
+document.addEventListener('click', function(e) {
+  const overlay = document.getElementById('selectFullscreenOverlay');
+  if (overlay && overlay.classList.contains('active')) {
+    if (e.target === overlay) {
+      fecharSelectTelaCheia();
+    }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  popularProvincias();
+  document.getElementById('provincia').addEventListener('change', atualizarDistritos);
+  document.getElementById('classe').addEventListener('change', () => {
+    disciplinasSelecionadas = [];
+    atualizarContadorDisciplinas();
+    salvarDadosLocalStorage();
+  });
+  document.getElementById('trimestre').addEventListener('change', function() {
+    document.getElementById('semanaDe').value = '';
+    document.getElementById('displaySemanaDe').textContent = 'Selecione';
+    document.getElementById('semanaAte').value = '';
+    document.getElementById('displaySemanaAte').textContent = 'Selecione';
+  });
+  carregarDadosSalvos();
+  atualizarContadorDisciplinas();
+
+  window.abrirModalDisciplinas = abrirModalDisciplinas;
+  window.fecharModalDisciplinas = fecharModalDisciplinas;
+  window.confirmarSelecaoDisciplinas = confirmarSelecaoDisciplinas;
+  window.iniciarGeracaoPlano = iniciarGeracaoPlano;
+  window.voltarAoFormulario = voltarAoFormulario;
+  window.irParaPagamento = irParaPagamento;
+  window.focarEdicao = focarEdicao;
+  window.abrirSelectTelaCheia = abrirSelectTelaCheia;
+  window.fecharSelectTelaCheia = fecharSelectTelaCheia;
+});
+</script>
+</body>
+</html>

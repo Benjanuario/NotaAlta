@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<title>LEIC • Plano Analítico</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --primary: #0a3d7c;
+    --primary-dark: #062a55;
+    --primary-light: #1a5ca8;
+    --secondary: #4a90d9;
+    --accent: #2d7bc4;
+    --accent-light: #6aafe6;
+    --dark: #0a0a1a;
+    --light: #e8edf5;
+    --gray: #8a9bb5;
+    --success: #34b7a1;
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --glass: rgba(255, 255, 255, 0.06);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0a1628 100%);
+    color: var(--light);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+    transition: padding 0.3s ease;
+  }
+
+  body.plano-visivel { padding: 0; }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(10, 61, 124, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(74, 144, 217, 0.08) 0%, transparent 50%);
+    z-index: -1;
+  }
+
+  .app-container {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: max-width 0.3s ease, width 0.3s ease;
+  }
+
+  .app-container.plano-visivel { max-width: none; width: 100%; }
+
+  .header { text-align: center; margin-bottom: 30px; position: relative; }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--accent-light));
+    border-radius: 2px;
+  }
+
+  .logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 15px; }
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(10, 61, 124, 0.3);
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle { 
+    font-size: 13px; 
+    color: var(--gray); 
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+  
+  .subtitle span { color: var(--secondary); font-weight: 600; }
+
+  .main-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title i { color: var(--secondary); }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #c5cae9; }
+  .form-label i { color: var(--secondary); font-size: 14px; }
+  .required::after { content: ' *'; color: #ef5350; }
+
+  .form-input, .form-select {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: var(--light);
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+  }
+
+  .form-input::placeholder { color: #5c6a8a; }
+
+  .disciplina-select-wrapper {
+    position: relative;
+  }
+
+  .disciplina-select-wrapper .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a90d9' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .disciplina-select-wrapper .form-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .main-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(10, 61, 124, 0.3);
+  }
+
+  .main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(10, 61, 124, 0.4);
+  }
+
+  .main-btn i { font-size: 20px; }
+
+  #loader {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .loader-circle {
+    width: 80px; height: 80px;
+    border: 8px solid rgba(255,255,255,0.08);
+    border-top: 8px solid var(--secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  #loader-text { font-size: 18px; font-weight: bold; color: white; text-align: center; padding: 0 20px; }
+
+  .footer { 
+    text-align: center; 
+    margin-top: 30px; 
+    padding-top: 20px; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    font-size: 12px; 
+    color: var(--gray); 
+  }
+
+  .footer .highlight { color: var(--secondary); }
+
+  #planoFinal {
+    background: #ffffff;
+    color: #1a1a2e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+  }
+
+  .cabecalho-plano { text-align: center; margin-bottom: 20px; font-family: 'Times New Roman', Times, serif; }
+  .cabecalho-plano .linha-instituicao { font-weight: bold; font-size: 14px; margin: 2px 0; text-transform: uppercase; color: #000; }
+  .cabecalho-plano .separador { margin: 8px 0; letter-spacing: 2px; color: #333; font-weight: normal; }
+  .cabecalho-plano .zip-info { margin-top: 10px; font-weight: bold; font-size: 13px; color: #000; }
+  .cabecalho-plano .dosificacao { font-size: 12px; margin-top: 5px; font-style: italic; color: #000; }
+
+  .tabela-wrapper { overflow-x: auto; width: 100%; margin-top: 12px; }
+  .tabela-plano {
+    min-width: 1100px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #fff;
+  }
+  .tabela-plano th {
+    background: #0a3d7c;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 10px;
+    text-align: center;
+    border: 1px solid #0a3d7c;
+    padding: 6px;
+  }
+  .tabela-plano td {
+    border: 1px solid #0a3d7c;
+    padding: 6px;
+    vertical-align: top;
+    text-align: left;
+    color: #1a1a2e;
+    font-size: 12px;
+  }
+  .tabela-plano td:nth-child(1),
+  .tabela-plano td:nth-child(2),
+  .tabela-plano td:nth-child(8) { vertical-align: middle; text-align: center; }
+  td[contenteditable="true"] { outline: none; }
+
+  /* DIMENSÕES ORIGINAIS DAS COLUNAS */
+  .tabela-plano th:nth-child(1), .tabela-plano td:nth-child(1) { width: 8%; }
+  .tabela-plano th:nth-child(2), .tabela-plano td:nth-child(2) { width: 10%; }
+  .tabela-plano th:nth-child(3), .tabela-plano td:nth-child(3) { width: 18%; }
+  .tabela-plano th:nth-child(4), .tabela-plano td:nth-child(4) { width: 18%; }
+  .tabela-plano th:nth-child(5), .tabela-plano td:nth-child(5) { width: 15%; }
+  .tabela-plano th:nth-child(6), .tabela-plano td:nth-child(6) { width: 10%; }
+  .tabela-plano th:nth-child(7), .tabela-plano td:nth-child(7) { width: 12%; }
+  .tabela-plano th:nth-child(8), .tabela-plano td:nth-child(8) { width: 7%; }
+
+  .data-input {
+    width: 22px;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font: inherit;
+    padding: 0;
+    margin: 0 2px;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .btn-plano {
+    margin-top: 12px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: linear-gradient(to right, #0a3d7c, #4a90d9);
+    color: white;
+    transition: transform 0.2s;
+    margin-right: 5px;
+  }
+  .btn-plano:hover { transform: scale(1.03); }
+
+  .tabela-plano,
+  .tabela-plano *,
+  #planoFinal .tabela-plano,
+  #planoFinal .tabela-plano * {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+  }
+
+  .tabela-plano td[contenteditable="true"],
+  #planoFinal .tabela-plano td[contenteditable="true"] {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      cursor: text;
+  }
+
+  .tabela-plano td[contenteditable="true"]:hover {
+      background-color: rgba(74, 144, 217, 0.05);
+  }
+
+  .tabela-plano td[contenteditable="true"]:focus {
+      outline: 2px solid #4a90d9;
+      outline-offset: 1px;
+      background-color: rgba(74, 144, 217, 0.08);
+  }
+
+  .tabela-plano .data-input,
+  #planoFinal .tabela-plano .data-input {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+  }
+
+  .tabela-plano::selection,
+  .tabela-plano *::selection,
+  #planoFinal .tabela-plano::selection,
+  #planoFinal .tabela-plano *::selection {
+      background: transparent !important;
+      color: inherit !important;
+  }
+
+  .cabecalho-plano .emblema {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 8px;
+    display: block;
+  }
+  .cabecalho-plano .emblema img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 10mm; }
+    .tabela-plano { table-layout: fixed; width: 100%; }
+    .tabela-plano th, .tabela-plano td { word-wrap: break-word; white-space: normal; font-size: 10px; }
+    .tabela-plano th:nth-child(1), .tabela-plano td:nth-child(1) { width: 8%; }
+    .tabela-plano th:nth-child(2), .tabela-plano td:nth-child(2) { width: 10%; }
+    .tabela-plano th:nth-child(3), .tabela-plano td:nth-child(3) { width: 18%; }
+    .tabela-plano th:nth-child(4), .tabela-plano td:nth-child(4) { width: 18%; }
+    .tabela-plano th:nth-child(5), .tabela-plano td:nth-child(5) { width: 15%; }
+    .tabela-plano th:nth-child(6), .tabela-plano td:nth-child(6) { width: 10%; }
+    .tabela-plano th:nth-child(7), .tabela-plano td:nth-child(7) { width: 12%; }
+    .tabela-plano th:nth-child(8), .tabela-plano td:nth-child(8) { width: 7%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container" id="appContainer">
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+    </div>
+    <h1>LEIC</h1>
+    <p class="subtitle"><span>Leitura e Escrita na Idade Certa</span> • Ministério da Educação e Cultura</p>
+  </header>
+
+  <button id="btnVoltarFormulario" onclick="voltarAoFormulario()" style="display:none; margin-bottom:10px; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: white; padding: 10px; cursor:pointer;">
+    <i class="fas fa-arrow-left"></i> VOLTAR AO FORMULÁRIO
+  </button>
+
+  <form id="formPlanoAnalitico" class="main-card" style="display:block;">
+    <h2 class="card-title"><i class="fas fa-pen"></i> DADOS DO PLANO ANALÍTICO</h2>
+    
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-map-marker-alt"></i> Província</label>
+      <select id="provincia" class="form-select" required>
+        <option value="">Selecione a Província</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-city"></i> Distrito</label>
+      <select id="distrito" class="form-select" required>
+        <option value="">Selecione o Distrito</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-map-pin"></i> ZIP (Nome) <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="zipNome" class="form-input" placeholder="Ex: Zona Alta, Bairro Central">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-hashtag"></i> Nº da ZIP <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="zipNumero" class="form-input" placeholder="Ex: 007" maxlength="3">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><i class="fas fa-school"></i> Escola <small style="color:#5c6a8a;">(opcional)</small></label>
+      <input type="text" id="nomeEscola" class="form-input" placeholder="Ex: Escola Secundária de...">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-graduation-cap"></i> Classe</label>
+      <select id="classe" class="form-select" required>
+        <option value="">Selecione</option>
+        <option value="1ª Classe">1ª Classe</option>
+        <option value="2ª Classe">2ª Classe</option>
+        <option value="3ª Classe">3ª Classe</option>
+        <option value="4ª Classe">4ª Classe</option>
+        <option value="5ª Classe">5ª Classe</option>
+        <option value="6ª Classe">6ª Classe</option>
+        <option value="7ª Classe">7ª Classe</option>
+        <option value="8ª Classe">8ª Classe</option>
+        <option value="9ª Classe">9ª Classe</option>
+        <option value="10ª Classe">10ª Classe</option>
+        <option value="11ª Classe">11ª Classe</option>
+        <option value="12ª Classe">12ª Classe</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-book"></i> Disciplina</label>
+      <div class="disciplina-select-wrapper">
+        <select id="disciplina" class="form-select" required>
+          <option value="">Selecione a classe primeiro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label required"><i class="fas fa-calendar-alt"></i> Trimestre</label>
+      <select id="trimestre" class="form-select" required>
+        <option value="1º Trimestre">1º Trimestre</option>
+        <option value="2º Trimestre">2º Trimestre</option>
+        <option value="3º Trimestre">3º Trimestre</option>
+      </select>
+    </div>
+
+    <button type="button" onclick="iniciarGeracaoPlano()" class="main-btn">
+      <i class="fas fa-rocket"></i> GERAR PLANO ANALÍTICO
+    </button>
+  </form>
+
+  <div id="loader">
+    <div class="loader-circle"></div>
+    <div id="loader-text">A gerar o plano analítico...</div>
+  </div>
+
+  <div id="planoFinal" style="display:none;"></div>
+
+  <footer class="footer">
+    <p>© 2026 <span class="highlight">LEIC</span> • Leitura e Escrita na Idade Certa</p>
+    <p>Ministério da Educação e Cultura - República de Moçambique</p>
+  </footer>
+</div>
+
+<script>
+// ================= CONFIGURAÇÕES =================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+
+const dadosMocambique = {
+  "Niassa": ["Cuamba", "Chimbunila", "Lago", "Lichinga", "Majune", "Mandimba", "Marrupa", "Maúa", "Mavago", "Mecanhelas", "Mecula", "Metarica", "Muembe", "Nipepe", "N'gauma", "Sanga"],
+  "Cabo Delgado": ["Ancuabe", "Balama", "Chiúre", "Ibo", "Macomia", "Mecúfi", "Meluco", "Mocímboa da Praia", "Montepuez", "Mueda", "Metuge", "Muidumbe", "Namuno", "Nangade", "Palma", "Pemba", "Quissanga"],
+  "Nampula": ["Angoche", "Eráti", "Ilha de Moçambique", "Lalaua", "Larde", "Liúpo", "Malema", "Meconta", "Mecubúri", "Mogincual", "Mogovolas", "Moma", "Monapo", "Mossuril", "Muecate", "Murrupula", "Memba", "Nacala-a-Velha", "Nacarôa", "Nampula", "Rapale", "Ribaue"],
+  "Zambézia": ["Alto Molócuè", "Chinde", "Derre", "Gilé", "Gurué", "Ile", "Inhassunge", "Luabo", "Lugela", "Maganja da Costa", "Milange", "Mocuba", "Mopeia", "Morrumbala", "Mulevala", "Mulumbo", "Namacurra", "Namarroi", "Nicoadala", "Pebane", "Quelimane"],
+  "Tete": ["Angónia", "Cahora-Bassa", "Changara", "Chifunde", "Chiuta", "Doa", "Macanga", "Mágoè", "Marara", "Marávia", "Moatize", "Mutarara", "Tete", "Tsangano", "Zumbo"],
+  "Manica": ["Bárue", "Chimoio", "Gondola", "Guro", "Machaze", "Macossa", "Manica", "Mossurize", "Sussundenga", "Tambara", "Vanduzi"],
+  "Sofala": ["Beira", "Búzi", "Caia", "Chemba", "Cheringoma", "Chibabava", "Dondo", "Gorongosa", "Machanga", "Marínguè", "Marromeu", "Muanza", "Nhamatanda"],
+  "Inhambane": ["Funhalouro", "Govuro", "Homoíne", "Inhambane", "Inharrime", "Inhassoro", "Jangamo", "Mabote", "Massinga", "Maxixe", "Morrumbene", "Panda", "Vilankulo", "Zavala"],
+  "Gaza": ["Bilene", "Chibuto", "Chicualacuala", "Chigubo", "Chókwè", "Chongoene", "Guijá", "Limpopo", "Mabalane", "Manjacaze", "Mapai", "Massangena", "Massingir", "Xai-Xai"],
+  "Maputo": ["Boane", "Magude", "Manhiça", "Marracuene", "Matola", "Matutuíne", "Moamba", "Namaacha", "KaMpfumo", "KaMubukwana", "KaMaxaquene", "KaMavota", "KaTembe", "KaNyaka"]
+};
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzbZf6kyyvxoWPKXPcCri4GTFy8MQiHEyiXpy14pUgu1K0ePXvjrEcPkb2GYxX7FZb4/exec";
+
+const disciplinasPorClasse = {
+  "1ª Classe":["Português","Matemática","Educação Física"],
+  "2ª Classe":["Português","Matemática","Educação Física"],
+  "3ª Classe":["Português","Matemática","Educação Física"],
+  "4ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","Educação Física"],
+  "5ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","EVO","Educação Física"],
+  "6ª Classe":["Português","Matemática","Ciências Naturais","Ciências Sociais","EVO","Educação Física"],
+  "7ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Agropecuária","Inglês","EVT","Educação Física"],
+  "8ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Agropecuária","Francês","Inglês","EVT","Educação Física"],
+  "9ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","TIC","Inglês","Agropecuária","Francês","EVT","Educação Física"],
+  "10ª Classe":["Português","Matemática","Biologia","Química","Física","Geografia","História","Filosofia","TIC","Inglês","Agropecuária","Francês","Noções de Empreendedorismo","EVT","Educação Física"],
+  "11ª Classe":["Português","Matemática 'Letras'","Matemática 'Ciências'","Biologia","Química","Física","Psicologia","Psicopedagogia","Geografia","História","TIC","Inglês","Francês","Filosofia","Noções de Empreendedorismo","EVT","DGD","Educação Física"],
+  "12ª Classe":["Português","Matemática 'Letras'","Matemática 'Ciências'","Biologia","Química","Física","Psicologia","Psicopedagogia","Geografia","História","TIC","Inglês","Francês","Filosofia","Noções de Empreendedorismo","EVT","DGD","Educação Física"]
+};
+
+const datasInicioTrimestre = {
+  "1º Trimestre": new Date(2025, 2, 2),
+  "2º Trimestre": new Date(2025, 5, 1),
+  "3º Trimestre": new Date(2025, 8, 8)
+};
+
+// ============================================
+// FUNÇÕES DE FORMULÁRIO
+// ============================================
+function popularProvincias() {
+  const selectProv = document.getElementById('provincia');
+  selectProv.innerHTML = '<option value="">Selecione a Província</option>';
+  Object.keys(dadosMocambique).sort().forEach(prov => {
+    const option = document.createElement('option');
+    option.value = prov;
+    option.textContent = prov;
+    selectProv.appendChild(option);
+  });
+}
+
+function atualizarDistritos() {
+  const provincia = document.getElementById('provincia').value;
+  const selectDist = document.getElementById('distrito');
+  selectDist.innerHTML = '<option value="">Selecione o Distrito</option>';
+  if (!provincia) return;
+  const distritos = dadosMocambique[provincia] || [];
+  distritos.sort().forEach(dist => {
+    const option = document.createElement('option');
+    option.value = dist;
+    option.textContent = dist;
+    selectDist.appendChild(option);
+  });
+}
+
+function atualizarDisciplinas() {
+  const classe = document.getElementById('classe').value;
+  const disciplinaSelect = document.getElementById('disciplina');
+
+  disciplinaSelect.innerHTML = '';
+
+  if (!classe || !disciplinasPorClasse[classe]) {
+    disciplinaSelect.disabled = true;
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = 'Selecione a classe primeiro';
+    disciplinaSelect.appendChild(option);
+    return;
+  }
+
+  const disciplinas = disciplinasPorClasse[classe];
+  
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = 'Selecione a disciplina';
+  disciplinaSelect.appendChild(defaultOption);
+
+  disciplinas.forEach(disciplina => {
+    const option = document.createElement('option');
+    option.value = disciplina;
+    option.textContent = disciplina;
+    disciplinaSelect.appendChild(option);
+  });
+
+  disciplinaSelect.disabled = false;
+  disciplinaSelect.value = '';
+}
+
+function calcularDatasSemana(trimestre, semanaNumero) {
+  const dataInicioTrimestre = datasInicioTrimestre[trimestre];
+  if (!dataInicioTrimestre) return { inicio: null, fim: null };
+  const dataInicioSemana = new Date(dataInicioTrimestre);
+  dataInicioSemana.setDate(dataInicioSemana.getDate() + (semanaNumero - 1) * 7);
+  const dataFimSemana = new Date(dataInicioSemana);
+  dataFimSemana.setDate(dataFimSemana.getDate() + 4);
+  return { inicio: dataInicioSemana, fim: dataFimSemana };
+}
+
+function formatarDataBR(data) {
+  if (!data) return { dd: '__', mm: '__' };
+  return { dd: String(data.getDate()).padStart(2,'0'), mm: String(data.getMonth()+1).padStart(2,'0') };
+}
+
+function salvarDadosLocalStorage() {
+  const dados = {
+    provincia: document.getElementById('provincia').value,
+    distrito: document.getElementById('distrito').value,
+    zipNome: document.getElementById('zipNome').value,
+    zipNumero: document.getElementById('zipNumero').value,
+    nomeEscola: document.getElementById('nomeEscola').value
+  };
+  localStorage.setItem('dadosFormularioAnalitico', JSON.stringify(dados));
+}
+
+function carregarDadosSalvos() {
+  const dadosSalvos = localStorage.getItem('dadosFormularioAnalitico');
+  if (dadosSalvos) {
+    try {
+      const dados = JSON.parse(dadosSalvos);
+      if (dados.provincia) {
+        document.getElementById('provincia').value = dados.provincia;
+        atualizarDistritos();
+        if (dados.distrito) document.getElementById('distrito').value = dados.distrito;
+      }
+      if (dados.zipNome) document.getElementById('zipNome').value = dados.zipNome;
+      if (dados.zipNumero) document.getElementById('zipNumero').value = dados.zipNumero;
+      if (dados.nomeEscola) document.getElementById('nomeEscola').value = dados.nomeEscola;
+    } catch(e) {}
+  }
+}
+
+function voltarAoFormulario() {
+  document.getElementById('formPlanoAnalitico').style.display = 'block';
+  document.getElementById('planoFinal').style.display = 'none';
+  document.getElementById('btnVoltarFormulario').style.display = 'none';
+  document.getElementById('appContainer').classList.remove('plano-visivel');
+  document.body.classList.remove('plano-visivel');
+}
+
+function formatarBullets(texto) {
+  if (!texto) return "";
+  return texto.split(/\r?\n/).map(linha => linha.trim()).map(linha => linha.replace(/^[\-\•]\s?/, '• ')).join('<br>');
+}
+
+// ============================================
+// GERAR SUGESTÕES METODOLÓGICAS (MAIS ESPECÍFICAS)
+// ============================================
+async function gerarSugestoesMetodologicas(disciplina, classe, conteudo, objetivos, unidadeTematica) {
+  if (!conteudo || conteudo.trim() === '') return '';
+  
+  // Limitar tamanho do conteúdo para evitar estouro
+  let conteudoResumido = conteudo.length > 200 ? conteudo.substring(0, 200) + '...' : conteudo;
+  let objetivosResumidos = objetivos && objetivos.length > 150 ? objetivos.substring(0, 150) + '...' : (objetivos || 'Não especificados');
+  
+  let idiomaResposta = 'português de Moçambique';
+  if (disciplina.toLowerCase().includes('inglês')) {
+    idiomaResposta = 'inglês';
+  } else if (disciplina.toLowerCase().includes('francês')) {
+    idiomaResposta = 'francês';
+  }
+
+  const prompt = `Com base nos dados abaixo, sugira uma sugestão metodológica ESPECÍFICA e PRÁTICA para ensinar este conteúdo.
+
+Disciplina: ${disciplina}
+Classe: ${classe}
+Unidade Temática: ${unidadeTematica || 'Não especificada'}
+Conteúdo: ${conteudoResumido}
+Objectivos: ${objetivosResumidos}
+
+A sugestão deve ser:
+- Específica para este conteúdo, não genérica
+- Prática e aplicável em sala de aula em Moçambique
+- Com estratégias activas e participativas (trabalho em grupo, debates, dramatizações, etc.)
+- Focada em como ensinar este conteúdo específico
+- Máximo 20 palavras
+
+Responda APENAS com a sugestão metodológica, em ${idiomaResposta}.`;
+
+  try {
+    const response = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_API_KEY}` },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: "system", content: `Você é um especialista em metodologias de ensino em Moçambique. Responda apenas com a sugestão metodológica específica para o conteúdo, sem explicações adicionais, no idioma solicitado: ${idiomaResposta}.` },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.6,
+        max_tokens: 60
+      })
+    });
+    if (!response.ok) throw new Error(`API Groq: ${response.status}`);
+    const data = await response.json();
+    let sugestao = data.choices[0].message.content.trim();
+    if (sugestao === '' || sugestao.length < 5) {
+      return idiomaResposta === 'inglês' ? 'Use practical activities and group work.' : 
+             idiomaResposta === 'francês' ? 'Utilisez des activités pratiques et le travail en groupe.' :
+             'Utilize actividades práticas e trabalho em grupo.';
+    }
+    return sugestao;
+  } catch(e) {
+    console.error('Erro ao gerar sugestões metodológicas:', e);
+    if (idiomaResposta === 'inglês') return 'Use practical activities and group work.';
+    if (idiomaResposta === 'francês') return 'Utilisez des activités pratiques et le travail en groupe.';
+    return 'Utilize actividades práticas e trabalho em grupo.';
+  }
+}
+
+// ============================================
+// GERAR TEMA TRANSVERSAL COM IA
+// ============================================
+async function gerarTemaTransversal(conteudo, unidadeTematica, objetivos, disciplina) {
+  if (!conteudo || conteudo.trim() === '') return '';
+
+  const temasConhecidos = [
+    'Educação Ambiental', 'Saúde e Bem-estar', 'Cidadania', 'Direitos Humanos',
+    'Género', 'Empreendedorismo', 'Ética e Cidadania', 'Meio Ambiente',
+    'Paz e Conflitos', 'Inclusão Social', 'Sustentabilidade', 'Consumo Responsável',
+    'Higiene e Saúde', 'Prevenção de Doenças', 'Vida Familiar', 'Trânsito Seguro'
+  ];
+  for (let tema of temasConhecidos) {
+    if (conteudo.toLowerCase().includes(tema.toLowerCase())) return tema;
+  }
+
+  let idiomaResposta = 'português de Moçambique';
+  let cabecalhoIdioma = 'em português de Moçambique, com palavras completas e acentos';
+  if (disciplina.toLowerCase().includes('inglês')) {
+    idiomaResposta = 'inglês';
+    cabecalhoIdioma = 'in English, using complete words';
+  } else if (disciplina.toLowerCase().includes('francês')) {
+    idiomaResposta = 'francês';
+    cabecalhoIdioma = 'em francês, com palavras completas e acentos';
+  }
+
+  const prompt = `Com base no seguinte conteúdo pedagógico para uma aula de ${disciplina} em Moçambique, sugira APENAS UM Tema Transversal apropriado, escrito ${cabecalhoIdioma} (máximo 4 palavras). 
+Unidade Temática: ${unidadeTematica}
+Objectivos: ${objetivos}
+Conteúdo: ${conteudo}
+
+Responda APENAS com o nome do tema.`;
+
+  try {
+    const response = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_API_KEY}` },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: "system", content: `Você é especialista em currículo moçambicano. Responda apenas o nome do tema transversal, sem explicações, no idioma solicitado: ${idiomaResposta}.` },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 40
+      })
+    });
+    if (!response.ok) throw new Error(`API Groq: ${response.status}`);
+    const data = await response.json();
+    let tema = data.choices[0].message.content.trim();
+    tema = tema.replace(/[.,;:"'!?]/g, '').substring(0, 50);
+    if (tema === '') return idiomaResposta === 'inglês' ? 'Cross-curricular theme' : (idiomaResposta === 'francês' ? 'Thème transversal' : 'Tema Transversal');
+    return tema;
+  } catch(e) {
+    console.error('Erro Groq:', e);
+    if (idiomaResposta === 'inglês') return 'Cross-curricular theme';
+    if (idiomaResposta === 'francês') return 'Thème transversal';
+    return 'Tema Transversal';
+  }
+}
+
+// ============================================
+// EXTRAIR APENAS NÚMERO DA CARGA HORÁRIA
+// ============================================
+function extrairApenasNumero(texto) {
+  if (!texto) return '-';
+  const numeros = texto.match(/\d+/g);
+  if (numeros) {
+    return numeros.join('');
+  }
+  return '-';
+}
+
+// ============================================
+// INICIAR GERAÇÃO DO PLANO ANALÍTICO
+// ============================================
+async function iniciarGeracaoPlano() {
+  const provincia = document.getElementById('provincia').value;
+  const distrito = document.getElementById('distrito').value;
+  const disciplina = document.getElementById('disciplina').value;
+  const classe = document.getElementById('classe').value;
+  const trimestre = document.getElementById('trimestre').value;
+  
+  if (!provincia || !distrito) { alert("Selecione província e distrito."); return; }
+  if (!disciplina) { alert("Selecione uma disciplina."); return; }
+  if (!classe) { alert("Selecione a classe."); return; }
+
+  document.getElementById('formPlanoAnalitico').style.display = 'none';
+  const loader = document.getElementById('loader');
+  const loaderText = document.getElementById('loader-text');
+  loader.style.display = 'flex';
+  loaderText.textContent = "Carregando plano analítico...";
+
+  const semanas = Array.from({length: 13}, (_, i) => i + 1);
+  const url = `${API_URL}?classe=${encodeURIComponent(classe)}&disciplina=${encodeURIComponent(disciplina)}&trimestre=${encodeURIComponent(trimestre)}`;
+  
+  try {
+    const resp = await fetch(url);
+    const planos = await resp.json();
+    const filtrados = planos.filter(p => semanas.includes(p.numero));
+    filtrados.sort((a,b) => a.numero - b.numero);
+    
+    // Gerar temas transversais e sugestões metodológicas para cada plano
+    for (let i=0; i<filtrados.length; i++) {
+      const p = filtrados[i];
+      
+      // Tema transversal
+      let tema = await gerarTemaTransversal(p.conteudo, p.unidade_tematica, p.objetivo_especifico, disciplina);
+      p.tema_transversal = tema;
+      
+      // Sugestões metodológicas - específicas para cada conteúdo
+      loaderText.textContent = `Gerando sugestões (${i+1}/${filtrados.length})...`;
+      let sugestao = await gerarSugestoesMetodologicas(disciplina, classe, p.conteudo, p.objetivo_especifico, p.unidade_tematica);
+      p.sugestoes_metodologicas = sugestao;
+    }
+
+    loader.style.display = 'none';
+    
+    if (filtrados.length === 0) {
+      alert("Nenhum plano encontrado para a disciplina selecionada.");
+      voltarAoFormulario();
+      return;
+    }
+    
+    exibirPlanoAnalitico(filtrados, provincia, distrito, classe, trimestre, disciplina);
+  } catch(e) {
+    loader.style.display = 'none';
+    console.error('Erro:', e);
+    alert("Erro ao carregar os planos: " + e.message);
+    voltarAoFormulario();
+  }
+}
+
+// ============================================
+// EXIBIR PLANO ANALÍTICO
+// ============================================
+function exibirPlanoAnalitico(linhas, provincia, distrito, classe, trimestre, disciplinaNome) {
+  document.getElementById('appContainer').classList.add('plano-visivel');
+  document.body.classList.add('plano-visivel');
+  const container = document.getElementById('planoFinal');
+  container.innerHTML = '';
+  container.style.display = 'block';
+
+  const ano = new Date().getFullYear();
+  const zipNome = document.getElementById('zipNome').value.trim();
+  const zipNum = document.getElementById('zipNumero').value.trim();
+  const nomeEscola = document.getElementById('nomeEscola').value.trim();
+
+  const card = document.createElement('div');
+  card.style.background = 'white';
+  card.style.borderRadius = '20px';
+  card.style.marginBottom = '30px';
+  card.style.overflow = 'hidden';
+  card.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+
+  // Título do Plano Analítico
+  const tituloDiv = document.createElement('div');
+  tituloDiv.style.background = '#0a3d7c';
+  tituloDiv.style.padding = '12px 20px';
+  tituloDiv.style.fontSize = '18px';
+  tituloDiv.style.fontWeight = '800';
+  tituloDiv.style.color = 'white';
+  tituloDiv.style.display = 'flex';
+  tituloDiv.style.alignItems = 'center';
+  tituloDiv.style.gap = '12px';
+  tituloDiv.innerHTML = `<i class="fas fa-chart-line"></i> Plano Analítico - ${disciplinaNome}`;
+  card.appendChild(tituloDiv);
+
+  // Cabeçalho com emblema
+  const cabecalho = document.createElement('div');
+  cabecalho.className = 'cabecalho-plano';
+  cabecalho.style.textAlign = 'center';
+  cabecalho.style.margin = '20px';
+  cabecalho.style.fontFamily = "'Times New Roman', Times, serif";
+  cabecalho.innerHTML = `
+    <div class="emblema">
+      <img src="icons/emblema.png" alt="Emblema da República de Moçambique" onerror="this.style.display='none'">
+    </div>
+    <div class="linha-instituicao">REPÚBLICA DE MOÇAMBIQUE</div>
+    <div class="linha-instituicao">MINISTÉRIO DA EDUCAÇÃO E CULTURA</div>
+    <div class="linha-instituicao">PROVÍNCIA DE ${provincia.toUpperCase()}</div>
+    <div class="linha-instituicao">GOVERNO DISTRITAL DE ${distrito.toUpperCase()}</div>
+    <div class="linha-instituicao">SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div>
+    <div class="separador">------------------------X-------------------</div>
+  `;
+  card.appendChild(cabecalho);
+
+  const zipEscola = document.createElement('div');
+  zipEscola.style.textAlign = 'center';
+  zipEscola.style.marginBottom = '10px';
+  zipEscola.style.fontWeight = 'bold';
+  let zipTexto = '';
+  if(zipNome && zipNum) zipTexto = `ZIP: ${zipNome} – Nº: ${zipNum}`;
+  if(nomeEscola) zipTexto += (zipTexto ? '<br>' : '') + `Escola: ${nomeEscola}`;
+  zipEscola.innerHTML = zipTexto || '';
+  card.appendChild(zipEscola);
+
+  const dosif = document.createElement('div');
+  dosif.style.textAlign = 'center';
+  dosif.style.fontStyle = 'italic';
+  dosif.style.marginBottom = '15px';
+  dosif.style.fontWeight = 'bold';
+  dosif.style.fontSize = '14px';
+  dosif.innerHTML = `Plano Analítico de ${disciplinaNome} – ${classe}, ${trimestre} / ${ano}`;
+  card.appendChild(dosif);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'tabela-wrapper';
+  const tabela = document.createElement('table');
+  tabela.className = 'tabela-plano';
+  
+  let cabecalhos = ['SEMANA', 'U.TEMATICA', 'OBJECTIVOS ESPECÍFICOS', 'CONTEÚDOS', 'COMPETÊNCIAS BÁSICAS', 'TEMAS TRANSVERSAIS', 'SUGESTÕES METODOLÓGICAS', 'C.H.'];
+  
+  let cabecalhosEN = ['WEEK', 'THEMATIC UNIT', 'SPECIFIC OBJECTIVES', 'CONTENTS', 'BASIC COMPETENCES', 'CROSS-CURRICULAR THEMES', 'METHODOLOGICAL SUGGESTIONS', 'L.H.'];
+  let cabecalhosFR = ['SEMAINE', 'UNITÉ THÉMATIQUE', 'OBJECTIFS SPÉCIFIQUES', 'CONTENUS', 'COMPÉTENCES DE BASE', 'THÈMES TRANSVERSAUX', 'SUGGESTIONS MÉTHODOLOGIQUES', 'H.H.'];
+  
+  if(disciplinaNome.toLowerCase().includes('inglês')) {
+    cabecalhos = cabecalhosEN;
+  } else if(disciplinaNome.toLowerCase().includes('francês')) {
+    cabecalhos = cabecalhosFR;
+  }
+  
+  let thead = `<thead><tr>${cabecalhos.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+  let tbody = '<tbody>';
+  
+  linhas.forEach(p => {
+    const datas = calcularDatasSemana(trimestre, p.numero);
+    const inicio = formatarDataBR(datas.inicio);
+    const fim = formatarDataBR(datas.fim);
+    
+    let sugestoesHTML = p.sugestoes_metodologicas || '';
+    if (sugestoesHTML) {
+      sugestoesHTML = sugestoesHTML.split(/\r?\n/).map(line => line.trim()).filter(line => line).join('<br>');
+    }
+    
+    // Extrair apenas número da carga horária
+    const cargaHorariaLimpa = extrairApenasNumero(p.carga_horaria);
+    
+    tbody += `<tr>
+      <td style="text-align:center;">${p.numero}ª Semana<br><small>De: <input class="data-input" value="${inicio.dd}" maxlength="2">/<input class="data-input" value="${inicio.mm}" maxlength="2">/${ano} até: <input class="data-input" value="${fim.dd}" maxlength="2">/<input class="data-input" value="${fim.mm}" maxlength="2">/${ano}</small></td>
+      <td contenteditable="true">${formatarBullets(p.unidade_tematica)}</td>
+      <td contenteditable="true">${formatarBullets(p.objetivo_especifico)}</td>
+      <td contenteditable="true">${formatarBullets(p.conteudo)}</td>
+      <td contenteditable="true">${formatarBullets(p.competencia_basica)}</td>
+      <td contenteditable="true">${p.tema_transversal || ''}</td>
+      <td contenteditable="true">${sugestoesHTML}</td>
+      <td style="text-align:center;" contenteditable="true">${cargaHorariaLimpa}</td>
+    </tr>`;
+  });
+  tbody += '</tbody>';
+  tabela.innerHTML = thead + tbody;
+  wrapper.appendChild(tabela);
+  card.appendChild(wrapper);
+  container.appendChild(card);
+
+  const botoesDiv = document.createElement('div');
+  botoesDiv.style.marginTop = '20px';
+  botoesDiv.style.textAlign = 'center';
+  botoesDiv.innerHTML = `
+    <button onclick="focarEdicao()" class="btn-plano">
+      ✏️ Editar o Plano
+    </button>
+    <button onclick="irParaPagamento()" class="btn-plano">
+      📥 EXPORTAR PDF (BAIXAR O PLANO)
+    </button>
+  `;
+  container.appendChild(botoesDiv);
+
+  document.getElementById('btnVoltarFormulario').style.display = 'inline-block';
+
+  const dadosParaPDF = {
+    provincia, distrito, zipNome, zipNumero: zipNum, nomeEscola, classe, trimestre,
+    disciplina: disciplinaNome,
+    dados: linhas
+  };
+  sessionStorage.setItem('planoAnaliticoData', JSON.stringify(dadosParaPDF));
+
+  setTimeout(function() {
+    protegerTabela();
+  }, 200);
+}
+
+function focarEdicao() {
+  const primeiraEditavel = document.querySelector('.tabela-plano [contenteditable="true"]');
+  if (primeiraEditavel) primeiraEditavel.focus();
+}
+
+function irParaPagamento() {
+  const planosData = sessionStorage.getItem('planoAnaliticoData');
+  if (!planosData) { alert("Gere o plano primeiro."); return; }
+  sessionStorage.setItem('planoData', planosData);
+  window.location.href = "dpan.html";
+}
+
+function protegerTabela() {
+  document.addEventListener('keydown', function(e) {
+    const target = e.target;
+    const isInTable = target.closest('.tabela-plano');
+    
+    if (isInTable) {
+      if (e.ctrlKey && e.key === 'c') {
+        e.preventDefault();
+        mostrarAlerta('📋 Cópia bloqueada na tabela.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'a') {
+        e.preventDefault();
+        mostrarAlerta('⚠️ Seleção em massa bloqueada.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'x') {
+        e.preventDefault();
+        mostrarAlerta('✂️ Recortar bloqueado.');
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'v') {
+        if (target.closest('td[contenteditable="true"]')) {
+          return true;
+        } else {
+          e.preventDefault();
+          mostrarAlerta('📋 Só é permitido colar nas células editáveis.');
+          return false;
+        }
+      }
+    }
+    
+    if (e.key === 'F12') {
+      e.preventDefault();
+      mostrarAlerta('🛠️ Ferramentas de desenvolvedor bloqueadas.');
+      return false;
+    }
+    if (e.ctrlKey && e.key === 'u') {
+      e.preventDefault();
+      mostrarAlerta('🔒 Visualização do código fonte bloqueada.');
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) {
+      e.preventDefault();
+      mostrarAlerta('🔒 Inspeção bloqueada.');
+      return false;
+    }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'j' || e.key === 'J')) {
+      e.preventDefault();
+      mostrarAlerta('🔒 Console bloqueado.');
+      return false;
+    }
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      mostrarAlerta('💾 Salvar página desativado.');
+      return false;
+    }
+    if (e.key === 'ContextMenu') {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      mostrarAlerta('🖱️ Clique direito bloqueado na tabela.');
+      return false;
+    }
+  });
+  
+  document.addEventListener('selectstart', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('dragstart', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+  
+  document.addEventListener('copy', function(e) {
+    if (e.target.closest('.tabela-plano')) {
+      e.preventDefault();
+      mostrarAlerta('📋 Cópia bloqueada na tabela.');
+      return false;
+    }
+  });
+}
+
+function mostrarAlerta(mensagem) {
+  const alertaAntigo = document.querySelector('.alerta-protecao');
+  if (alertaAntigo) alertaAntigo.remove();
+  
+  const alerta = document.createElement('div');
+  alerta.className = 'alerta-protecao';
+  alerta.style.cssText = `
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #ff6b6b;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease-out;
+    max-width: 90%;
+    text-align: center;
+    pointer-events: none;
+  `;
+  alerta.innerHTML = mensagem;
+  document.body.appendChild(alerta);
+  
+  setTimeout(() => {
+    alerta.style.animation = 'slideDown 0.3s ease-in';
+    setTimeout(() => alerta.remove(), 300);
+  }, 2500);
+}
+
+(function adicionarAnimacoes() {
+  const estiloAnimacoes = document.createElement('style');
+  estiloAnimacoes.textContent = `
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    }
+  `;
+  document.head.appendChild(estiloAnimacoes);
+})();
+
+// ============================================
+// INICIALIZAÇÃO
+// ============================================
+window.addEventListener('DOMContentLoaded', () => {
+  popularProvincias();
+  document.getElementById('provincia').addEventListener('change', atualizarDistritos);
+  document.getElementById('classe').addEventListener('change', function() {
+    atualizarDisciplinas();
+    salvarDadosLocalStorage();
+  });
+  
+  document.querySelectorAll('#formPlanoAnalitico input, #formPlanoAnalitico select').forEach(el => {
+    el.addEventListener('change', salvarDadosLocalStorage);
+  });
+  
+  carregarDadosSalvos();
+  atualizarDisciplinas();
+
+  window.iniciarGeracaoPlano = iniciarGeracaoPlano;
+  window.voltarAoFormulario = voltarAoFormulario;
+  window.irParaPagamento = irParaPagamento;
+  window.focarEdicao = focarEdicao;
+});
+</script>
+</body>
+</html>

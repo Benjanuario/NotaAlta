@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>LEIC • Baixar Plano Analítico</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0a1628 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #e8edf5;
+  }
+
+  header {
+    background: linear-gradient(90deg, #0a3d7c, #4a90d9);
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    border-radius: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(10, 61, 124, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  header i { color: #6aafe6; }
+
+  main { max-width: 750px; margin: 0 auto; }
+
+  .info-card {
+    background: linear-gradient(135deg, rgba(10, 61, 124, 0.15), rgba(74, 144, 217, 0.08));
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 1px solid rgba(74, 144, 217, 0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .info-icon { font-size: 40px; color: #4a90d9; margin-bottom: 10px; }
+  .info-title { font-size: 20px; font-weight: 700; color: #ffffff; }
+  .info-desc { font-size: 14px; color: #8a9bb5; margin-top: 5px; }
+  .info-detail { font-size: 13px; color: #6aafe6; margin-top: 8px; }
+
+  .btn-download {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #0a3d7c, #4a90d9);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(10, 61, 124, 0.3);
+  }
+
+  .btn-download:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(10, 61, 124, 0.4);
+  }
+
+  .btn-download:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-download i { font-size: 20px; }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 16px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: #4a90d9;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary i { color: #4a90d9; }
+
+  .loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .loader {
+    width: 70px;
+    height: 70px;
+    border: 4px solid rgba(255,255,255,0.08);
+    border-top: 4px solid #4a90d9;
+    border-right: 4px solid #4a90d9;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  .loader-status { color: white; font-size: 16px; font-weight: 600; }
+
+  .alert {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    padding: 16px 24px;
+    background: #0d2137;
+    backdrop-filter: blur(20px);
+    border-left: 4px solid #4a90d9;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    z-index: 1001;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-width: 90%;
+  }
+
+  .alert.show { transform: translateX(-50%) translateY(0); }
+
+  .alert i { font-size: 20px; }
+  .alert.success i { color: #34b7a1; }
+  .alert.error i { color: #ef5350; }
+  .alert.warning i { color: #f59e0b; }
+
+  .reload-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reload-overlay.show { display: flex; }
+
+  .reload-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(12px);
+    animation: fadeInBackdrop 0.3s ease-out;
+  }
+
+  .reload-card {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(160deg, #111827 0%, #1a1a2e 50%, #0f1724 100%);
+    border-radius: 24px;
+    padding: 35px 30px;
+    text-align: center;
+    max-width: 420px;
+    width: 92%;
+    border: 1px solid rgba(74, 144, 217, 0.25);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUpCard 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reload-icon-circle {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, rgba(74, 144, 217, 0.12), rgba(74, 144, 217, 0.04));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid rgba(74, 144, 217, 0.2);
+    animation: pulseIcon 2.5s ease-in-out infinite;
+  }
+
+  .reload-icon-circle i { font-size: 30px; color: #4a90d9; }
+
+  .reload-title { font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 8px; }
+  .reload-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 28px; line-height: 1.6; font-weight: 500; }
+  .reload-subtitle strong { color: #4a90d9; font-weight: 700; }
+
+  .swipe-demo {
+    position: relative;
+    width: 70px;
+    height: 100px;
+    margin: 0 auto 18px;
+  }
+
+  .swipe-phone {
+    width: 55px;
+    height: 90px;
+    background: linear-gradient(160deg, #1e293b, #0f1724);
+    border-radius: 12px;
+    margin: 0 auto;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .swipe-screen {
+    width: 41px;
+    height: 60px;
+    background: rgba(74, 144, 217, 0.04);
+    border-radius: 6px;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    overflow: hidden;
+    border: 1px solid rgba(74, 144, 217, 0.1);
+  }
+
+  .swipe-line {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 25px;
+    background: linear-gradient(180deg, transparent, #4a90d9, #6aafe6);
+    border-radius: 3px;
+    animation: swipeDownMotion 1.8s ease-in-out infinite;
+  }
+
+  .swipe-arrow-up {
+    position: absolute;
+    top: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #4a90d9;
+    font-size: 16px;
+    animation: arrowPulse 1.8s ease-in-out infinite;
+  }
+
+  .swipe-arrow-down {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #6aafe6;
+    font-size: 16px;
+    animation: arrowPulse 1.8s ease-in-out 0.4s infinite;
+  }
+
+  .swipe-finger {
+    position: absolute;
+    right: -22px;
+    top: 8px;
+    color: #6aafe6;
+    font-size: 18px;
+    animation: fingerSwipeMotion 1.8s ease-in-out infinite;
+  }
+
+  @keyframes swipeDownMotion {
+    0% { top: -25px; opacity: 0; }
+    20% { opacity: 1; }
+    60% { top: 55px; opacity: 0.9; }
+    100% { top: 55px; opacity: 0; }
+  }
+
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(4px); }
+  }
+
+  @keyframes fingerSwipeMotion {
+    0% { top: 5px; opacity: 0; }
+    25% { top: 12px; opacity: 1; }
+    60% { top: 48px; opacity: 0.9; }
+    100% { top: 55px; opacity: 0; }
+  }
+
+  @keyframes pulseIcon {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74, 144, 217, 0.3); }
+    50% { box-shadow: 0 0 0 18px rgba(74, 144, 217, 0); }
+  }
+
+  @keyframes fadeInBackdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUpCard {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reload-dots-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+
+  .reload-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4a90d9;
+    animation: dotPulseMotion 1.6s ease-in-out infinite;
+  }
+
+  .reload-dot:nth-child(2) { animation-delay: 0.25s; }
+  .reload-dot:nth-child(3) { animation-delay: 0.5s; }
+
+  @keyframes dotPulseMotion {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+    color: #5c6a8a;
+  }
+
+  .footer .highlight { color: #4a90d9; font-weight: 600; }
+
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+    header { font-size: 18px; padding: 16px; }
+    .reload-card { padding: 28px 22px; }
+    .reload-title { font-size: 20px; }
+    .info-title { font-size: 18px; }
+    .btn-download { font-size: 16px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <i class="fas fa-chart-line"></i>
+  BAIXAR PLANO ANALÍTICO
+</header>
+
+<main>
+  <div class="info-card">
+    <div class="info-icon"><i class="fas fa-file-pdf"></i></div>
+    <div class="info-title">Plano Analítico</div>
+    <div class="info-desc">Faça o download do seu plano analítico gratuitamente</div>
+    <div class="info-detail" id="infoDetail">
+      <i class="fas fa-check-circle" style="color: #34b7a1;"></i> 
+      <span id="contadorDisciplinas">0</span> disciplina(s) selecionada(s)
+    </div>
+  </div>
+
+  <button class="btn-download" id="btn-download" onclick="baixarPlano()">
+    <i class="fas fa-download"></i> BAIXAR PLANO ANALÍTICO
+  </button>
+
+  <button class="btn-secondary" onclick="window.location.href='pan.html'">
+    <i class="fas fa-arrow-left"></i> VOLTAR E GERAR OUTRO PLANO
+  </button>
+
+  <div class="footer">
+    <p>© 2026 <span class="highlight">LEIC</span> • Leitura e Escrita na Idade Certa</p>
+    <p>Ministério da Educação e Cultura - República de Moçambique</p>
+  </div>
+</main>
+
+<div class="loader-container" id="loader-container">
+  <div class="loader"></div>
+  <div class="loader-status" id="loader-status">Preparando o download...</div>
+</div>
+
+<div class="alert" id="alert">
+  <i class="fas fa-check-circle"></i>
+  <span id="alert-message">Mensagem</span>
+</div>
+
+<div class="reload-overlay" id="reloadOverlay">
+  <div class="reload-backdrop"></div>
+  <div class="reload-card">
+    <div class="reload-icon-circle"><i class="fas fa-rotate"></i></div>
+    <div class="reload-title">Actualize a Página</div>
+    <div class="reload-subtitle">Para fazer um novo download<br><strong>deslize de cima para baixo</strong> no ecrã</div>
+    <div class="swipe-demo">
+      <i class="fas fa-chevron-up swipe-arrow-up"></i>
+      <div class="swipe-phone">
+        <div class="swipe-screen"><div class="swipe-line"></div></div>
+      </div>
+      <i class="fas fa-hand-pointer swipe-finger"></i>
+      <i class="fas fa-chevron-down swipe-arrow-down"></i>
+    </div>
+    <div class="reload-dots-row"><div class="reload-dot"></div><div class="reload-dot"></div><div class="reload-dot"></div></div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// DATAS
+// =============================================
+const datasInicioTrimestre = {
+  "1º Trimestre": new Date(2025, 2, 2),
+  "2º Trimestre": new Date(2025, 5, 1),
+  "3º Trimestre": new Date(2025, 8, 8)
+};
+
+function calcularDatasSemana(trimestre, semanaNumero) {
+  const dataInicioTrimestre = datasInicioTrimestre[trimestre];
+  if (!dataInicioTrimestre) return { inicio: null, fim: null };
+  const dataInicioSemana = new Date(dataInicioTrimestre);
+  dataInicioSemana.setDate(dataInicioSemana.getDate() + (semanaNumero - 1) * 7);
+  const dataFimSemana = new Date(dataInicioSemana);
+  dataFimSemana.setDate(dataFimSemana.getDate() + 4);
+  return { inicio: dataInicioSemana, fim: dataFimSemana };
+}
+
+function formatarDataBR(data) {
+  if (!data) return { dd: '__', mm: '__' };
+  const dd = String(data.getDate()).padStart(2, '0');
+  const mm = String(data.getMonth() + 1).padStart(2, '0');
+  return { dd, mm };
+}
+
+// =============================================
+// EXTRAIR APENAS NÚMERO DA CARGA HORÁRIA
+// =============================================
+function extrairApenasNumero(texto) {
+  if (!texto) return '-';
+  const numeros = texto.match(/\d+/g);
+  if (numeros) {
+    return numeros.join('');
+  }
+  return '-';
+}
+
+// =============================================
+// GERAR PDF - PLANO ANALÍTICO
+// =============================================
+async function gerarPDFAnalitico() {
+  const planosDataJSON = sessionStorage.getItem("planoAnaliticoData");
+  if (!planosDataJSON) { 
+    mostrarAlerta("Nenhum plano encontrado. Gere o plano antes.", "error");
+    return null;
+  }
+  
+  let data;
+  try { data = JSON.parse(planosDataJSON); } 
+  catch(e) { mostrarAlerta("Dados inválidos", "error"); return null; }
+  
+  const { provincia, distrito, zipNome, zipNumero, nomeEscola, classe, trimestre, disciplina, dados } = data;
+  const ano = new Date().getFullYear();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+  doc.setFont("times", "normal");
+  doc.setTextColor(0,0,0);
+  
+  let yPos = 6;
+  
+  // Título do Plano Analítico
+  doc.setFontSize(14);
+  doc.setFont("times", "bold");
+  doc.text(`PLANO ANALÍTICO - ${disciplina}`, 148, yPos, { align: 'center' });
+  yPos += 5;
+  
+  // Cabeçalho
+  doc.setFontSize(12);
+  doc.text("REPÚBLICA DE MOÇAMBIQUE", 148, yPos, { align: 'center' }); yPos += 4.2;
+  doc.text("MINISTÉRIO DA EDUCAÇÃO E CULTURA", 148, yPos, { align: 'center' }); yPos += 4.2;
+  doc.text(`PROVÍNCIA DE ${provincia.toUpperCase()}`, 148, yPos, { align: 'center' }); yPos += 4.2;
+  doc.text(`GOVERNO DISTRITAL DE ${distrito.toUpperCase()}`, 148, yPos, { align: 'center' }); yPos += 4.2;
+  doc.text("SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA", 148, yPos, { align: 'center' }); yPos += 4.5;
+  doc.setFontSize(11);
+  doc.text("------------------------X----------------------", 148, yPos, { align: 'center' }); yPos += 4.5;
+  
+  // ZIP e Escola
+  let zipInfoTexto = '';
+  if (zipNome && zipNumero) zipInfoTexto = `ZIP: ${zipNome} – Nº: ${zipNumero}`;
+  const nomeEscolaFormatado = nomeEscola ? nomeEscola.trim().replace(/^Escola\s+/i, '') : '';
+  if (nomeEscolaFormatado) zipInfoTexto += (zipInfoTexto ? ' ---- Escola: ' : 'Escola: ') + nomeEscolaFormatado;
+  if (zipInfoTexto) { doc.text(zipInfoTexto, 148, yPos, { align: 'center' }); yPos += 4; }
+  
+  // Plano Analítico
+  doc.setFontSize(12);
+  doc.setFont("times", "bold");
+  const tituloPlano = `Plano Analítico de ${disciplina} – ${classe}, ${trimestre} / ${ano}`;
+  doc.text(tituloPlano, 148, yPos, { align: 'center' }); yPos += 5;
+  
+  // Cabeçalhos da tabela - 8 colunas incluindo Sugestões Metodológicas
+  let headers = ['SEMANA', 'U.TEMÁTICA', 'OBJECTIVOS ESPECÍFICOS', 'CONTEÚDOS', 'COMPETÊNCIAS BÁSICAS', 'TEMAS TRANSVERSAIS', 'SUGESTÕES METODOLÓGICAS', 'C.H.'];
+  
+  if (disciplina.toLowerCase().includes('inglês')) {
+    headers = ['WEEK', 'THEMATIC UNIT', 'SPECIFIC OBJECTIVES', 'CONTENTS', 'BASIC COMPETENCES', 'CROSS-CURRICULAR THEMES', 'METHODOLOGICAL SUGGESTIONS', 'L.H.'];
+  } else if (disciplina.toLowerCase().includes('francês')) {
+    headers = ['SEMAINE', 'UNITÉ THÉMATIQUE', 'OBJECTIFS SPÉCIFIQUES', 'CONTENUS', 'COMPÉTENCES DE BASE', 'THÈMES TRANSVERSAUX', 'SUGGESTIONS MÉTHODOLOGIQUES', 'H.H.'];
+  }
+  
+  // Corpo da tabela
+  const body = [];
+  for (const linha of dados) {
+    const semanaNum = linha.numero;
+    const datas = calcularDatasSemana(trimestre, semanaNum);
+    const inicio = formatarDataBR(datas.inicio);
+    const fim = formatarDataBR(datas.fim);
+    const textoData = `${semanaNum}ª Semana\nDe: ${inicio.dd}/${inicio.mm}/${ano} até: ${fim.dd}/${fim.mm}/${ano}`;
+    const tema = linha.tema_transversal || '';
+    const sugestoes = linha.sugestoes_metodologicas || '';
+    const cargaHorariaLimpa = extrairApenasNumero(linha.carga_horaria);
+    
+    body.push([
+      textoData,
+      linha.unidade_tematica || '-',
+      linha.objetivo_especifico || '-',
+      linha.conteudo || '-',
+      linha.competencia_basica || '-',
+      tema,
+      sugestoes,
+      cargaHorariaLimpa
+    ]);
+  }
+  
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = { left: 7, right: 7 };
+  const tableWidth = pageWidth - margin.left - margin.right;
+  
+  // Proporções para 8 colunas - MANTENDO DIMENSÕES ORIGINAIS
+  // Objectivos Específicos e Conteúdos com maior largura (18% cada)
+  const ratios = [
+    0.08,  // SEMANA
+    0.10,  // U.TEMÁTICA
+    0.18,  // OBJECTIVOS ESPECÍFICOS - MANTIDO
+    0.18,  // CONTEÚDOS - MANTIDO
+    0.14,  // COMPETÊNCIAS BÁSICAS
+    0.10,  // TEMAS TRANSVERSAIS
+    0.12,  // SUGESTÕES METODOLÓGICAS
+    0.07   // C.H. - REDUZIDA
+  ];
+  const columnStyles = {};
+  ratios.forEach((ratio, i) => { columnStyles[i] = { cellWidth: tableWidth * ratio }; });
+  columnStyles[0] = { ...columnStyles[0], halign: 'center', valign: 'middle' };
+  columnStyles[5] = { ...columnStyles[5], halign: 'center', valign: 'middle' };
+  columnStyles[6] = { ...columnStyles[6], halign: 'left', valign: 'top' };
+  columnStyles[7] = { ...columnStyles[7], halign: 'center', valign: 'middle' };
+  
+  doc.autoTable({
+    startY: yPos,
+    head: [headers],
+    body: body,
+    styles: { 
+      font: 'times', 
+      fontSize: 11, 
+      cellPadding: 2.5, 
+      overflow: 'linebreak', 
+      valign: 'top', 
+      halign: 'left', 
+      textColor: [0,0,0], 
+      lineColor: [0,0,0], 
+      lineWidth: 0.2 
+    },
+    headStyles: { 
+      fillColor: [180,180,180], 
+      textColor: [0,0,0], 
+      fontStyle: 'bold', 
+      halign: 'center', 
+      valign: 'middle',
+      fontSize: 10
+    },
+    bodyStyles: { valign: 'top', fontSize: 11 },
+    columnStyles: columnStyles,
+    margin: margin,
+    tableWidth: 'wrap',
+    showHead: 'firstPage'
+  });
+  
+  const nomeArquivo = `Plano_Analitico_${disciplina}_${classe}_${trimestre}.pdf`.replace(/\s+/g, '_');
+  return { blob: doc.output('blob'), nome: nomeArquivo };
+}
+
+function baixarPDF(pdfBlob, nome) {
+  const url = URL.createObjectURL(pdfBlob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = nome;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+// =============================================
+// CONTROLE DE DOWNLOAD
+// =============================================
+const DOWNLOAD_FEITO_KEY = 'downloadFeito_analitico_' + window.location.pathname.replace(/[^a-zA-Z0-9]/g, '_');
+
+function marcarDownloadRealizado() { sessionStorage.setItem(DOWNLOAD_FEITO_KEY, 'sim'); }
+function podeFazerDownload() { return sessionStorage.getItem(DOWNLOAD_FEITO_KEY) !== 'sim'; }
+
+window.addEventListener('pageshow', (event) => { 
+  if (!event.persisted) sessionStorage.removeItem(DOWNLOAD_FEITO_KEY); 
+});
+
+// =============================================
+// FUNÇÕES DE UI
+// =============================================
+function mostrarLoader(show, message) {
+  const loader = document.getElementById('loader-container');
+  const status = document.getElementById('loader-status');
+  if (show) { 
+    status.textContent = message; 
+    loader.style.display = 'flex'; 
+  } else { 
+    loader.style.display = 'none'; 
+  }
+}
+
+function mostrarAlerta(mensagem, tipo = 'success') {
+  const alert = document.getElementById('alert');
+  const alertMessage = document.getElementById('alert-message');
+  const icon = alert.querySelector('i');
+  
+  alertMessage.textContent = mensagem;
+  alert.className = 'alert ' + tipo;
+  
+  if (tipo === 'success') icon.className = 'fas fa-check-circle';
+  else if (tipo === 'error') icon.className = 'fas fa-times-circle';
+  else icon.className = 'fas fa-exclamation-triangle';
+  
+  alert.classList.add('show');
+  setTimeout(() => alert.classList.remove('show'), 5000);
+}
+
+function mostrarBarraReload() { 
+  document.getElementById('reloadOverlay').classList.add('show'); 
+}
+
+function fecharBarraReload() { 
+  document.getElementById('reloadOverlay').classList.remove('show'); 
+}
+
+// =============================================
+// BAIXAR PLANO
+// =============================================
+let downloadEmAndamento = false;
+
+async function baixarPlano() {
+  if (!podeFazerDownload()) { 
+    mostrarBarraReload(); 
+    return; 
+  }
+  
+  if (downloadEmAndamento) { 
+    mostrarAlerta("Download em andamento. Aguarde...", "warning"); 
+    return; 
+  }
+  
+  const planosData = sessionStorage.getItem("planoAnaliticoData");
+  if (!planosData) { 
+    mostrarAlerta("Nenhum plano gerado. Volte e gere o plano.", "error");
+    return; 
+  }
+  
+  let data;
+  try { data = JSON.parse(planosData); } 
+  catch(e) { mostrarAlerta("Erro nos dados do plano", "error"); return; }
+  
+  downloadEmAndamento = true;
+  const downloadBtn = document.getElementById('btn-download');
+  downloadBtn.disabled = true;
+  downloadBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> GERANDO PDF...';
+  
+  mostrarLoader(true, `Preparando download do Plano Analítico...`);
+  
+  try {
+    const pdf = await gerarPDFAnalitico();
+    if (!pdf) throw new Error("Erro ao gerar PDF");
+    
+    baixarPDF(pdf.blob, pdf.nome);
+    
+    // Atualizar contador
+    const infoDetail = document.getElementById('infoDetail');
+    infoDetail.innerHTML = `<i class="fas fa-check-circle" style="color: #34b7a1;"></i> Download concluído! Plano Analítico de ${data.disciplina}`;
+    
+    mostrarLoader(false);
+    marcarDownloadRealizado();
+    mostrarAlerta(`📄 Plano Analítico baixado com sucesso!`, "success");
+    
+  } catch(error) {
+    mostrarLoader(false);
+    mostrarAlerta(error.message || "Erro ao gerar PDF", "error");
+  }
+  
+  downloadEmAndamento = false;
+  downloadBtn.disabled = false;
+  downloadBtn.innerHTML = '<i class="fas fa-download"></i> BAIXAR PLANO ANALÍTICO';
+}
+
+// =============================================
+// INICIALIZAÇÃO
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+  const planosData = sessionStorage.getItem("planoAnaliticoData");
+  if (planosData) {
+    try {
+      const data = JSON.parse(planosData);
+      const disciplina = data.disciplina || 'desconhecida';
+      document.getElementById('contadorDisciplinas').textContent = 1;
+      
+      const infoDetail = document.getElementById('infoDetail');
+      infoDetail.innerHTML = `<i class="fas fa-check-circle" style="color: #34b7a1;"></i> 1 disciplina: ${disciplina}`;
+    } catch(e) {
+      console.error('Erro ao ler planos:', e);
+    }
+  }
+  
+  if (!podeFazerDownload()) {
+    mostrarBarraReload();
+  }
+});
+
+// Exportar funções globais
+window.baixarPlano = baixarPlano;
+window.fecharBarraReload = fecharBarraReload;
+</script>
+</body>
+</html>

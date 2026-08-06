@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LEIC-MEC • Simulador PESD - Educação de Adultos</title>
+    <meta name="theme-color" content="#0a2e6e">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a5a9c;
+            --primary-dark: #0d3b6e;
+            --primary-light: #3a7ec8;
+            --primary-gradient: linear-gradient(135deg, #1a5a9c, #0d3b6e);
+            --bg-deep: #0a1a2e;
+            --bg-space: #0f2844;
+            --bg-mid: #163a5c;
+            --bg-light: #1e4a74;
+            --text: #f1f5f9;
+            --text-secondary: #b0c8e0;
+            --glass: rgba(10, 30, 60, 0.85);
+            --glass-border: rgba(26, 90, 156, 0.3);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a1a2e 0%, #0f2844 30%, #163a5c 60%, #1a4a6e 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 700; }
+
+        .header {
+            background: linear-gradient(180deg, #0d2b4a 0%, #163a5c 50%, #1e4a74 100%);
+            padding: 14px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(26, 90, 156, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+
+        .back-btn {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s; text-decoration: none;
+        }
+
+        .back-btn:hover { background: rgba(26, 90, 156, 0.2); border-color: #3a7ec8; }
+
+        .header-title h1 { font-size: 1rem; font-weight: 800; color: #fff; }
+
+        .header-badge {
+            background: rgba(26, 90, 156, 0.2); border: 1px solid rgba(26, 90, 156, 0.3);
+            padding: 6px 14px; border-radius: 30px; font-size: 0.7rem;
+            font-weight: 700; color: #5a9ee0; display: flex; align-items: center; gap: 6px;
+        }
+
+        .idioma-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(26, 90, 156, 0.15);
+            border: 1px solid rgba(26, 90, 156, 0.2);
+            color: #5a9ee0;
+            margin-left: 8px;
+        }
+
+        .idioma-indicator .flag { font-size: 0.9rem; }
+
+        .main-container { max-width: 900px; margin: 0 auto; padding: 20px 16px 50px; }
+
+        .glass-card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 18px; padding: 28px 24px;
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow);
+            margin-bottom: 20px; position: relative; overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, #1a5a9c, #5a9ee0);
+        }
+
+        .section-title {
+            font-size: 1.15rem; font-weight: 800; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, #fff, #5a9ee0);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+
+        .section-title i { color: #5a9ee0; font-size: 1.3rem; }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-label i { color: #5a9ee0; font-size: 1rem; }
+
+        .form-input, .form-select {
+            width: 100%; padding: 12px 16px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; color: #fff; font-size: 0.95rem;
+            font-family: 'Inter', sans-serif; transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none; border-color: #3a7ec8;
+            box-shadow: 0 0 0 3px rgba(26, 90, 156, 0.2);
+        }
+
+        .form-select option { 
+            background: #0d2b4a; 
+            color: #fff;
+            padding: 8px;
+        }
+
+        .form-select option:hover { background: #1a5a9c; }
+
+        .form-select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        .btn {
+            padding: 13px 24px; border-radius: 50px; font-weight: 700;
+            font-size: 0.95rem; cursor: pointer; border: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; gap: 10px; width: 100%;
+            justify-content: center; font-family: 'Poppins', sans-serif;
+            position: relative; overflow: hidden;
+        }
+
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before { left: 100%; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1a5a9c, #0d3b6e); color: #fff;
+            box-shadow: 0 8px 25px rgba(26, 90, 156, 0.3);
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(26, 90, 156, 0.4); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-outline {
+            background: transparent; border: 2px solid #3a7ec8; color: #5a9ee0;
+        }
+
+        .btn-outline:hover { background: rgba(26, 90, 156, 0.1); transform: translateY(-3px); }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669); color: #fff;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-audio {
+            background: rgba(26, 90, 156, 0.15); 
+            border: 2px solid rgba(26, 90, 156, 0.3);
+            color: #5a9ee0;
+            padding: 8px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            width: auto;
+        }
+
+        .btn-audio:hover {
+            background: rgba(26, 90, 156, 0.25);
+            transform: scale(1.05);
+        }
+
+        .btn-audio.playing {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+            color: #10b981;
+            animation: pulseAudio 1s ease-in-out infinite;
+        }
+
+        @keyframes pulseAudio {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .timer-bar {
+            display: none; background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 16px; padding: 14px 20px; margin-bottom: 20px;
+            border: 1px solid rgba(245, 158, 11, 0.3); text-align: center;
+            font-size: 1.2rem; font-weight: 700; animation: fadeInUp 0.4s ease;
+            position: sticky; top: 80px; z-index: 50;
+        }
+
+        .timer-bar.active { display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        .timer-bar i { color: #f59e0b; }
+
+        .timer-value { color: #f59e0b; font-size: 1.5rem; font-weight: 900; font-family: 'Poppins', sans-serif; }
+
+        .timer-urgent { color: #ef4444 !important; animation: pulse 0.8s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .score-bar {
+            display: none; background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 16px; padding: 16px 22px; margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.25); text-align: center;
+            font-size: 1.1rem; font-weight: 600; animation: fadeInUp 0.4s ease;
+        }
+
+        .score-bar.active { display: block; }
+        .score-bar i { color: #10b981; margin-right: 6px; }
+        .score-value { color: #10b981; font-size: 1.3rem; font-weight: 800; }
+
+        .loading-container {
+            display: none; text-align: center; padding: 40px 20px; animation: fadeInUp 0.4s ease;
+        }
+
+        .loading-container.active { display: block; }
+
+        .spinner {
+            width: 50px; height: 50px;
+            border: 4px solid rgba(255,255,255,0.08); border-top: 4px solid #3a7ec8;
+            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 18px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text { color: var(--text-secondary); font-size: 0.95rem; }
+        .loading-text i { color: #5a9ee0; margin-right: 6px; }
+
+        .question-card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 18px; padding: 24px;
+            margin-bottom: 18px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s; animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .question-card.answered { border-color: rgba(26, 90, 156, 0.3); }
+        .question-card.correct { border-color: rgba(16, 185, 129, 0.6); }
+        .question-card.wrong { border-color: rgba(239, 68, 68, 0.6); }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .question-number {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 18px;
+            line-height: 1.7;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .question-text .text-content {
+            flex: 1;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn-option {
+            padding: 14px 16px; border-radius: 12px; font-weight: 600;
+            font-size: 0.9rem; cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03); color: var(--text);
+            transition: all 0.3s; font-family: 'Inter', sans-serif;
+            text-align: left; display: flex; align-items: center; gap: 10px;
+        }
+
+        .btn-option .option-letter {
+            width: 30px; height: 30px; border-radius: 8px;
+            background: rgba(26, 90, 156, 0.2); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.85rem; color: #5a9ee0; flex-shrink: 0;
+        }
+
+        .btn-option:hover:not(:disabled) {
+            border-color: #3a7ec8; background: rgba(26, 90, 156, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-option.selected {
+            border-color: #3a7ec8; background: rgba(26, 90, 156, 0.2); color: #5a9ee0;
+        }
+
+        .btn-option.selected .option-letter {
+            background: rgba(26, 90, 156, 0.3); color: #3a7ec8;
+        }
+
+        .btn-option.show-correct {
+            border-color: #10b981; background: rgba(16, 185, 129, 0.15);
+        }
+
+        .btn-option.show-correct .option-letter {
+            background: rgba(16, 185, 129, 0.3); color: #10b981;
+        }
+
+        .btn-option.show-wrong {
+            border-color: #ef4444; background: rgba(239, 68, 68, 0.15);
+        }
+
+        .btn-option.show-wrong .option-letter {
+            background: rgba(239, 68, 68, 0.3); color: #ef4444;
+        }
+
+        .final-result {
+            display: none; background: var(--glass); backdrop-filter: blur(15px);
+            border-radius: 18px; padding: 35px 24px; text-align: center;
+            border: 1px solid rgba(26, 90, 156, 0.3); animation: fadeInUp 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-result.active { display: block; }
+
+        .trophy-icon { font-size: 4rem; color: #f59e0b; margin-bottom: 15px; animation: bounce 1s ease infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .final-score {
+            font-size: 4rem; font-weight: 900;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin: 15px 0; font-family: 'Poppins', sans-serif;
+        }
+
+        .final-message { color: var(--text-secondary); font-size: 1rem; margin-bottom: 20px; }
+
+        .saved-badge {
+            display: none; background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px;
+            padding: 10px 16px; margin-bottom: 15px; font-size: 0.85rem;
+            color: #10b981; text-align: center;
+        }
+
+        .saved-badge.show { display: block; }
+
+        .btn-resume {
+            display: none; width: 100%; margin-top: 12px;
+        }
+
+        .btn-resume.show { display: flex; }
+
+        .toast {
+            position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #0d2b4a; border: 1px solid #10b981; color: #fff;
+            padding: 12px 22px; border-radius: 40px; font-weight: 600;
+            font-size: 0.85rem; z-index: 1000; transition: transform 0.4s;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .answer-detail {
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        .answer-detail .label {
+            color: var(--text-secondary);
+            margin-right: 4px;
+        }
+
+        .answer-detail .correct-answer {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .answer-detail .wrong-answer {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        .disciplina-select-wrapper {
+            position: relative;
+        }
+
+        .disciplina-select-wrapper .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%233a7ec8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .disciplina-select-wrapper .form-select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .audio-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .audio-toggle label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3a7ec8;
+            cursor: pointer;
+        }
+
+        .audio-toggle .audio-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .audio-toggle .audio-status.active {
+            color: #10b981;
+            background: rgba(16,185,129,0.1);
+        }
+
+        .audio-toggle .audio-status.inactive {
+            color: #64748b;
+            background: rgba(100,116,139,0.1);
+        }
+
+        .audio-toggle .audio-status i {
+            font-size: 0.5rem;
+        }
+
+        .voz-selector-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .voz-selector-wrapper .form-select {
+            font-size: 0.85rem;
+            padding: 10px 16px;
+        }
+
+        .voz-selector-wrapper .form-label {
+            font-size: 0.75rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .options-grid { grid-template-columns: 1fr; }
+            .header-title h1 { font-size: 0.85rem; }
+            .final-score { font-size: 3rem; }
+            .timer-bar { top: 70px; font-size: 1rem; }
+            .question-header { flex-direction: column; align-items: stretch; }
+            .btn-audio { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <a href="home.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <div class="header-title"><h1>LEIC-MEC • Simulador PESD</h1></div>
+        </div>
+        <div class="header-badge">
+            <i class="fas fa-user-graduate"></i> Educação de Adultos - 7ª a 12ª
+            <span class="idioma-indicator" id="idiomaIndicator">
+                <span class="flag">🇵🇹</span> <span id="idiomaLabel">Português</span>
+            </span>
+        </div>
+    </div>
+</header>
+
+<main class="main-container">
+    
+    <div class="glass-card" id="configCard">
+        <div class="section-title"><i class="fas fa-sliders-h"></i> Configurar Simulado PESD</div>
+        
+        <div class="saved-badge" id="savedBadge">
+            <i class="fas fa-save"></i> Tens uma prova guardada! O tempo restante é de <strong id="savedTimeDisplay">--</strong>.
+        </div>
+        
+        <button class="btn btn-outline btn-resume" id="btnResume" onclick="retomarProva()">
+            <i class="fas fa-play"></i> Retomar Prova Guardada
+        </button>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-layer-group"></i> Classe</label>
+                <select id="classe" class="form-select" onchange="atualizarDisciplinas()">
+                    <option value="">Selecione a classe</option>
+                    <option value="7ª Classe">7ª Classe</option>
+                    <option value="8ª Classe">8ª Classe</option>
+                    <option value="9ª Classe">9ª Classe</option>
+                    <option value="10ª Classe">10ª Classe</option>
+                    <option value="11ª Classe">11ª Classe</option>
+                    <option value="12ª Classe">12ª Classe</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-book"></i> Disciplina</label>
+                <div class="disciplina-select-wrapper">
+                    <select id="disciplina" class="form-select" disabled onchange="atualizarIdiomaPorDisciplina()">
+                        <option value="">Selecione a classe primeiro</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="audio-toggle">
+            <label>
+                <input type="checkbox" id="autoReadToggle">
+                <i class="fas fa-volume-up" style="color:#5a9ee0;"></i>
+                Ler perguntas automaticamente
+            </label>
+            <span class="audio-status inactive" id="audioStatus">
+                <i class="fas fa-circle"></i> Desativado
+            </span>
+        </div>
+
+        <div class="voz-selector-wrapper">
+            <label class="form-label"><i class="fas fa-microphone"></i> Voz para leitura</label>
+            <select id="vozSelector" class="form-select">
+                <option value="">Carregando vozes...</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"><i class="fas fa-tags"></i> Temas (separados por vírgula)</label>
+            <input type="text" id="temas" class="form-input" placeholder="Ex: Cidadania, Desenvolvimento Social, Economia">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-hashtag"></i> Nº de Perguntas (20-30)</label>
+                <input type="number" id="quantidade" class="form-input" min="20" max="30" value="20">
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-clock"></i> Tempo (minutos, máx. 60)</label>
+                <input type="number" id="tempoProva" class="form-input" min="10" max="60" value="30">
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" id="btnGerar" onclick="iniciarProva()">
+            <i class="fas fa-play-circle"></i> Iniciar Simulado PESD
+        </button>
+    </div>
+
+    <div class="loading-container" id="loadingContainer">
+        <div class="spinner"></div>
+        <p class="loading-text"><i class="fas fa-robot"></i> Gerando a prova PESD...</p>
+    </div>
+
+    <div class="timer-bar" id="timerBar">
+        <i class="fas fa-hourglass-half"></i> Tempo Restante: <span class="timer-value" id="timerDisplay">--:--</span>
+    </div>
+
+    <div class="score-bar" id="scoreBar">
+        <i class="fas fa-check-circle"></i> Respondidas: <span class="score-value" id="respondidas">0</span> / <span id="totalPerguntas">0</span>
+    </div>
+
+    <div id="questionsContainer"></div>
+
+    <div style="display: flex; gap: 12px; margin-bottom: 20px;" id="actionButtons">
+        <button class="btn btn-outline" id="btnSalvar" onclick="salvarProva()" style="display:none;">
+            <i class="fas fa-save"></i> Guardar Prova
+        </button>
+        <button class="btn btn-primary" id="btnFinalizar" onclick="finalizarProva()" style="display:none;">
+            <i class="fas fa-check-circle"></i> Finalizar Prova
+        </button>
+    </div>
+
+    <div class="final-result" id="finalResult">
+        <div class="trophy-icon"><i class="fas fa-trophy"></i></div>
+        <h2>Resultado Final</h2>
+        <div class="final-score" id="finalScoreDisplay">0</div>
+        <p style="color:#94a3b8;">valores (máximo 20 valores)</p>
+        <p class="final-message" id="finalMessage"></p>
+        <div id="resultadoDetalhado" style="text-align:left; margin-top:15px;"></div>
+        <button class="btn btn-outline" onclick="novaProva()" style="margin-top:15px;">
+            <i class="fas fa-redo-alt"></i> Novo Simulado
+        </button>
+    </div>
+
+</main>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage"></span></div>
+
+<script>
+// ============================================
+// MAPEAMENTO DE IDIOMA POR DISCIPLINA
+// ============================================
+const idiomaPorDisciplina = {
+    'Inglês': 'en',
+    'English': 'en',
+    'Francês': 'fr',
+    'Français': 'fr',
+    'Frances': 'fr'
+};
+
+const flagPorIdioma = {
+    'pt': '🇵🇹',
+    'en': '🇬🇧',
+    'fr': '🇫🇷'
+};
+
+const nomeIdiomaPorCodigo = {
+    'pt': 'Português',
+    'en': 'English',
+    'fr': 'Français'
+};
+
+let idiomaAtual = 'pt';
+let disciplinaAtual = '';
+
+// ============================================
+// DADOS - DISCIPLINAS POR CLASSE (PESD)
+// ============================================
+const disciplinasPorClasse = {
+   "7ª Classe": ["Português", "Matemática", "Biologia", "Química", "Física", "Geografia", "História", "TIC", "Agropecuária", "Inglês", "EVT", "Educação Física"],
+    "8ª Classe": ["Português", "Matemática", "Biologia", "Química", "Física", "Geografia", "História", "TIC", "Agropecuária", "Francês", "Inglês", "EVT", "Educação Física"],
+    "9ª Classe": ["Português", "Matemática", "Biologia", "Química", "Física", "Geografia", "História", "TIC", "Inglês", "Agropecuária", "Francês", "EVT", "Educação Física"],
+    "10ª Classe": ["Português", "Matemática", "Biologia", "Química", "Física", "Geografia", "História", "Filosofia", "TIC", "Inglês", "Agropecuária", "Francês", "Noções de Empreendedorismo", "EVT", "Educação Física"],
+    "11ª Classe": ["Português", "Matemática 'Letras'", "Matemática 'Ciências'", "Biologia", "Química", "Física", "Psicologia", "Psicopedagogia", "Geografia", "História", "TIC", "Inglês", "Francês", "Filosofia", "Noções de Empreendedorismo", "EVT", "DGD", "Educação Física"],
+    "12ª Classe": ["Português", "Matemática 'Letras'", "Matemática 'Ciências'", "Biologia", "Química", "Física", "Psicologia", "Psicopedagogia", "Geografia", "História", "TIC", "Inglês", "Francês", "Filosofia", "Noções de Empreendedorismo", "EVT", "DGD", "Educação Física"]
+};
+
+// ============================================
+// ATUALIZAR IDIOMA BASEADO NA DISCIPLINA
+// ============================================
+function atualizarIdiomaPorDisciplina() {
+    const disciplinaSelect = document.getElementById('disciplina');
+    disciplinaAtual = disciplinaSelect.value;
+    
+    const idiomaDetectado = idiomaPorDisciplina[disciplinaAtual] || 'pt';
+    idiomaAtual = idiomaDetectado;
+    
+    const flag = flagPorIdioma[idiomaAtual] || '🇵🇹';
+    const nome = nomeIdiomaPorCodigo[idiomaAtual] || 'Português';
+    document.getElementById('idiomaLabel').textContent = nome;
+    document.querySelector('#idiomaIndicator .flag').textContent = flag;
+    
+    const temasInput = document.getElementById('temas');
+    if (idiomaAtual === 'en') {
+        temasInput.placeholder = 'Ex: Citizenship, Social Development, Economy';
+    } else if (idiomaAtual === 'fr') {
+        temasInput.placeholder = 'Ex: Citoyenneté, Développement Social, Économie';
+    } else {
+        temasInput.placeholder = 'Ex: Cidadania, Desenvolvimento Social, Economia';
+    }
+    
+    const mensagem = idiomaAtual === 'en' ? '🌐 Questions will be generated in English' :
+                     idiomaAtual === 'fr' ? '🌐 Les questions seront générées en Français' :
+                     '🌐 As perguntas serão geradas em Português';
+    showToast(mensagem, 'success');
+}
+
+// ============================================
+// SISTEMA DE VOZES - SPEECH SYNTHESIS
+// ============================================
+let vozesDisponiveis = [];
+let vozSelecionada = null;
+let speechSynthesis = window.speechSynthesis;
+let currentUtterance = null;
+let isSpeaking = false;
+
+function carregarVozes() {
+    if (!window.speechSynthesis) return;
+    
+    const vozes = speechSynthesis.getVoices();
+    
+    const idiomaVoz = idiomaAtual === 'en' ? 'en' :
+                      idiomaAtual === 'fr' ? 'fr' :
+                      'pt';
+    
+    vozesDisponiveis = vozes.filter(v => 
+        v.lang.startsWith(idiomaVoz) || 
+        v.lang.includes(idiomaVoz.toUpperCase())
+    );
+    
+    if (vozesDisponiveis.length === 0) {
+        vozesDisponiveis = vozes;
+    }
+    
+    const preferidas = ['Wavenet', 'Google', 'Microsoft', 'Zira', 'Maria', 'Helena', 'Joana'];
+    for (const preferida of preferidas) {
+        const encontrada = vozesDisponiveis.find(v => 
+            v.name.toLowerCase().includes(preferida.toLowerCase())
+        );
+        if (encontrada) {
+            vozSelecionada = encontrada;
+            break;
+        }
+    }
+    
+    if (!vozSelecionada && vozesDisponiveis.length > 0) {
+        vozSelecionada = vozesDisponiveis[0];
+    }
+    
+    atualizarSelectorVozes();
+    carregarVozSalva();
+}
+
+function atualizarSelectorVozes() {
+    const container = document.getElementById('vozSelector');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    if (vozesDisponiveis.length === 0) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Nenhuma voz disponível';
+        container.appendChild(option);
+        return;
+    }
+    
+    vozesDisponiveis.forEach((voz, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${voz.name} (${voz.lang})`;
+        if (voz === vozSelecionada) {
+            option.selected = true;
+        }
+        container.appendChild(option);
+    });
+    
+    container.addEventListener('change', function() {
+        const index = parseInt(this.value);
+        if (!isNaN(index) && vozesDisponiveis[index]) {
+            vozSelecionada = vozesDisponiveis[index];
+            showToast(`🔊 Voz alterada para: ${vozSelecionada.name}`, 'success');
+            localStorage.setItem('voz_selecionada_pesd', JSON.stringify({
+                name: vozSelecionada.name,
+                lang: vozSelecionada.lang
+            }));
+        }
+    });
+}
+
+function carregarVozSalva() {
+    const salva = localStorage.getItem('voz_selecionada_pesd');
+    if (salva) {
+        try {
+            const dados = JSON.parse(salva);
+            const encontrada = vozesDisponiveis.find(v => 
+                v.name === dados.name && v.lang === dados.lang
+            );
+            if (encontrada) {
+                vozSelecionada = encontrada;
+                const container = document.getElementById('vozSelector');
+                if (container) {
+                    const index = vozesDisponiveis.indexOf(encontrada);
+                    if (index !== -1) {
+                        container.value = index;
+                    }
+                }
+            }
+        } catch(e) {}
+    }
+}
+
+function falarTexto(texto, callback) {
+    if (!window.speechSynthesis) {
+        if (callback) callback();
+        return;
+    }
+    
+    const autoRead = document.getElementById('autoReadToggle');
+    if (autoRead && !autoRead.checked) {
+        if (callback) callback();
+        return;
+    }
+    
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(texto);
+    
+    // Definir idioma baseado no idioma atual
+    // Para português, usar pt-MZ (Moçambique)
+    const langMap = {
+        'pt': 'pt-MZ',
+        'en': 'en-US',
+        'fr': 'fr-FR'
+    };
+    utterance.lang = langMap[idiomaAtual] || 'pt-MZ';
+    
+    // Tentar encontrar uma voz específica de Moçambique ou Português
+    const vozes = speechSynthesis.getVoices();
+    let vozMZ = vozes.find(v => v.lang === 'pt-MZ');
+    if (!vozMZ) {
+        vozMZ = vozes.find(v => v.lang.startsWith('pt'));
+    }
+    if (vozMZ) {
+        utterance.voice = vozMZ;
+    }
+    
+    utterance.rate = 0.85;
+    utterance.pitch = 1.0;
+    utterance.volume = 1;
+    
+    currentUtterance = utterance;
+    isSpeaking = true;
+    
+    const audioBtns = document.querySelectorAll('.btn-audio');
+    audioBtns.forEach(btn => btn.classList.add('playing'));
+    
+    utterance.onend = function() {
+        isSpeaking = false;
+        audioBtns.forEach(btn => btn.classList.remove('playing'));
+        if (callback) callback();
+    };
+    
+    utterance.onerror = function(e) {
+        console.warn('Erro na síntese de fala:', e);
+        isSpeaking = false;
+        audioBtns.forEach(btn => btn.classList.remove('playing'));
+        if (callback) callback();
+    };
+    
+    speechSynthesis.speak(utterance);
+}
+
+function pararLeitura() {
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+    }
+    isSpeaking = false;
+    currentUtterance = null;
+    document.querySelectorAll('.btn-audio').forEach(btn => btn.classList.remove('playing'));
+}
+
+// ============================================
+// ATUALIZAR DISCIPLINAS
+// ============================================
+function atualizarDisciplinas() {
+    const classe = document.getElementById('classe').value;
+    const disciplinaSelect = document.getElementById('disciplina');
+
+    disciplinaSelect.innerHTML = '';
+
+    if (!classe || !disciplinasPorClasse[classe]) {
+        disciplinaSelect.disabled = true;
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Selecione a classe primeiro';
+        disciplinaSelect.appendChild(option);
+        return;
+    }
+
+    const disciplinas = disciplinasPorClasse[classe];
+    
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Selecione a disciplina';
+    disciplinaSelect.appendChild(defaultOption);
+
+    disciplinas.forEach(disciplina => {
+        const option = document.createElement('option');
+        option.value = disciplina;
+        option.textContent = disciplina;
+        disciplinaSelect.appendChild(option);
+    });
+
+    disciplinaSelect.disabled = false;
+    disciplinaSelect.value = '';
+    
+    setTimeout(atualizarIdiomaPorDisciplina, 100);
+    
+    showToast(`📚 ${disciplinas.length} disciplinas disponíveis para ${classe}`, 'success');
+}
+
+// ============================================
+// CONFIGURAÇÕES DA API
+// ============================================
+const GROQ_API_KEY = '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';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+const STORAGE_KEY = 'leic_minedh_prova_pesd';
+
+let perguntas = [];
+let respostasUsuario = {};
+let tempoTotal = 0;
+let tempoRestante = 0;
+let timerInterval = null;
+let provaIniciada = false;
+let notaFinal = 0;
+let provaFinalizada = false;
+
+// ============================================
+// VERIFICAR PROVA SALVA AO CARREGAR
+// ============================================
+window.addEventListener('DOMContentLoaded', () => {
+    if (window.speechSynthesis) {
+        speechSynthesis.getVoices();
+        speechSynthesis.onvoiceschanged = () => {
+            carregarVozes();
+        };
+        
+        setTimeout(() => {
+            carregarVozes();
+        }, 500);
+    }
+    
+    const provaSalva = localStorage.getItem(STORAGE_KEY);
+    if (provaSalva) {
+        try {
+            const dados = JSON.parse(provaSalva);
+            if (dados.perguntas && dados.tempoRestante > 0) {
+                document.getElementById('savedBadge').classList.add('show');
+                document.getElementById('btnResume').classList.add('show');
+                document.getElementById('savedTimeDisplay').textContent = formatarTempo(dados.tempoRestante);
+            }
+        } catch(e) {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+    }
+
+    const toggle = document.getElementById('autoReadToggle');
+    const status = document.getElementById('audioStatus');
+    
+    // CORREÇÃO PARA PESD
+toggle.checked = true;  // <--- ATIVADO
+status.className = 'audio-status active';  // <--- ATIVO
+status.innerHTML = '<i class="fas fa-circle"></i> Ativo';  // <--- ATIVO
+
+    toggle.addEventListener('change', function() {
+        const status = document.getElementById('audioStatus');
+        if (this.checked) {
+            status.className = 'audio-status active';
+            status.innerHTML = '<i class="fas fa-circle"></i> Ativo';
+            showToast('🔊 Leitura automática ativada!', 'success');
+        } else {
+            status.className = 'audio-status inactive';
+            status.innerHTML = '<i class="fas fa-circle"></i> Desativado';
+            pararLeitura();
+            showToast('🔇 Leitura automática desativada', 'warning');
+        }
+    });
+});
+
+// ============================================
+// INICIAR PROVA
+// ============================================
+async function iniciarProva() {
+    const disciplina = document.getElementById('disciplina').value;
+    const classe = document.getElementById('classe').value;
+    const temas = document.getElementById('temas').value.trim();
+    const quantidade = parseInt(document.getElementById('quantidade').value);
+    const tempoProva = parseInt(document.getElementById('tempoProva').value);
+
+    if (!disciplina) { showToast('Selecione uma disciplina!', 'warning'); return; }
+    if (!classe) { showToast('Selecione a classe!', 'warning'); return; }
+    if (!temas) { showToast('Insira os temas!', 'warning'); return; }
+    if (quantidade < 20 || quantidade > 30) { showToast('Nº de perguntas entre 20 e 30!', 'warning'); return; }
+    if (tempoProva < 10 || tempoProva > 60) { showToast('Tempo entre 10 e 60 minutos!', 'warning'); return; }
+
+    atualizarIdiomaPorDisciplina();
+
+    tempoTotal = tempoProva * 60;
+    tempoRestante = tempoTotal;
+    respostasUsuario = {};
+    provaIniciada = true;
+    provaFinalizada = false;
+
+    document.getElementById('configCard').style.display = 'none';
+    document.getElementById('loadingContainer').classList.add('active');
+    document.getElementById('savedBadge').classList.remove('show');
+    document.getElementById('btnResume').classList.remove('show');
+
+    try {
+        perguntas = await gerarPerguntas(disciplina, classe, temas, quantidade);
+        
+        document.getElementById('loadingContainer').classList.remove('active');
+        document.getElementById('timerBar').classList.add('active');
+        document.getElementById('scoreBar').classList.add('active');
+        document.getElementById('totalPerguntas').textContent = quantidade;
+        document.getElementById('btnSalvar').style.display = 'flex';
+        document.getElementById('btnFinalizar').style.display = 'flex';
+        
+        renderizarPerguntas();
+        iniciarTimer();
+        salvarEstado();
+        
+        const mensagem = idiomaAtual === 'en' ? 'PESD Test started! Good luck!' :
+                        idiomaAtual === 'fr' ? 'Test PESD démarré! Bonne chance!' :
+                        'Prova PESD iniciada! Boa sorte!';
+        showToast(mensagem, 'success');
+    } catch(erro) {
+        document.getElementById('loadingContainer').classList.remove('active');
+        document.getElementById('configCard').style.display = 'block';
+        showToast('Erro: ' + erro.message, 'error');
+    }
+}
+
+// ============================================
+// LER PERGUNTA
+// ============================================
+function lerPergunta(index) {
+    if (!perguntas[index] || provaFinalizada) return;
+    
+    const p = perguntas[index];
+    const texto = `Pergunta ${index + 1}: ${p.pergunta}`;
+    
+    const card = document.getElementById(`q-${index}`);
+    if (card) {
+        card.style.borderColor = '#3a7ec8';
+        card.style.boxShadow = '0 0 30px rgba(26, 90, 156, 0.3)';
+    }
+    
+    falarTexto(texto, () => {
+        if (card) {
+            card.style.borderColor = '';
+            card.style.boxShadow = '';
+        }
+    });
+}
+
+// ============================================
+// GERAR PERGUNTAS COM IA - ADAPTATIVO POR IDIOMA (PESD)
+// ============================================
+async function gerarPerguntas(disciplina, classe, temas, quantidade) {
+    const idiomaPrompt = idiomaAtual === 'en' ? 'English' :
+                         idiomaAtual === 'fr' ? 'Français' :
+                         'Português (Moçambique)';
+    
+    const prompt = `Crie exatamente ${quantidade} perguntas de múltipla escolha para uma avaliação de "${disciplina}" da "${classe}" do PESD (Programa de Educação para o Desenvolvimento) em Moçambique.
+
+PESD é um programa de Educação de Adultos que visa proporcionar oportunidades de aprendizagem para jovens e adultos que não tiveram acesso à educação formal na idade apropriada.
+
+Temas específicos: ${temas}
+
+⚠️ REGRAS DE QUALIDADE E PRECISÃO:
+1. A RESPOSTA CORRETA DEVE ESTAR OBRIGATORIAMENTE ENTRE AS 4 OPÇÕES.
+2. A pergunta e as opções devem ser claras, objetivas e sem ambiguidades.
+3. As 4 opções devem ser plausíveis, mas apenas UMA deve ser a correta.
+4. As opções erradas devem ser distratores realistas.
+5. Use linguagem adequada à ${classe} - vocabulário apropriado para educação de adultos.
+6. Mantenha coerência total: a pergunta deve ter uma única resposta inequívoca.
+7. A pergunta e todas as opções devem ser ESCRITAS EM ${idiomaPrompt}.
+
+📚 ESPECIFICIDADES DO PESD:
+- Contexto de vida e trabalho dos adultos
+- Aplicação prática dos conhecimentos no dia a dia
+- Questões relacionadas ao desenvolvimento comunitário
+- Temas de cidadania, direitos e deveres
+- Atualidades e questões sociais de Moçambique
+- Valorização da experiência de vida dos educandos
+
+📋 FORMATO DE RESPOSTA (APENAS JSON):
+[
+  {"pergunta": "texto da pergunta", "opcoes": ["opção A", "opção B", "opção C", "opção D"], "indiceCorreta": 0}
+]
+
+O "indiceCorreta" deve ser 0, 1, 2 ou 3 - correspondendo à posição da opção correta no array "opcoes".`;
+
+    const response = await fetch(GROQ_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [
+                { 
+                    role: 'system', 
+                    content: `És um professor experiente do PESD (Programa de Educação para o Desenvolvimento) em Moçambique, especialista em criar avaliações para educação de adultos. Gera APENAS JSON válido, sem comentários, sem markdown, sem texto adicional. As perguntas devem ser escritas em ${idiomaPrompt} e contextualizadas para a realidade dos adultos em Moçambique.` 
+                },
+                { role: 'user', content: prompt }
+            ],
+            temperature: 0.3,
+            max_tokens: 4000
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API erro ${response.status}: ${errorText}`);
+    }
+    
+    const data = await response.json();
+    let conteudo = data.choices[0].message.content.trim();
+    conteudo = conteudo.replace(/```json/g, '').replace(/```/g, '').trim();
+    
+    const match = conteudo.match(/\[[\s\S]*\]/);
+    if (!match) {
+        console.error('Conteúdo recebido:', conteudo);
+        throw new Error('Não foi possível encontrar um array JSON válido na resposta');
+    }
+    
+    try {
+        const perguntasGeradas = JSON.parse(match[0]);
+        
+        if (!Array.isArray(perguntasGeradas) || perguntasGeradas.length === 0) {
+            throw new Error('A resposta não é um array válido');
+        }
+        
+        perguntasGeradas.forEach((p, idx) => {
+            if (!p.opcoes || !Array.isArray(p.opcoes) || p.opcoes.length !== 4) {
+                throw new Error(`Pergunta ${idx+1} tem formato inválido de opções`);
+            }
+            
+            let indiceCorreta = p.indiceCorreta;
+            
+            if (typeof indiceCorreta === 'string' && /^[A-D]$/i.test(indiceCorreta)) {
+                const map = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+                indiceCorreta = map[indiceCorreta.toUpperCase()];
+            }
+            
+            if (indiceCorreta === undefined && p.correta !== undefined) {
+                if (typeof p.correta === 'number') {
+                    indiceCorreta = p.correta;
+                } else if (typeof p.correta === 'string' && /^[A-D]$/i.test(p.correta)) {
+                    const map = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+                    indiceCorreta = map[p.correta.toUpperCase()];
+                }
+                delete p.correta;
+            }
+            
+            if (indiceCorreta === undefined || indiceCorreta === null || isNaN(indiceCorreta)) {
+                if (p.respostaCorreta && typeof p.respostaCorreta === 'string') {
+                    const foundIndex = p.opcoes.findIndex(op => op.toLowerCase() === p.respostaCorreta.toLowerCase());
+                    if (foundIndex !== -1) {
+                        indiceCorreta = foundIndex;
+                    }
+                    delete p.respostaCorreta;
+                } else {
+                    indiceCorreta = 0;
+                }
+            }
+            
+            indiceCorreta = Number(indiceCorreta);
+            if (indiceCorreta < 0 || indiceCorreta > 3) {
+                indiceCorreta = 0;
+            }
+            
+            const opcaoCorreta = p.opcoes[indiceCorreta];
+            if (!opcaoCorreta) {
+                indiceCorreta = 0;
+            }
+            
+            p.indiceCorreta = indiceCorreta;
+        });
+        
+        return perguntasGeradas;
+    } catch (e) {
+        console.error('Erro ao parsear JSON:', e);
+        console.error('Conteúdo:', match[0]);
+        throw new Error('Erro ao processar a resposta da IA: ' + e.message);
+    }
+}
+
+// ============================================
+// RENDERIZAR PERGUNTAS
+// ============================================
+function renderizarPerguntas() {
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+    const LETRAS = ['A','B','C','D'];
+
+    const ouvirTexto = idiomaAtual === 'en' ? 'Listen' :
+                      idiomaAtual === 'fr' ? 'Écouter' :
+                      'Ouvir';
+
+    const perguntaTexto = idiomaAtual === 'en' ? 'Question' :
+                         idiomaAtual === 'fr' ? 'Question' :
+                         'Pergunta';
+    const deTexto = idiomaAtual === 'en' ? 'of' :
+                   idiomaAtual === 'fr' ? 'de' :
+                   'de';
+
+    perguntas.forEach((p, index) => {
+        const selecionada = respostasUsuario[index];
+        const card = document.createElement('div');
+        card.className = 'question-card' + (selecionada !== undefined ? ' answered' : '');
+        card.id = `q-${index}`;
+        
+        const audioBtn = `
+            <button class="btn-audio" onclick="lerPergunta(${index})" title="${ouvirTexto}">
+                <i class="fas fa-volume-up"></i> ${ouvirTexto}
+            </button>
+        `;
+        
+        let opcoesHTML = p.opcoes.map((op, i) => {
+            const isSelected = selecionada === i;
+            return `
+                <button class="btn-option${isSelected ? ' selected' : ''}" 
+                        id="btn-${index}-${i}" 
+                        onclick="selecionarResposta(${index}, ${i})"
+                        ${provaFinalizada ? 'disabled' : ''}>
+                    <span class="option-letter">${LETRAS[i]}</span>
+                    <span>${op}</span>
+                </button>
+            `;
+        }).join('');
+
+        card.innerHTML = `
+            <div class="question-header">
+                <div class="question-number">${perguntaTexto} ${index+1} ${deTexto} ${perguntas.length}</div>
+                ${audioBtn}
+            </div>
+            <div class="question-text">
+                <span class="text-content">${p.pergunta}</span>
+            </div>
+            <div class="options-grid">${opcoesHTML}</div>
+        `;
+        container.appendChild(card);
+    });
+    
+    atualizarContador();
+    container.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============================================
+// SELECIONAR RESPOSTA
+// ============================================
+function selecionarResposta(index, opcaoIndex) {
+    if (!provaIniciada || provaFinalizada) return;
+    
+    respostasUsuario[index] = opcaoIndex;
+    
+    const card = document.getElementById(`q-${index}`);
+    card.classList.add('answered');
+    
+    for(let i=0; i<4; i++) {
+        const btn = document.getElementById(`btn-${index}-${i}`);
+        btn.classList.remove('selected');
+        if(i === opcaoIndex) btn.classList.add('selected');
+    }
+    
+    atualizarContador();
+    salvarEstado();
+}
+
+// ============================================
+// ATUALIZAR CONTADOR
+// ============================================
+function atualizarContador() {
+    const respondidas = Object.keys(respostasUsuario).length;
+    document.getElementById('respondidas').textContent = respondidas;
+}
+
+// ============================================
+// TIMER
+// ============================================
+function iniciarTimer() {
+    clearInterval(timerInterval);
+    atualizarTimerDisplay();
+    
+    timerInterval = setInterval(() => {
+        tempoRestante--;
+        atualizarTimerDisplay();
+        salvarEstado();
+        
+        if (tempoRestante <= 0) {
+            clearInterval(timerInterval);
+            finalizarProva(true);
+        }
+    }, 1000);
+}
+
+function atualizarTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    display.textContent = formatarTempo(tempoRestante);
+    
+    if (tempoRestante <= 300) {
+        display.classList.add('timer-urgent');
+    } else {
+        display.classList.remove('timer-urgent');
+    }
+}
+
+function formatarTempo(segundos) {
+    const min = Math.floor(segundos / 60);
+    const seg = segundos % 60;
+    return `${min.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
+}
+
+// ============================================
+// SALVAR ESTADO
+// ============================================
+function salvarEstado() {
+    const estado = {
+        perguntas, respostasUsuario, tempoRestante, tempoTotal,
+        disciplina: document.getElementById('disciplina').value,
+        classe: document.getElementById('classe').value,
+        temas: document.getElementById('temas').value.trim(),
+        quantidade: perguntas.length,
+        idioma: idiomaAtual,
+        timestamp: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+}
+
+// ============================================
+// RETOMAR PROVA
+// ============================================
+function retomarProva() {
+    const dados = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!dados || dados.tempoRestante <= 0) {
+        localStorage.removeItem(STORAGE_KEY);
+        showToast('Prova expirada!', 'warning');
+        return;
+    }
+
+    if (dados.idioma) {
+        idiomaAtual = dados.idioma;
+        const flag = flagPorIdioma[idiomaAtual] || '🇵🇹';
+        const nome = nomeIdiomaPorCodigo[idiomaAtual] || 'Português';
+        document.getElementById('idiomaLabel').textContent = nome;
+        document.querySelector('#idiomaIndicator .flag').textContent = flag;
+    }
+
+    perguntas = dados.perguntas;
+    respostasUsuario = dados.respostasUsuario || {};
+    tempoRestante = dados.tempoRestante;
+    tempoTotal = dados.tempoTotal;
+    provaIniciada = true;
+    provaFinalizada = false;
+
+    document.getElementById('disciplina').value = dados.disciplina;
+    document.getElementById('classe').value = dados.classe;
+    document.getElementById('temas').value = dados.temas;
+    document.getElementById('quantidade').value = dados.quantidade;
+
+    document.getElementById('configCard').style.display = 'none';
+    document.getElementById('savedBadge').classList.remove('show');
+    document.getElementById('btnResume').classList.remove('show');
+    document.getElementById('timerBar').classList.add('active');
+    document.getElementById('scoreBar').classList.add('active');
+    document.getElementById('totalPerguntas').textContent = perguntas.length;
+    document.getElementById('btnSalvar').style.display = 'flex';
+    document.getElementById('btnFinalizar').style.display = 'flex';
+    document.getElementById('finalResult').classList.remove('active');
+
+    renderizarPerguntas();
+    iniciarTimer();
+    showToast('Prova PESD retomada!', 'success');
+}
+
+// ============================================
+// SALVAR PROVA MANUALMENTE
+// ============================================
+function salvarProva() {
+    salvarEstado();
+    showToast('Prova guardada com sucesso!', 'success');
+}
+
+// ============================================
+// MOSTRAR CORREÇÃO
+// ============================================
+function mostrarCorrecao() {
+    const LETRAS = ['A', 'B', 'C', 'D'];
+    
+    const opcaoCorretaTexto = idiomaAtual === 'en' ? 'Correct option:' :
+                             idiomaAtual === 'fr' ? 'Option correcte:' :
+                             'Opção correta:';
+    const suaRespostaTexto = idiomaAtual === 'en' ? 'Your answer:' :
+                            idiomaAtual === 'fr' ? 'Votre réponse:' :
+                            'Sua resposta:';
+    const naoRespondidaTexto = idiomaAtual === 'en' ? 'Not answered' :
+                              idiomaAtual === 'fr' ? 'Non répondue' :
+                              'Não respondida';
+    const corretaTexto = idiomaAtual === 'en' ? 'Correct' :
+                        idiomaAtual === 'fr' ? 'Correcte' :
+                        'Correta';
+    const erradaTexto = idiomaAtual === 'en' ? 'Wrong' :
+                       idiomaAtual === 'fr' ? 'Fausse' :
+                       'Errada';
+    
+    perguntas.forEach((p, index) => {
+        const respostaUser = respostasUsuario[index];
+        const indiceCorreta = p.indiceCorreta;
+        const card = document.getElementById(`q-${index}`);
+        const acertou = respostaUser === indiceCorreta;
+        
+        card.classList.remove('answered');
+        if (acertou) {
+            card.classList.add('correct');
+        } else {
+            card.classList.add('wrong');
+        }
+        
+        for (let i = 0; i < 4; i++) {
+            const btn = document.getElementById(`btn-${index}-${i}`);
+            if (btn) {
+                btn.disabled = true;
+                btn.classList.remove('selected');
+                
+                if (i === indiceCorreta) {
+                    btn.classList.add('show-correct');
+                }
+                
+                if (i === respostaUser && !acertou) {
+                    btn.classList.add('show-wrong');
+                }
+            }
+        }
+        
+        const indicator = document.createElement('div');
+        indicator.className = 'answer-indicator';
+        indicator.style.cssText = `
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        `;
+        
+        const letraCorreta = LETRAS[indiceCorreta];
+        const textoCorreta = p.opcoes[indiceCorreta];
+        
+        if (acertou) {
+            indicator.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            indicator.style.background = 'rgba(16, 185, 129, 0.08)';
+            indicator.innerHTML = `
+                <span style="color: #10b981;">✅ ${corretaTexto}</span>
+                <div style="margin-top: 4px; color: var(--text-secondary); font-weight: 400; font-size: 0.85rem;">
+                    <span class="label">${opcaoCorretaTexto}</span>
+                    <span class="correct-answer">${letraCorreta}) ${textoCorreta}</span>
+                </div>
+            `;
+        } else {
+            indicator.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            indicator.style.background = 'rgba(239, 68, 68, 0.08)';
+            
+            const userAnswer = respostaUser !== undefined ? p.opcoes[respostaUser] : naoRespondidaTexto;
+            const letraUser = respostaUser !== undefined ? LETRAS[respostaUser] : '-';
+            
+            indicator.innerHTML = `
+                <span style="color: #ef4444;">❌ ${erradaTexto}</span>
+                <div style="margin-top: 4px; color: var(--text-secondary); font-weight: 400; font-size: 0.85rem;">
+                    <div><span class="label">${suaRespostaTexto}</span> <span class="wrong-answer">${letraUser}) ${userAnswer}</span></div>
+                    <div style="margin-top: 2px;"><span class="label">${opcaoCorretaTexto}</span> <span class="correct-answer">${letraCorreta}) ${textoCorreta}</span></div>
+                </div>
+            `;
+        }
+        
+        const oldIndicator = card.querySelector('.answer-indicator');
+        if (oldIndicator) oldIndicator.remove();
+        
+        card.appendChild(indicator);
+    });
+}
+
+// ============================================
+// FINALIZAR PROVA
+// ============================================
+function finalizarProva(tempoEsgotado = false) {
+    provaIniciada = false;
+    provaFinalizada = true;
+    clearInterval(timerInterval);
+    pararLeitura();
+    localStorage.removeItem(STORAGE_KEY);
+
+    document.getElementById('timerBar').classList.remove('active');
+    document.getElementById('scoreBar').classList.remove('active');
+    document.getElementById('btnSalvar').style.display = 'none';
+    document.getElementById('btnFinalizar').style.display = 'none';
+
+    const total = perguntas.length;
+    let acertos = 0;
+    const resultadoDetalhado = [];
+    const LETRAS = ['A', 'B', 'C', 'D'];
+
+    perguntas.forEach((p, index) => {
+        const respostaUser = respostasUsuario[index];
+        const indiceCorreta = p.indiceCorreta;
+        const acertou = respostaUser === indiceCorreta;
+        if (acertou) acertos++;
+        
+        const letraCorreta = LETRAS[indiceCorreta];
+        const textoCorreta = p.opcoes[indiceCorreta];
+        const letraUser = respostaUser !== undefined ? LETRAS[respostaUser] : '-';
+        const textoUser = respostaUser !== undefined ? p.opcoes[respostaUser] : 'Não respondida';
+        
+        resultadoDetalhado.push({
+            pergunta: p.pergunta,
+            suaResposta: `${letraUser}) ${textoUser}`,
+            correta: `${letraCorreta}) ${textoCorreta}`,
+            acertou: acertou
+        });
+    });
+
+    if (total === 20) {
+        notaFinal = acertos;
+    } else if (total === 30) {
+        notaFinal = (acertos * 0.66);
+        notaFinal = Math.round(notaFinal * 100) / 100;
+    } else {
+        notaFinal = (acertos / total) * 20;
+        notaFinal = Math.round(notaFinal * 100) / 100;
+    }
+
+    document.getElementById('finalScoreDisplay').textContent = notaFinal.toFixed(2);
+    
+    const porcentagem = (acertos/total)*100;
+    
+    let mensagens = {
+        pt: {
+            excelente: '🏆 Excelente! Resultado brilhante no PESD!',
+            bom: '👏 Bom trabalho! Continua a estudar!',
+            razoavel: '📚 Razoável. Podes melhorar!',
+            precisa: '📖 Precisa de mais estudo. Não desistas! O PESD é uma oportunidade!',
+            tempo: '⏰ Tempo esgotado! '
+        },
+        en: {
+            excelente: '🏆 Excellent! Brilliant PESD result!',
+            bom: '👏 Good work! Keep studying!',
+            razoavel: '📚 Fair. You can improve!',
+            precisa: '📖 Needs more study. Don\'t give up! PESD is an opportunity!',
+            tempo: '⏰ Time expired! '
+        },
+        fr: {
+            excelente: '🏆 Excellent! Résultat PESD brillant!',
+            bom: '👏 Bon travail! Continuez à étudier!',
+            razoavel: '📚 Passable. Vous pouvez vous améliorer!',
+            precisa: '📖 Besoin de plus d\'étude. N\'abandonnez pas! Le PESD est une opportunité!',
+            tempo: '⏰ Temps écoulé! '
+        }
+    };
+    
+    const msgs = mensagens[idiomaAtual] || mensagens.pt;
+    let mensagem = '';
+    if (porcentagem >= 90) mensagem = msgs.excelente;
+    else if (porcentagem >= 70) mensagem = msgs.bom;
+    else if (porcentagem >= 50) mensagem = msgs.razoavel;
+    else mensagem = msgs.precisa;
+
+    if (tempoEsgotado) mensagem = msgs.tempo + mensagem;
+    
+    document.getElementById('finalMessage').textContent = mensagem;
+
+    const corretasTexto = idiomaAtual === 'en' ? 'correct' :
+                         idiomaAtual === 'fr' ? 'correctes' :
+                         'correctas';
+    const resumoTexto = idiomaAtual === 'en' ? 'Summary:' :
+                       idiomaAtual === 'fr' ? 'Résumé:' :
+                       'Resumo:';
+    const suaRespostaTexto = idiomaAtual === 'en' ? 'Your answer:' :
+                            idiomaAtual === 'fr' ? 'Votre réponse:' :
+                            'Sua resposta:';
+    const corretaTexto = idiomaAtual === 'en' ? 'Correct:' :
+                        idiomaAtual === 'fr' ? 'Correcte:' :
+                        'Correta:';
+
+    const detalheDiv = document.getElementById('resultadoDetalhado');
+    let detalheHTML = `<h3 style="margin-bottom:12px;color:#5a9ee0;">${resumoTexto} ${acertos}/${total} ${corretasTexto}</h3>`;
+    
+    resultadoDetalhado.forEach((r, i) => {
+        const statusIcon = r.acertou ? '✅' : '❌';
+        const statusColor = r.acertou ? '#10b981' : '#ef4444';
+        detalheHTML += `
+            <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.85rem;">
+                <div style="display:flex;align-items:flex-start;gap:8px;">
+                    <span style="color:${statusColor};font-weight:bold;flex-shrink:0;font-size:1rem;">${statusIcon}</span>
+                    <div style="flex:1;">
+                        <div><strong>${i+1}.</strong> ${r.pergunta}</div>
+                        <div style="margin-top:4px;font-size:0.85rem;color:var(--text-secondary);">
+                            <div><span style="color:${statusColor};">${suaRespostaTexto}</span> ${r.suaResposta}</div>
+                            ${!r.acertou ? ` <div style="margin-top:2px;"><span style="color:#10b981;">${corretaTexto}</span> <strong style="color:#10b981;">${r.correta}</strong></div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    });
+    
+    detalheDiv.innerHTML = detalheHTML;
+    mostrarCorrecao();
+
+    document.getElementById('finalResult').classList.add('active');
+    document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============================================
+// NOVA PROVA
+// ============================================
+function novaProva() {
+    localStorage.removeItem(STORAGE_KEY);
+    perguntas = [];
+    respostasUsuario = {};
+    notaFinal = 0;
+    provaIniciada = false;
+    provaFinalizada = false;
+    clearInterval(timerInterval);
+    pararLeitura();
+    
+    document.getElementById('configCard').style.display = 'block';
+    document.getElementById('finalResult').classList.remove('active');
+    document.getElementById('savedBadge').classList.remove('show');
+    document.getElementById('btnResume').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================
+// TOAST
+// ============================================
+function showToast(message, type='success') {
+    const toast = document.getElementById('toast');
+    const icon = toast.querySelector('i');
+    const msg = document.getElementById('toastMessage');
+    
+    if(type==='error'){icon.className='fas fa-exclamation-circle';toast.style.borderColor='#ef4444';icon.style.color='#ef4444';}
+    else if(type==='warning'){icon.className='fas fa-exclamation-triangle';toast.style.borderColor='#f59e0b';icon.style.color='#f59e0b';}
+    else {icon.className='fas fa-check-circle';toast.style.borderColor='#10b981';icon.style.color='#10b981';}
+    
+    msg.textContent=message;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),3500);
+}
+</script>
+
+</body>
+</html>
